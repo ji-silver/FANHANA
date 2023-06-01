@@ -1,10 +1,18 @@
 import React from "react";
 import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
+
 import "./styles/App.css";
+import Button from "./components/common/Button";
 
 function App() {
   return (
     <div className="App">
+      <Button
+        purpose="base"
+        content="내sosooooooooooooooo내용"
+        disabled={true}
+      ></Button>
+
       <Router>
         <Routes>
           <Route path="/"></Route>
