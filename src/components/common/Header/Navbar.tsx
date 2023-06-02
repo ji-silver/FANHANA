@@ -2,73 +2,6 @@ import React, { useState, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const NavContainer = styled.nav`
-    position: relative;
-    width: 100vw;
-    height: 60px;
-    background-color: #5546B7;
-`
-
-const NavWrap = styled.div`
-    padding: 0 162px;
-    height: 100%;
-    margin: 0 auto;
-`
-
-const Navul = styled.ul`
-    display: flex;
-    font-size: 18px;
-    height: 100%;
-`;
-
-const NavItem = styled.li<{ active: boolean }>`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding: 0 15px;
-    cursor: pointer;
-    font-weight: bold;
-    opacity: ${props => props.active ? "1" : "0.5"};
-    transition: opacity 0.2s ease-in-out;
-    &:first-child {
-       padding-left: 0;
-    }
-
-    &:hover {
-        opacity: 1;
-    }
-`;
-
-const NavLink = styled(Link)`
-  text-decoration: none;
-  color: white;
-  padding: 0 15px;
-
-  &:first-child {
-            padding: 0;
-        }
-`;
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    height: 0;
-  }
-  to {
-    opacity: 1;
-    height: 60px;
-  }
-`;
-
-const SubNav = styled.nav<{ show: boolean }>`
-  background-color: #EFEAFC;
-  height: ${props => (props.show ? '60px' : '0')};
-  animation: ${fadeIn} 0.2s ease-in-out;
-  overflow: hidden;
-`;
-
-
 const Navbar = () => {
     const [subNav, setSubNav] = useState({
         show: false,
@@ -171,3 +104,69 @@ const Navbar = () => {
     );
 };
 export default Navbar
+
+const NavContainer = styled.nav`
+    position: relative;
+    width: 100vw;
+    height: 60px;
+    background-color: #5546B7;
+`
+
+const NavWrap = styled.div`
+    padding: 0 162px;
+    height: 100%;
+    margin: 0 auto;
+`
+
+const Navul = styled.ul`
+    display: flex;
+    font-size: 18px;
+    height: 100%;
+`;
+
+const NavItem = styled.li<{ active: boolean }>`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 15px;
+    cursor: pointer;
+    font-weight: bold;
+    opacity: ${props => props.active ? "1" : "0.5"};
+    transition: opacity 0.2s ease-in-out;
+    &:first-child {
+       padding-left: 0;
+    }
+
+    &:hover {
+        opacity: 1;
+    }
+`;
+
+const NavLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+  padding: 0 15px;
+
+  &:first-child {
+            padding: 0;
+        }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    height: 0;
+  }
+  to {
+    opacity: 1;
+    height: 60px;
+  }
+`;
+
+const SubNav = styled.nav<{ show: boolean }>`
+  background-color: #EFEAFC;
+  height: ${props => (props.show ? '60px' : '0')};
+  animation: ${fadeIn} 0.2s ease-in-out;
+  overflow: hidden;
+`;
