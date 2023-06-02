@@ -3,8 +3,8 @@ import DatePicker from "react-datepicker";
 import { format, getMonth, getYear } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 
-import styles from "./index.module.css";
-import "./index.css";
+import styles from "./DatePickerBox.module.css";
+import "./DatePickerBox.css";
 
 interface Props {
   selectedDate: Date | null;
@@ -44,7 +44,6 @@ const DatePickerBox = () => {
     setIsOpen(!isOpen);
   };
   const getDayOfWeek = (date: any) => {
-    //ex) getDayOfWeek('2022-06-13')
     const week = ["일", "월", "화", "수", "목", "금", "토"];
     const dayOfWeek = week[new Date(date).getDay()];
     return dayOfWeek;
