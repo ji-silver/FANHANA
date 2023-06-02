@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import DatePicker from "react-datepicker";
+import DatePicker, { CalendarContainer } from "react-datepicker";
 import { format, getMonth, getYear } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 
