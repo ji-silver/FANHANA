@@ -12,8 +12,16 @@ interface Props {
 }
 
 const getDayOfWeek = (date: any) => {
-  const week = ["일", "월", "화", "수", "목", "금", "토"];
-  const dayOfWeek = week[new Date(date).getDay()];
+  const WEEKS: ReadonlyArray<string> = [
+    "일",
+    "월",
+    "화",
+    "수",
+    "목",
+    "금",
+    "토",
+  ];
+  const dayOfWeek = WEEKS[new Date(date).getDay()];
   return dayOfWeek;
 };
 
@@ -23,7 +31,7 @@ const DatePickerBox = () => {
     { length: getYear(new Date()) + 1 - 2000 },
     (_, i) => getYear(new Date()) - i
   );
-  const MONTHS = [
+  const MONTHS: ReadonlyArray<string> = [
     "January",
     "February",
     "March",
