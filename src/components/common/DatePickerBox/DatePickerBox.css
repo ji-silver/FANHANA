@@ -1,9 +1,27 @@
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline-style: none;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 0 black;
+  cursor: pointer;
+  width: 140px;
+  font-size: 16px;
+  margin: 5px;
+}
+
 .react-datepicker {
   box-shadow: 0px 0px 5px #aeaeae;
   border: none;
   width: 220px;
   height: 260px;
   font-family: none;
+}
+
+.react-datepicker__triangle {
+  visibility: hidden;
 }
 
 .react-datepicker__header {
@@ -35,6 +53,5 @@
 }
 
 .react-datepicker__day--outside-month {
-  cursor: default;
   visibility: hidden;
 }

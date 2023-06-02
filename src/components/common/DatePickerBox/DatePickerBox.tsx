@@ -11,112 +11,78 @@ interface Props {
   setSelectedDate: Dispatch<SetStateAction<Date | null>>;
 }
 
-const YEARS = Array.from(
-  { length: getYear(new Date()) + 1 - 2000 },
-  (_, i) => getYear(new Date()) - i
-);
-
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const getDayOfWeek = (date: any) => {
+  const week = ["일", "월", "화", "수", "목", "금", "토"];
+  const dayOfWeek = week[new Date(date).getDay()];
+  return dayOfWeek;
+};
 
 const DatePickerBox = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleChange = (e: React.SetStateAction<Date | null>) => {
-    setIsOpen(!isOpen);
-    setSelectedDate(e);
-  };
-  const handleClick = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    setIsOpen(!isOpen);
-  };
-  const getDayOfWeek = (date: any) => {
-    const week = ["일", "월", "화", "수", "목", "금", "토"];
-    const dayOfWeek = week[new Date(date).getDay()];
-    return dayOfWeek;
-  };
-
+  const YEARS = Array.from(
+    { length: getYear(new Date()) + 1 - 2000 },
+    (_, i) => getYear(new Date()) - i
+  );
+  const MONTHS = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   return (
-    <div className={styles.datePickerContainer}>
-      <button className={styles.datePicker} onClick={handleClick}>
-        {format(selectedDate, `yyyy.MM.dd (${getDayOfWeek(selectedDate)})`)}
-      </button>
-      {isOpen && (
-        <DatePicker
-          selected={selectedDate}
-          onChange={handleChange}
-          formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 2)}
-          showYearDropdown
-          scrollableYearDropdown
-          shouldCloseOnSelect
-          yearDropdownItemNumber={100}
-          minDate={new Date("2000-01-01")}
-          maxDate={new Date()}
-          calendarClassName={styles.calenderWrapper}
-          dayClassName={(d) =>
-            d.getDate() === selectedDate!.getDate()
-              ? styles.selectedDay
-              : styles.unselectedDay
-          }
-          className={styles.datePicker}
-          renderCustomHeader={({
-            date,
-            changeYear,
-            decreaseMonth,
-            prevMonthButtonDisabled,
-            increaseMonth,
-            nextMonthButtonDisabled,
-          }) => (
-            <div className={styles.customHeaderContainer}>
-              <div className={styles.monthBox}>
-                <button
-                  type="button"
-                  onClick={decreaseMonth}
-                  className={styles.monthButton}
-                  disabled={prevMonthButtonDisabled}
-                >
-                  {"<"}
-                </button>
-                <span className={styles.month}>{MONTHS[getMonth(date)]}</span>
-                <button
-                  type="button"
-                  onClick={increaseMonth}
-                  className={styles.monthButton}
-                  disabled={nextMonthButtonDisabled}
-                >
-                  {">"}
-                </button>
-              </div>
-              <select
-                value={getYear(date)}
-                className={styles.year}
-                onChange={({ target: { value } }) => changeYear(+value)}
-              >
-                {YEARS.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-          inline
-        />
+    <DatePicker
+      dateFormat={`yyyy.MM.dd (${getDayOfWeek(selectedDate)})`}
+      selected={selectedDate}
+      onChange={(date) => setSelectedDate(date)}
+      minDate={new Date("2000-01-01")}
+      maxDate={new Date()}
+      shouldCloseOnSelect
+      yearDropdownItemNumber={100}
+      calendarClassName={styles.calenderWrapper}
+      dayClassName={(d) =>
+        d.getDate() === selectedDate!.getDate()
+          ? styles.selectedDay
+          : styles.unselectedDay
+      }
+      renderCustomHeader={({ date, changeYear, changeMonth }) => (
+        <div className={styles.customHeaderContainer}>
+          <div className={styles.monthBox}>
+            <select
+              className={styles.month}
+              value={MONTHS[getMonth(date)]}
+              onChange={({ target: { value } }) =>
+                changeMonth(MONTHS.indexOf(value))
+              }
+            >
+              {MONTHS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <select
+            className={styles.year}
+            value={getYear(date)}
+            onChange={({ target: { value } }) => changeYear(value)}
+          >
+            {YEARS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
       )}
-    </div>
+    />
   );
 };
 
