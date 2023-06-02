@@ -1,14 +1,14 @@
 import React from "react";
 import Avatar from "@mui/material/Avatar";
 
-type ProfileImageProps = {
+interface ProfileImageProps {
   currentUser: {
     nickname: string;
     img: string;
   };
   purpose: "header" | "comment" | "mypage";
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-};
+}
 
 const IMG_SIZE = {
   header: 60,

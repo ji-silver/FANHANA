@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 import ProfileImage from "./ProfileImage";
 
-type ProfilePopperProps = {
+interface ProfilePopperProps {
   currentUser: {
     nickname: string;
     img: string;
@@ -18,7 +18,7 @@ type ProfilePopperProps = {
   anchorEl: HTMLElement | null;
   id: string | undefined;
   onClose: (event: MouseEvent | TouchEvent) => void;
-};
+}
 
 const ProfilePopper = (props: ProfilePopperProps) => {
   const { currentUser, open, anchorEl, id, onClose } = props;
