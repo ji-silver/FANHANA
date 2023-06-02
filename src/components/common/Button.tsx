@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 
 interface ButtonProps {
   disabled: boolean;
-  purpose: "base" | "login" | "register";
+  purpose: "base" | "login";
   content: string;
 }
 
@@ -12,9 +12,6 @@ const PURPOSE_STYLES = {
     --button-padding: 12px 16px;
   `,
   login: css`
-    --button-width: 100%;
-  `,
-  register: css`
     --button-width: 100%;
   `,
 };
