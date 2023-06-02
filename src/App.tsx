@@ -6,11 +6,6 @@ import DatePickerBox from "./components/common/DatePickerBox/DatePickerBox";
 function App() {
   return (
     <div className="App">
-      <DatePickerBox />
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, autem
-      laborum? Ut nulla in laboriosam? Minima repellendus ut excepturi,
-      officiis, sint quasi voluptatibus corrupti dignissimos pariatur alias
-      mollitia sapiente itaque?
       <Router>
         <Routes>
           <Route path="/"></Route>

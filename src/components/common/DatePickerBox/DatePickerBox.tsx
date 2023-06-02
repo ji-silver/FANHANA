@@ -72,6 +72,7 @@ const DatePickerBox = () => {
           <select
             className={styles.year}
             value={getYear(date)}
+            // @ts-expect-error NOTE: changeYear은 num을 받으나 target value는 string임
             onChange={({ target: { value } }) => changeYear(value)}
           >
             {YEARS.map((option) => (
