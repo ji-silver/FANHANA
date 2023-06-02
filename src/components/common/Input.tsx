@@ -19,8 +19,10 @@ export default Input;
 
 const StyledInput = styled.input`
   padding: 10px 16px;
+  font-size: 14px;
   border: 1px solid #c7c9d9;
   border-radius: 4px;
+  width: 100%;
 
   &:focus {
     outline: none;
