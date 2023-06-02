@@ -40,7 +40,7 @@ const ProfilePopper = (props: ProfilePopperProps) => {
               <Divider />
               <ProfilePopperBody>
                 <ProfileInfo>
-                  <ProfileImage currentUser={currentUser} />
+                  <ProfileImage currentUser={currentUser} purpose="header" />
                   <TextContainer>
                     <UserNicknameText>
                       {currentUser.nickname}

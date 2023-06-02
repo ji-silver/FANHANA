@@ -6,19 +6,26 @@ type ProfileImageProps = {
     nickname: string;
     img: string;
   };
+  purpose: "header" | "comment" | "mypage";
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-const ProfileImage = ({ currentUser, onClick }: ProfileImageProps) => {
+const IMG_SIZE = {
+  header: 60,
+  comment: 36,
+  mypage: 150,
+};
+
+const ProfileImage = ({ currentUser, onClick, purpose }: ProfileImageProps) => {
   const { nickname, img } = currentUser;
-  return (
-    <Avatar
-      alt={nickname}
-      src={img}
-      sx={{ width: 60, height: 60, cursor: "pointer" }}
-      onClick={onClick}
-    />
-  );
+
+  const avatarStyle = {
+    width: IMG_SIZE[purpose],
+    height: IMG_SIZE[purpose],
+    cursor: "pointer",
+  };
+
+  return <Avatar alt={nickname} src={img} sx={avatarStyle} onClick={onClick} />;
 };
 
 export default ProfileImage;

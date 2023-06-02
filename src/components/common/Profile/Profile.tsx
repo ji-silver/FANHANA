@@ -26,7 +26,11 @@ const Profile = () => {
 
   return (
     <>
-      <ProfileImage currentUser={currentUser} onClick={onProfileClick} />
+      <ProfileImage
+        currentUser={currentUser}
+        onClick={onProfileClick}
+        purpose="header"
+      />
       <ProfilePopper
         currentUser={currentUser}
         id={id}
