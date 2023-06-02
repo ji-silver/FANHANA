@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import ProfilePopper from "./ProfilePopper";
 import ProfileImage from "./ProfileImage";
 
-// user 정보
-const currentUser = {
-  nickname: "sso",
-  img: "https://avatars.githubusercontent.com/u/79398566?s=40&v=4",
-};
+interface ProfileProps {
+  currentUser: {
+    nickname: string;
+    img: string;
+  };
+}
 
-const Profile = () => {
+const Profile = ({ currentUser }: ProfileProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isPopperOpen, setIsPopperOpen] = useState(false);
 
