@@ -1,6 +1,11 @@
 import React from "react";
 import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
+
 import "./styles/App.css";
+import DatePickerBox from "./components/common/DatePickerBox/DatePickerBox";
+
+import LoginPage from "./pages/login";
+import JoinPage from "./pages/join";
 import KlRecord from "./pages/Record/KlRecord";
 import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
@@ -11,7 +16,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/"></Route>
-          <Route path="/login"></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/join" element={<JoinPage />}></Route>
           <Route path="/register"></Route>
           <Route path="/mypage"></Route>
           <Route path="/soccer"></Route>
