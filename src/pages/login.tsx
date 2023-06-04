@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { Routes, Route, Outlet, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import Input from "./../components/common/Input";
+import Button from "./../components/common/Button";
+
 interface AccountBox {
   login: string;
 }
@@ -29,6 +32,14 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+  };
+  
   const handleLogin = () => {
     axios
       .post("api/v1/auth/login", { email, password })
@@ -36,13 +47,18 @@ const LoginPage: React.FC = () => {
         if (response.data.success) {
           console.log("로그인 되었습니다.");
         } else {
-          alert("존재하지 않는 계정입니다.");
+          alert("존재하지 않는 계정 또는 비밀번호가 일치하지 않습니다.");
         }
       })
       .catch((error) => {
         console.error("로그인 실패:", error);
       });
   };
+//   const isValidEmail = (email: string) => {
+//     //이메일 유효성 검사
+//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//     return emailRegex.test(email);
+//   };
 
   return (
     <section>
@@ -53,23 +69,13 @@ const LoginPage: React.FC = () => {
           {/* ==== 로그인 비밀번호 영역 컴포넌트 완성 후 수정 필요 ==== */}
           <article>
             <p>이메일</p>
-            <input
-              type="text"
-              value={email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
-            />
+            <Input value={email} onChange={handleEmailChange} />
             <p>비밀번호</p>
-            <input
-              type="password"
-              value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
-            />
+            <Input value={password} onChange={handlePasswordChange} />
           </article>
-          <button onClick={handleLogin}>로그인</button>
+          <Button disabled={false} purpose="base" content="로그인"
+            // @ts-ignore
+            onClick={handleLogin} as="button" style={{ width: "100%", marginTop: "20px" }}/>
           <p className="goJoin">
             아직 회원이 아니세요?
             <Link to="/join">회원가입</Link>
