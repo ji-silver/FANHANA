@@ -5,25 +5,12 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import styles from "./DatePickerBox.module.css";
 import "./DatePickerBox.css";
+import { getDayOfWeek } from "../../../utils/date";
 
 interface Props {
   selectedDate: Date | null;
   setSelectedDate: Dispatch<SetStateAction<Date | null>>;
 }
-
-const getDayOfWeek = (date: any) => {
-  const WEEKS: ReadonlyArray<string> = [
-    "일",
-    "월",
-    "화",
-    "수",
-    "목",
-    "금",
-    "토",
-  ];
-  const dayOfWeek = WEEKS[new Date(date).getDay()];
-  return dayOfWeek;
-};
 
 const DatePickerBox = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
