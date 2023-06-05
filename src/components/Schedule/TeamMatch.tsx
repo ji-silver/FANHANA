@@ -28,13 +28,13 @@ const TeamMatch = (props: TeamMatchProps) => {
     <Container>
       <Team>
         <TeamName>{team1}</TeamName>
-        <TeamImg src={team1_img} />
+        <TeamImg src={team1_img} alt={team1} />
         <Score className={score1 > score2 ? "win" : ""}>{score1}</Score>
       </Team>
       <GameStatus>{getGameStatus()}</GameStatus>
       <Team>
         <Score className={score1 < score2 ? "win" : ""}>{score2}</Score>
-        <TeamImg src={team2_img} />
+        <TeamImg src={team2_img} alt={team2} />
         <TeamName>{team2}</TeamName>
       </Team>
     </Container>
@@ -46,6 +46,7 @@ export default TeamMatch;
 const Container = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const Team = styled.div`

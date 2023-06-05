@@ -23,13 +23,22 @@ interface ScheduleTableProps {
 }
 
 const ScheduleTable = ({ year, month, scheduleData }: ScheduleTableProps) => {
+  const today = new Date();
+
+  const tableRowClassNames = (idx: number, isToday: boolean) => {
+    const classNames = [];
+    if (idx % 2) classNames.push("bg");
+    if (isToday) classNames.push("today");
+    return classNames.join(" ");
+  };
+
   return (
     <Table>
       <colgroup>
-        <col />
-        <col />
-        <col />
-        <col />
+        <DateColumn />
+        <TimeColumn />
+        <LocationColumn />
+        <GameColumn />
       </colgroup>
       <TableHead>
         <TableRow>
@@ -40,24 +49,33 @@ const ScheduleTable = ({ year, month, scheduleData }: ScheduleTableProps) => {
         </TableRow>
       </TableHead>
       <tbody>
-        {getDaysInMonthArr(year, month).map((date) => {
+        {getDaysInMonthArr(year, month).map((date, rowIdx) => {
           const scheduleList = scheduleData.filter((schedule) =>
             isSameDate(
               new Date(schedule.start_date),
               new Date(year, month - 1, date)
             )
           );
-
+          const isToday = isSameDate(new Date(year, month - 1, date), today);
           if (scheduleList.length > 0) {
             return scheduleList.map((schedule, idx) => (
-              <TableRow key={schedule.id}>
+              <TableRow
+                key={schedule.id}
+                className={`${tableRowClassNames(rowIdx, isToday)} ${
+                  idx === 0 ? "first" : ""
+                } ${idx === scheduleList.length - 1 ? "last" : ""}`}
+              >
                 {idx === 0 && (
-                  <TableHeader rowSpan={scheduleList.length} className="date">
+                  <TableHeader
+                    rowSpan={scheduleList.length}
+                    className="date"
+                    isToday={isToday}
+                  >
                     <span>{formatDate(`${year}-${month}-${date}`)}</span>
                   </TableHeader>
                 )}
                 <TableCell>{schedule.start_time.slice(0, 5)}</TableCell>
-                <TableCell>{schedule.location}</TableCell>
+                <TableCell className="location">{schedule.location}</TableCell>
                 <TableCell>
                   <TeamMatch
                     team1={schedule.team1}
@@ -74,8 +92,11 @@ const ScheduleTable = ({ year, month, scheduleData }: ScheduleTableProps) => {
           }
 
           return (
-            <TableRow key={date} className="empty">
-              <TableHeader className="date">
+            <TableRow
+              key={date}
+              className={`empty ${tableRowClassNames(rowIdx, isToday)}`}
+            >
+              <TableHeader className="date" isToday={isToday}>
                 {formatDate(`${year}-${month}-${date}`)}
               </TableHeader>
               <TableCell colSpan={3}>경기가 없습니다.</TableCell>
@@ -99,13 +120,15 @@ const TableHead = styled.thead`
   background-color: #f3f3f3;
 `;
 
-const TableHeader = styled.th`
+const TableHeader = styled.th<{ isToday?: boolean }>`
   padding: 10px;
-  border-bottom: 1px solid #f3f3f3;
+  border-top: 1px solid #f3f3f3;
   vertical-align: middle;
-
+  text-align: center;
+  ${(props) => props.isToday && `border: 1px solid #5F30E2;`}
   &.date {
     border-right: 1px solid #f3f3f3;
+    ${(props) => props.isToday && `color: #5F30E2;`}
   }
   span {
     font-weight: bold;
@@ -113,14 +136,52 @@ const TableHeader = styled.th`
 `;
 
 const TableRow = styled.tr`
+  &.bg {
+    background-color: #fbfafe;
+  }
   &.empty {
     color: #999;
     font-size: 14px;
+  }
+  &.empty.today {
+    td {
+      border: 1px solid #5f30e2;
+    }
+  }
+  &.today {
+    border-right: 1px solid #5f30e2;
+  }
+  &.today.first > td {
+    border-top: 1px solid #5f30e2;
+  }
+  &.today.last > td {
+    border-bottom: 1px solid #5f30e2;
   }
 `;
 
 const TableCell = styled.td`
   padding: 10px;
-  border-bottom: 1px solid #f3f3f3;
+  border-top: 1px solid #f3f3f3;
   text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+  &.location {
+    color: #7c7b7b;
+  }
+`;
+
+const DateColumn = styled.col`
+  width: 15%;
+`;
+
+const TimeColumn = styled.col`
+  width: 5%;
+`;
+
+const LocationColumn = styled.col`
+  width: 15%;
+`;
+
+const GameColumn = styled.col`
+  width: 65%;
 `;
