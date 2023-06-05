@@ -6,6 +6,8 @@ import styled, {css} from "styled-components";
 
 import styles from "../../../styles/DatePickerBox.module.scss"
 import "../../../styles/DatePickerBox.scss"
+import { CardContent } from "@mui/material";
+import CalendarIcon from "./CalendarIcon";
 
 interface Props {
   selectedDate: Date | null;
@@ -49,7 +51,7 @@ const DatePickerBox = ({purpose}) => {
     "December",
   ];
   const ExampleCustomInput = forwardRef(({ value, onClick, purpose }, ref) => (
-    purpose === "main" ? <MainInput onClick={onClick}>{value}</MainInput> : <ScheduleInput onClick={onClick}>{value}</ScheduleInput>
+    purpose === "main" ? <MainInput onClick={onClick}>{value}</MainInput> : <ScheduleInput onClick={onClick}><CalendarIcon/>{value}</ScheduleInput>
   ));
 
   return (
@@ -119,6 +121,8 @@ font-size: 16px;
 margin: 5px;
 `
 const ScheduleInput = styled.button`
+display:flex;
+justify-content: space-around;
 -webkit-appearance: none;
 -moz-appearance: none;
 appearance: none;
@@ -128,7 +132,7 @@ color: transparent;
 text-shadow: 0 0 0 black;
 background-color:white;
 cursor: pointer;
-width: 175px;
+width: 210px;
 font-size: 40px;
 margin: 5px;
 `
