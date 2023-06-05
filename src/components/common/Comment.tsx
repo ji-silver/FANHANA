@@ -13,7 +13,7 @@ interface CommentProps {
   userId : number;
   //댓글 get 할때 불러오는  comment 테이블에서 user_id 사용
   localSaveUserId: number;
-  //로그인시 저장 userId 로컬스토리지에 저장되게 수빈님에게 말씀드리기
+  //로그인시 저장 userId 로컬스토리지에 저장되게 수빈님에게 말씀드리기!!
 }
 
 const Comment:React.FC<CommentProps> = ({ alt, img, nickname, info, date, localSaveUserId, userId }) => {
