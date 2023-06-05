@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
 
 import "./styles/App.css";
-import DatePickerBox from "./components/common/DatePickerBox/DatePickerBox";
 
 import LoginPage from "./pages/login";
 import JoinPage from "./pages/join";
@@ -13,8 +12,6 @@ import LoLRecord from "./pages/Record/LoLRecord";
 function App() {
   return (
     <div className="App">
-      <DatePickerBox purpose="main"/>
-      <DatePickerBox purpose="schedule"/>
       <Router>
         <Routes>
           <Route path="/"></Route>

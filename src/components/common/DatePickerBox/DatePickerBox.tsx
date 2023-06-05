@@ -2,17 +2,18 @@ import React, { Dispatch, SetStateAction, forwardRef, useState } from "react";
 import DatePicker, { CalendarContainer } from "react-datepicker";
 import { format, getMonth, getYear } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
-import styled, {css} from "styled-components";
+import styled from "styled-components";
 
 import styles from "../../../styles/DatePickerBox.module.scss"
 import "../../../styles/DatePickerBox.scss"
-import { CardContent } from "@mui/material";
 import CalendarIcon from "./CalendarIcon";
 
 interface Props {
-  selectedDate: Date | null;
-  setSelectedDate: Dispatch<SetStateAction<Date | null>>;
-  purpose: "main" | "schedule";
+  selectedDate?: Date | null;
+  setSelectedDate?: Dispatch<SetStateAction<Date | null>>;
+  value?: string;
+  onClick?: () => void;
+  purpose: string;
 }
 
 const getDayOfWeek = (date: any) => {
@@ -29,7 +30,7 @@ const getDayOfWeek = (date: any) => {
   return dayOfWeek;
 };
 
-const DatePickerBox = ({purpose}) => {
+const DatePickerBox:React.FC<Props> = ({purpose}) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const YEARS = Array.from(
@@ -50,13 +51,15 @@ const DatePickerBox = ({purpose}) => {
     "November",
     "December",
   ];
-  const ExampleCustomInput = forwardRef(({ value, onClick, purpose }, ref) => (
+
+
+  const CustomInput: React.FC<Props> = forwardRef(({ value, onClick, purpose }, ref) => (
     purpose === "main" ? <MainInput onClick={onClick}>{value}</MainInput> : <ScheduleInput onClick={onClick}><CalendarIcon/>{value}</ScheduleInput>
   ));
 
   return (
     <DatePicker
-    customInput={<ExampleCustomInput purpose={purpose}/>}
+    customInput={<CustomInput purpose={purpose}/>}
     dateFormat={
       purpose === "main" ? `yyyy.MM.dd (${getDayOfWeek(selectedDate)})`: 'yyyy.MM' }
       selected={selectedDate}
