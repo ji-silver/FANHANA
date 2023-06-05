@@ -6,6 +6,7 @@ import Header from "./components/common/Header/Header";
 import Footer from "./components/common/Footer";
 import LoginPage from "./pages/login";
 import JoinPage from "./pages/join";
+import Shorts from "./pages/shorts";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           <Route path="/soccer"></Route>
           <Route path="/baseball"></Route>
           <Route path="/esport"></Route>
-          <Route path="/shorts"></Route>
+          <Route path="/shorts" element={<Shorts />}></Route>
           <Route path="/" element={<LoginPage />}></Route>
         </Routes>
         <Footer></Footer>
