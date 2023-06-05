@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
 import RecordTable from './RecordTable';
 import teamData from './teamData.json';
@@ -36,6 +36,8 @@ const data: (Team & Rank)[] = teamData.map((team: Team) => {
     };
 });
 const KboRecord = () => {
+    const [teamseason, setTeamseason] = useState('');
+
     const headers = ['순위', '팀', '경기', '승', '무', '패', '승률', '게임차'];
     const headerElements = headers.map((header, index) => (
         <th key={index} style={{ textAlign: index === 1 ? 'left' : 'center', color: index === 6 ? '#5546B7' : 'inherit' }}>
@@ -87,7 +89,7 @@ const KboRecord = () => {
     );
     return (
         <div>
-            <RecordTable colgroupData={colgroupElements} headerTitle={headerElements} tbodyData={datas} />
+            <RecordTable season={teamseason} colgroupData={colgroupElements} headerTitle={headerElements} tbodyData={datas} />
         </div>
     )
 }

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
+
 import styled from "styled-components";
 import RecordTable from './RecordTable';
 import teamData from './teamData.json';
 import rankData from './rankData.json';
+import styles from './Record.module.scss'
 
 interface Team {
     _id: string;
@@ -43,6 +45,7 @@ const data: (Team & Rank)[] = teamData.map((team: Team) => {
 });
 
 const KlRecord = () => {
+    const [teamseason, setTeamseason] = useState('2023');
 
     const headers = ['순위', '팀', '경기', '승', '무', '패', '득점', '실점', '득실차', '승점'];
     const headerElements = headers.map((header, index) => (
@@ -91,7 +94,7 @@ const KlRecord = () => {
                         <Td>{scored}</Td>
                         <Td>{conceded}</Td>
                         <Td>{goalDifference}</Td>
-                        <Points>{points}</Points>
+                        <Td className={styles.points}>{points}</Td>
                     </tr>
                 );
             })}
@@ -99,7 +102,7 @@ const KlRecord = () => {
     );
     return (
         <div>
-            <RecordTable colgroupData={colgroupElements} headerTitle={headerElements} tbodyData={datas} />
+            <RecordTable season={teamseason} colgroupData={colgroupElements} headerTitle={headerElements} tbodyData={datas} />
         </div>
     )
 }
@@ -129,9 +132,9 @@ const TeamTd = styled(Td)`
     }
 `;
 
-const Points = styled(Td)`
-    height: 44px;
-    font-weight: bold;
-    background-color: rgba(239, 234, 252, 0.4);
-    content: "";
-`;
+// const Points = styled(Td)`
+//     height: 44px;
+//     font-weight: bold;
+//     background-color: rgba(239, 234, 252, 0.4);
+//     content: "";
+// `;

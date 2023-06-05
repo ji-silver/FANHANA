@@ -4,12 +4,13 @@ import Header from '../../components/common/Header/Header';
 import Footer from '../../components/common/Footer';
 
 interface RecordTableProps {
+    season: string,
     colgroupData: ReactNode[];
     headerTitle: ReactNode[];
     tbodyData: ReactNode;
 };
 
-const RecordTable: FC<RecordTableProps> = ({ colgroupData, headerTitle, tbodyData }) => {
+const RecordTable: FC<RecordTableProps> = ({ season, colgroupData, headerTitle, tbodyData }) => {
 
     // 오늘 날짜 가져오기
     const today = new Date();
@@ -19,7 +20,7 @@ const RecordTable: FC<RecordTableProps> = ({ colgroupData, headerTitle, tbodyDat
         <>
             <Header />
             <Container>
-                <SeasonSelect><span>2023 시즌</span></SeasonSelect>
+                <SeasonSelect><span>{season}</span></SeasonSelect>
 
                 <Todaydiv>※{date} 기준</Todaydiv>
                 <Table>
@@ -43,7 +44,7 @@ export default RecordTable;
 
 const Container = styled.div`
     position: relative;
-    padding: 0 162px;
+    padding: 0 162px 30px 162px;
 `
 
 const SeasonSelect = styled.div`
