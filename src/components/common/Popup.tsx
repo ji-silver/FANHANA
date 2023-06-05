@@ -1,17 +1,13 @@
 import React from "react";
+import Button,{ ButtonProps } from "./Button";
 import styled from "styled-components";
-import Button from "./Button";
-//import Button,{ ButtonProps } from "./Button";//버튼에 잇는 인터페이스 가져와야해서 export 필요함 *찬규님 확인*
 
-interface PopupProps {
+interface PopupProps extends ButtonProps {
   title : string;
   count : 1 | 2 ;
 }
 
-
-
-const Popup: React.FC<PopupProps> = ({title, count}) => {
-
+const Popup: React.FC<PopupProps> = ({title, count, disabled, purpose, content}) => {
 
   return(
     <Bg>
@@ -21,15 +17,13 @@ const Popup: React.FC<PopupProps> = ({title, count}) => {
           {
             count === 2 ? 
               <>
-                <button></button>
-                <button></button>
+                <Button disabled={disabled} purpose={purpose} content={content} />
+                <Button disabled={disabled} purpose={purpose} content={content} />
               </>
               :
-              <button></button>
-              //버튼 컴포넌트 받아와야함 지금 인터페이스를 받아올수 없어서 button태그로 대체함 이렇게 진행할 예정
+              <Button disabled={disabled} purpose={purpose} content={content} />
           }
         </ButtonBox>
-        {/*버튼 인터페이스 받아와야해서 작업 중지 */}
       </StyledPopup>
     </Bg>
   );
