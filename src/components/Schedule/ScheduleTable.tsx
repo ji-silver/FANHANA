@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { getDaysInMonthArr, isSameDate, formatDate } from "../../utils/date";
+import TeamMatch from "./TeamMatch";
 
 interface ScheduleTableProps {
   year: number;
@@ -13,6 +14,11 @@ interface ScheduleTableProps {
     location: string;
     team1: string;
     team2: string;
+    team1_img: string;
+    team2_img: string;
+    score1: number;
+    score2: number;
+    state: string;
   }[];
 }
 
@@ -52,7 +58,17 @@ const ScheduleTable = ({ year, month, scheduleData }: ScheduleTableProps) => {
                 )}
                 <TableCell>{schedule.start_time.slice(0, 5)}</TableCell>
                 <TableCell>{schedule.location}</TableCell>
-                <TableCell>{`${schedule.team1} vs ${schedule.team2}`}</TableCell>
+                <TableCell>
+                  <TeamMatch
+                    team1={schedule.team1}
+                    team2={schedule.team2}
+                    score1={schedule.score1}
+                    score2={schedule.score2}
+                    state={schedule.state}
+                    team1_img={schedule.team1_img}
+                    team2_img={schedule.team2_img}
+                  />
+                </TableCell>
               </TableRow>
             ));
           }
