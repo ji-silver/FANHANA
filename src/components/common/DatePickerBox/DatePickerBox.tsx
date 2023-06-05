@@ -1,7 +1,8 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, forwardRef, useState } from "react";
 import DatePicker, { CalendarContainer } from "react-datepicker";
 import { format, getMonth, getYear } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
+import styled, {css} from "styled-components";
 
 import styles from "../../../styles/DatePickerBox.module.scss"
 import "../../../styles/DatePickerBox.scss"
@@ -9,6 +10,7 @@ import "../../../styles/DatePickerBox.scss"
 interface Props {
   selectedDate: Date | null;
   setSelectedDate: Dispatch<SetStateAction<Date | null>>;
+  purpose: "main" | "schedule";
 }
 
 const getDayOfWeek = (date: any) => {
@@ -25,8 +27,9 @@ const getDayOfWeek = (date: any) => {
   return dayOfWeek;
 };
 
-const DatePickerBox = () => {
+const DatePickerBox = ({purpose}) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+
   const YEARS = Array.from(
     { length: getYear(new Date()) + 1 - 2000 },
     (_, i) => getYear(new Date()) - i
@@ -45,9 +48,15 @@ const DatePickerBox = () => {
     "November",
     "December",
   ];
+  const ExampleCustomInput = forwardRef(({ value, onClick, purpose }, ref) => (
+    purpose === "main" ? <MainInput onClick={onClick}>{value}</MainInput> : <ScheduleInput onClick={onClick}>{value}</ScheduleInput>
+  ));
+
   return (
     <DatePicker
-      dateFormat={`yyyy.MM.dd (${getDayOfWeek(selectedDate)})`}
+    customInput={<ExampleCustomInput purpose={purpose}/>}
+    dateFormat={
+      purpose === "main" ? `yyyy.MM.dd (${getDayOfWeek(selectedDate)})`: 'yyyy.MM' }
       selected={selectedDate}
       onChange={(date) => setSelectedDate(date)}
       minDate={new Date("2000-01-01")}
@@ -94,5 +103,34 @@ const DatePickerBox = () => {
     />
   );
 };
+
+const MainInput = styled.button`
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+outline-style: none;
+border: none;
+color: transparent;
+text-shadow: 0 0 0 black;
+background-color:white;
+cursor: pointer;
+width: 140px;
+font-size: 16px;
+margin: 5px;
+`
+const ScheduleInput = styled.button`
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+outline-style: none;
+border: none;
+color: transparent;
+text-shadow: 0 0 0 black;
+background-color:white;
+cursor: pointer;
+width: 175px;
+font-size: 40px;
+margin: 5px;
+`
 
 export default DatePickerBox;

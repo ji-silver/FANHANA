@@ -13,7 +13,8 @@ import LoLRecord from "./pages/Record/LoLRecord";
 function App() {
   return (
     <div className="App">
-      <DatePickerBox />
+      <DatePickerBox purpose="main"/>
+      <DatePickerBox purpose="schedule"/>
       <Router>
         <Routes>
           <Route path="/"></Route>
