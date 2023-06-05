@@ -3,8 +3,8 @@ import DatePicker, { CalendarContainer } from "react-datepicker";
 import { format, getMonth, getYear } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 
-import styles from "./DatePickerBox.module.css";
-import "./DatePickerBox.css";
+import styles from "../../../styles/DatePickerBox.module.scss"
+import "../../../styles/DatePickerBox.scss"
 
 interface Props {
   selectedDate: Date | null;
