@@ -1,10 +1,72 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, FC } from 'react'
 import styled from "styled-components";
+import Header from '../../components/common/Header/Header';
+import Footer from '../../components/common/Footer';
+
+interface RecordTableProps {
+    colgroupData: ReactNode[];
+    headerTitle: ReactNode[];
+    tbodyData: ReactNode;
+};
+
+const RecordTable: FC<RecordTableProps> = ({ colgroupData, headerTitle, tbodyData }) => {
+
+    // 오늘 날짜 가져오기
+    const today = new Date();
+    const date = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+
+    return (
+        <>
+            <Header />
+            <Container>
+                <SeasonSelect><span>2023 시즌</span></SeasonSelect>
+
+                <Todaydiv>※{date} 기준</Todaydiv>
+                <Table>
+                    <colgroup>
+                        {colgroupData}
+                    </colgroup>
+                    <Thead>
+                        <tr>
+                            {headerTitle}
+                        </tr>
+                    </Thead>
+                    <Tbody>{tbodyData}</Tbody>
+                </Table>
+            </Container>
+            {/* <Footer></Footer> */}
+        </>
+    );
+}
+
+export default RecordTable;
 
 const Container = styled.div`
-    font-size: 14px;
-    max-width: 1596px;
+    position: relative;
+    padding: 0 162px;
+`
+
+const SeasonSelect = styled.div`
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 30px 0;
+
+    span {
+        cursor: pointer;
+
+        &:hover {
+            color: #5546B7;
+        }
+    }
+`
+
+const Todaydiv = styled.div`
+    position: relative;
+    width: 100%;
     margin: 0 auto;
+    padding-bottom: 10px;
+    text-align: right;
 `
 
 const Table = styled.table`
@@ -16,35 +78,20 @@ const Thead = styled.thead`
     height: 44px;
     background-color: #f7f7f7;
     font-weight: bold;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 
     th {
         vertical-align: middle;
     }
 `
 
-type RecordTableProps = {
-    headerData: string[];
-    tbodyData: ReactNode;
-};
-
-function RecordTable({ headerData, tbodyData }: RecordTableProps) {
-    return (
-        <Container>
-            <Table>
-                <colgroup>
-                    <col></col>
-                </colgroup>
-                <Thead>
-                    <tr>
-                        {headerData.map((header, index) => (
-                            <th key={index}>{header}</th>
-                        ))}
-                    </tr>
-                </Thead>
-                <tbody>{tbodyData}</tbody>
-            </Table>
-        </Container>
-    );
-}
-
-export default RecordTable;
+// 행 홀수, 짝수별로 배경 색 다르게 하기
+const Tbody = styled.tbody`
+    tr:nth-child(even) {
+        background-color: #FBFAFE;
+    }
+    tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+`
