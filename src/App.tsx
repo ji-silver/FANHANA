@@ -9,13 +9,14 @@ import JoinPage from "./pages/join";
 import KlRecord from "./pages/Record/KlRecord";
 import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
+import MainPage from "./pages/Main/MainPage";
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/"></Route>
+          <Route path="/" element={<MainPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/join" element={<JoinPage />}></Route>
           <Route path="/register"></Route>
