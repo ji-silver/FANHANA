@@ -58,11 +58,24 @@ const RankBox = () => {
     return teamsWithWinRate;
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    let targetId = Number(e.target.value);
+    return setTargetCatrgory(category[targetId]);
+  };
+
+  useEffect(() => {
+    const targetData = getTeamsWithWinRate(targetCatrgory);
+    const newData = [...targetData];
+    // @ts-expect-error
+    setData(newData);
+  }, [targetCatrgory]);
+
   useEffect(() => {
     setTargetCatrgory(category[0]);
     const targetData = getTeamsWithWinRate(targetCatrgory);
     // @ts-expect-error
     setData(targetData);
+    console.log("targetData", targetData);
   }, []);
 
   return (
@@ -72,12 +85,7 @@ const RankBox = () => {
           <div className={styles.title}>경기 순위</div>
           <select
             onChange={(e) => {
-              let targetId = Number(e.target.value);
-              setTargetCatrgory(category[targetId]);
-              const targetData = getTeamsWithWinRate(targetCatrgory);
-              // @ts-expect-error
-              setData(targetData);
-              console.log(data);
+              handleChange(e);
             }}
           >
             {category.map((item) => {
