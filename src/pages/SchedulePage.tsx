@@ -6,14 +6,14 @@ import TeamList from "../components/Schedule/TeamList";
 import ScheduleTable from "../components/Schedule/ScheduleTable";
 import ArrowButton from "../components/common/Button/ArrowButton";
 
-interface Team {
+export interface Team {
   id: number;
   name: string;
   category: number;
   img: string;
 }
 
-interface Schedule {
+export interface Schedule {
   id: number;
   start_date: string;
   start_time: string;

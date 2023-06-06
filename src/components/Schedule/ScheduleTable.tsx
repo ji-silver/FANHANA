@@ -3,23 +3,12 @@ import styled from "styled-components";
 
 import { getDaysInMonthArr, isSameDate, formatDate } from "../../utils/date";
 import TeamMatch from "./TeamMatch";
+import { Schedule } from "../../pages/SchedulePage";
 
 interface ScheduleTableProps {
   year: number;
   month: number;
-  scheduleData: {
-    id: number;
-    start_date: string;
-    start_time: string;
-    location: string;
-    team1: string;
-    team2: string;
-    team1_img: string;
-    team2_img: string;
-    score1: number;
-    score2: number;
-    state: string;
-  }[];
+  scheduleData: Schedule[];
 }
 
 const ScheduleTable = ({ year, month, scheduleData }: ScheduleTableProps) => {

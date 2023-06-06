@@ -1,13 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { Team } from "../../pages/SchedulePage";
 
 interface TeamSelectProps {
-  team: {
-    id: number;
-    name: string;
-    category: number;
-    img: string;
-  };
+  team: Team;
   isSelected: boolean;
   onSelect: (id: number) => void;
 }

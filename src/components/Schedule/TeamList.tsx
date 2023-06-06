@@ -2,14 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 import TeamSelectContainer from "./TeamSelectContainer";
+import { Team } from "../../pages/SchedulePage";
 
 interface TeamListProps {
-  teamList: {
-    id: number;
-    name: string;
-    category: number;
-    img: string;
-  }[];
+  teamList: Team[];
   selectedTeam: number;
   onSelect: (id: number) => void;
   category: number;
