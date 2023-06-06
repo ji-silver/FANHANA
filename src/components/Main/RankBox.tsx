@@ -1,0 +1,151 @@
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+
+import styles from "./main.module.scss";
+import rankData from "./rankData.json";
+import teamData from "../../pages/Record/teamData.json";
+import category from "./category.json";
+
+interface Team {
+  _id: string;
+  name: string;
+  category: number;
+  img: string;
+}
+
+interface Rank {
+  _id: string;
+  season: string;
+  wins: number;
+  drawns: number;
+  losses: number;
+  winRate?: number;
+  team_id: number;
+}
+
+const RankBox = () => {
+  const headers = ["순위", "팀명", "경기", "승", "패", "무", "승률"];
+  const [targetCatrgory, setTargetCatrgory] = useState(category[0]);
+  const [data, setData] = useState<Rank[]>([rankData[0]]); // Set data as an array
+
+  //승률변환 함수
+  const calculateWinRate = (rank: Rank) => {
+    const { wins, losses } = rank;
+    const totalGames = wins + losses;
+    const winRate = (wins / totalGames) * 100;
+
+    return winRate.toFixed(2);
+  };
+
+  //카테고리 입력시, 해당하는 팀의 rankData를 찾아서 승률 삽입->정렬 후 반환
+  const getTeamsWithWinRate = (targetCatrgory: any) => {
+    const targetTeam = teamData.filter(
+      (team) => team.category === targetCatrgory._id
+    );
+
+    const teamIdsToFind = targetTeam.map((e) => Number(e._id));
+    const targetRanks = rankData.filter((item) =>
+      teamIdsToFind.includes(item.team_id)
+    );
+
+    // 팀별 승률 계산 및 정렬
+    const teamsWithWinRate = targetRanks.map((rank) => {
+      const winRate = calculateWinRate(rank);
+      return { ...rank, winRate };
+    });
+    // @ts-expect-error
+    teamsWithWinRate.sort((a, b) => b.winRate - a.winRate);
+    return teamsWithWinRate;
+  };
+
+  return (
+    <>
+      <RankContainer>
+        <div className={styles.title}>경기 순위</div>
+        <select
+          onChange={(e) => {
+            let targetId = Number(e.target.value);
+            setTargetCatrgory(category[targetId]);
+            const targetData = getTeamsWithWinRate(targetCatrgory);
+            // @ts-expect-error
+            setData(targetData);
+            console.log(data);
+          }}
+        >
+          {category.map((item) => {
+            return (
+              <option key={item._id} value={item._id}>
+                {item.name}
+              </option>
+            );
+          })}
+        </select>
+        <RankTable>
+          <HeaderTr>
+            {headers.map((item) => {
+              return <RankTh>{item}</RankTh>;
+            })}
+          </HeaderTr>
+          {data.map((item, index) => {
+            return (
+              <Tr key={item._id}>
+                <Td>{index + 1}</Td>
+                <Td>{item.team_id}</Td>
+                <Td>{item.wins + item.losses + item.drawns}</Td>
+                <Td>{item.wins}</Td>
+                <Td>{item.losses}</Td>
+                <Td>{item.drawns}</Td>
+                <Td>{item.winRate}%</Td>
+              </Tr>
+            );
+          })}
+        </RankTable>
+      </RankContainer>
+    </>
+  );
+};
+
+export default RankBox;
+
+const RankContainer = styled.div`
+  width: 400px;
+  height: 298px;
+  background: #ffffff;
+  border: 2.5px solid #d9d9d9;
+  border-radius: 20px;
+`;
+
+const RankTable = styled.table`
+  displayl: flex;
+  width: 360px;
+  height: 30px;
+`;
+
+const RankTh = styled.th`
+  font-size: 16px;
+  font-weight: 400;
+  width: 50px;
+`;
+
+const HeaderTr = styled.tr`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #a0a0a0;
+  border-bottom: 1px solid #a0a0a0;
+  height: 31px;
+`;
+
+const Tr = styled.tr`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 359px;
+  height: 33px;
+  border-bottom: 1px solid #d9d9d9;
+`;
+const Td = styled.td`
+  font-size: 14px;
+  text-align: center;
+  width: 50px;
+`;
