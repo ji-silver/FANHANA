@@ -5,12 +5,20 @@ import Popper from "@mui/base/Popper";
 import { styled } from "@mui/system";
 
 interface Items {
-  _id: number;
+  _id: number | string;
   name: string;
 }
 
-const Dropdown = ({ items, purpose }: { items: Items[]; purpose: string }) => {
+interface Props {
+  items: Items[];
+  purpose: "small" | "middle" | "large";
+  handleSelect: any;
+}
+
+const Dropdown: React.FC<Props> = ({ items, purpose, handleSelect }) => {
   const [selected, setSelected] = React.useState<Items | null>(items[0]);
+
+  handleSelect(selected);
 
   return (
     <div>
