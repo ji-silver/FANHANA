@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./../styles/login.css";
 import styled from "styled-components";
 import { Routes, Route, Outlet, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import userData from "./userData";
+import Input from "./../components/common/Input";
+import Button from "./../components/common/Button";
 
 interface AccountBox {
   login: string;
@@ -19,29 +23,48 @@ export let AccountBox = styled.div<AccountBox>`
   background-color: #fff;
   position: absolute;
   top: calc(50% - 300px);
+};
 `;
-
-// 미구현
-// 나중에 api완성되면 연결하기
-// 디자인 추가!!!
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  useEffect(() => {
+    // 로컬 스토리지에서 사용자 정보 가져오기
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const { email, password } = JSON.parse(storedUser);
+      setEmail(email);
+      setPassword(password);
+    }
+  }, []);
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+  };
+
   const handleLogin = () => {
-    axios
-      .post("api/v1/auth/login", { email, password })
-      .then((response) => {
-        if (response.data.success) {
-          console.log("로그인 되었습니다.");
-        } else {
-          alert("존재하지 않는 계정입니다.");
-        }
-      })
-      .catch((error) => {
-        console.error("로그인 실패:", error);
-      });
+    // 로컬 스토리지에서 사용자 정보 가져오기
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const { email: storedEmail, password: storedPassword } =
+        JSON.parse(storedUser);
+
+      // 사용자 입력값과 로컬 스토리지 비교 -> 로그인 처리
+      if (email === storedEmail && password === storedPassword) {
+        //로그인 성공
+        console.log("로그인 되었습니다.");
+      } else {
+        //로그인 실패
+        alert("잘못된 계정 또는 존재하지 않는 계정입니다.");
+        window.location.reload();
+      }
+    }
   };
 
   return (
@@ -50,29 +73,20 @@ const LoginPage: React.FC = () => {
         <AccountIntro />
         <div className="accountForm">
           <h2 className="title">로그인</h2>
-          {/* ==== 로그인 비밀번호 영역 컴포넌트 완성 후 수정 필요 ==== */}
-          <article>
-            <p>이메일</p>
-            <input
-              type="text"
-              value={email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
-            />
-            <p>비밀번호</p>
-            <input
-              type="password"
-              value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
-            />
+          <article style={{ marginBottom: "30px" }}>
+            <p style={{ marginBottom: "15px" }}>이메일</p>
+            <Input type="text" value={email} onChange={handleEmailChange} />
+            <p style={{ margin: "30px 0 15px 0" }}>비밀번호</p>
+            <Input type="password" value={password} onChange={handlePasswordChange} />
           </article>
-          <button onClick={handleLogin}>로그인</button>
+          <Button
+            disabled={false}
+            purpose="base"
+            content="로그인"
+            onClick={handleLogin}
+          />
           <p className="goJoin">
-            아직 회원이 아니세요?
-            <Link to="/join">회원가입</Link>
+            아직 회원이 아니세요? <Link to="/join">회원가입</Link>
           </p>
         </div>
       </AccountBox>
@@ -80,16 +94,14 @@ const LoginPage: React.FC = () => {
   );
 };
 
-//로그인 회원가입 왼쪽
-
 export function AccountIntro() {
   return (
     <div className="accountIntro">
       <img
         className="logo"
-        src="https://via.placeholder.com/200"
+        src={process.env.PUBLIC_URL + "/images/logo.png"}
         alt="임시이미지"
-      ></img>
+      />
       <p className="siteName">팬하나</p>
       <p className="grey">진정한 스포츠 팬들을 위한 커뮤니티</p>
       <p>
@@ -102,4 +114,5 @@ export function AccountIntro() {
     </div>
   );
 }
+
 export default LoginPage;

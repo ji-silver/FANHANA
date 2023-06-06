@@ -5,6 +5,7 @@ interface ButtonProps {
   disabled: boolean;
   purpose: "base" | "login";
   content: string;
+  onClick?: () => void; //추가
 }
 
 const PURPOSE_STYLES = {
@@ -16,11 +17,13 @@ const PURPOSE_STYLES = {
   `,
 };
 
-const Button: React.FC<ButtonProps> = ({ disabled, purpose, content }) => {
+//onClick 추가
+
+const Button: React.FC<ButtonProps> = ({ disabled, purpose, content, onClick }) => {
   const purposeStyle = PURPOSE_STYLES[purpose];
 
   return (
-    <StyledButton disabled={disabled} purposeStyle={purposeStyle}>
+    <StyledButton disabled={disabled} purposeStyle={purposeStyle} onClick={onClick}>
       {content}
     </StyledButton>
   );
