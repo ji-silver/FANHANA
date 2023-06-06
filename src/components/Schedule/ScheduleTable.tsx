@@ -69,6 +69,7 @@ const ScheduleTable = ({ year, month, scheduleData }: ScheduleTableProps) => {
                   <TableHeader
                     rowSpan={scheduleList.length}
                     className="date"
+                    scope="row"
                     isToday={isToday}
                   >
                     <span>{formatDate(`${year}-${month}-${date}`)}</span>
@@ -96,7 +97,7 @@ const ScheduleTable = ({ year, month, scheduleData }: ScheduleTableProps) => {
               key={date}
               className={`empty ${tableRowClassNames(rowIdx, isToday)}`}
             >
-              <TableHeader className="date" isToday={isToday}>
+              <TableHeader className="date" scope="row" isToday={isToday}>
                 {formatDate(`${year}-${month}-${date}`)}
               </TableHeader>
               <TableCell colSpan={3}>경기가 없습니다.</TableCell>
@@ -113,7 +114,6 @@ export default ScheduleTable;
 const Table = styled.table`
   margin-top: 25px;
   width: 100%;
-  border-collapse: collapse;
 `;
 
 const TableHead = styled.thead`
@@ -121,11 +121,13 @@ const TableHead = styled.thead`
 `;
 
 const TableHeader = styled.th<{ isToday?: boolean }>`
+  box-sizing: border-box;
   padding: 10px;
   border-top: 1px solid #f3f3f3;
   vertical-align: middle;
   text-align: center;
   ${(props) => props.isToday && `border: 1px solid #5F30E2;`}
+
   &.date {
     border-right: 1px solid #f3f3f3;
     ${(props) => props.isToday && `color: #5F30E2;`}
