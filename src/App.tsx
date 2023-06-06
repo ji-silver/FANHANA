@@ -7,20 +7,11 @@ import JoinPage from "./pages/join";
 import KlRecord from "./pages/Record/KlRecord";
 import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
-import Button from "./components/common/Button/Button";
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <div style={{ width: 100, height: 100 }}>
-          <Button
-            disabled={false}
-            purpose={"reportPost"}
-            content={"등록하기"}
-          ></Button>
-        </div>
-
         <Routes>
           <Route path="/"></Route>
           <Route path="/login" element={<LoginPage />}></Route>

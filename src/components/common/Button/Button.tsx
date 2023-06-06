@@ -3,16 +3,14 @@ import styled, { css } from "styled-components";
 
 interface ButtonProps {
   disabled: boolean;
-  purpose: "base" | "login" | "reportPost" | "reportComment";
+  purpose: "base" | "reportPost" | "reportComment";
   content: string;
   onClick?: () => void;
 }
 
 const PURPOSE_STYLES = {
   base: css``,
-  login: css`
-    --button-width: 100%;
-  `,
+
   reportPost: css`
     --button-bgcolor: #f54336;
     --button-bgcolor-hover: #f87b72;
@@ -50,11 +48,11 @@ const StyledButton = styled.button<{ purposeStyle?: ReturnType<typeof css> }>`
   ${(p) => p.purposeStyle}
 
   margin: 0;
-  border: none;
   cursor: pointer;
   font-family: "Noto Sans KR", sans-serif;
   font-size: 14px;
   padding: 12px 16px;
+  border: none;
   border-radius: 8px;
   width: 100%;
   height: 100%;
