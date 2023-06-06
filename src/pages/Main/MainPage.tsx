@@ -1,6 +1,6 @@
 import React from "react";
-import ScheduleBox from "../../components/common/Main/ScheduleBox";
-import WeatherBox from "../../components/common/Main/WeatherBox";
+import ScheduleBox from "../../components/Main/ScheduleBox";
+import WeatherBox from "../../components/Main/WeatherBox";
 
 const MainPage = () => {
   return (
