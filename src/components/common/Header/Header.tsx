@@ -2,19 +2,22 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from './Navbar';
+import Profile from '../Profile/Profile';
 
 const Header = () => {
+
     return (
-        <>
-            <HeaderContainer>
+        <HeaderContainer>
+            <HeaderTop>
                 <HeaderWrap>
                     <NavLink to="/">
                         <Logo>
-                            <img src="/images/logo.png" alt="" style={{ width: '40px', height: 'auto' }} />
-                            <span style={{ fontSize: "24px", fontWeight: "bold", paddingLeft: "5px" }}>FANHANA</span>
+                            <LogoImg src="/images/logo.png" alt="팬하나로고" />
+                            <LogoText>FANHANA</LogoText>
                         </Logo>
                     </NavLink>
                     {/* 비회원, 회원 나중에 따로 구분*/}
+                    {/* <Profile currentUser={currentUser} /> */}
                     <div>
                         <NavLink to="/login">
                             <Button>로그인</Button>
@@ -24,16 +27,20 @@ const Header = () => {
                         </NavLink>
                     </div>
                 </HeaderWrap>
-            </HeaderContainer>
+            </HeaderTop>
             <Navbar />
-        </>
-
+        </HeaderContainer>
     )
 }
 
 export default Header
 
 const HeaderContainer = styled.div`
+    position: relative;
+    padding-bottom: 30px;
+`
+
+const HeaderTop = styled.div`
     width: 100vw;
     height: 80px;
 `
@@ -59,6 +66,17 @@ const Logo = styled.div`
     align-items: end;
     color: #5546B7;
 `
+
+const LogoImg = styled.img`
+    width: 40px;
+    height: auto;
+`
+
+const LogoText = styled.span`
+  font-size: 24px;
+  font-weight: bold;
+  padding-left: 5px;
+`;
 
 const NavLink = styled(Link)`
     color: inherit;
