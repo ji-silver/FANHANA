@@ -58,28 +58,37 @@ const RankBox = () => {
     return teamsWithWinRate;
   };
 
+  useEffect(() => {
+    setTargetCatrgory(category[0]);
+    const targetData = getTeamsWithWinRate(targetCatrgory);
+    // @ts-expect-error
+    setData(targetData);
+  }, []);
+
   return (
     <>
       <RankContainer>
-        <div className={styles.title}>경기 순위</div>
-        <select
-          onChange={(e) => {
-            let targetId = Number(e.target.value);
-            setTargetCatrgory(category[targetId]);
-            const targetData = getTeamsWithWinRate(targetCatrgory);
-            // @ts-expect-error
-            setData(targetData);
-            console.log(data);
-          }}
-        >
-          {category.map((item) => {
-            return (
-              <option key={item._id} value={item._id}>
-                {item.name}
-              </option>
-            );
-          })}
-        </select>
+        <RankHeader>
+          <div className={styles.title}>경기 순위</div>
+          <select
+            onChange={(e) => {
+              let targetId = Number(e.target.value);
+              setTargetCatrgory(category[targetId]);
+              const targetData = getTeamsWithWinRate(targetCatrgory);
+              // @ts-expect-error
+              setData(targetData);
+              console.log(data);
+            }}
+          >
+            {category.map((item) => {
+              return (
+                <option key={item._id} value={item._id}>
+                  {item.name}
+                </option>
+              );
+            })}
+          </select>
+        </RankHeader>
         <RankTable>
           <HeaderTr>
             {headers.map((item) => {
@@ -108,17 +117,26 @@ const RankBox = () => {
 export default RankBox;
 
 const RankContainer = styled.div`
+  display: flex;
   width: 400px;
   height: 298px;
   background: #ffffff;
   border: 2.5px solid #d9d9d9;
   border-radius: 20px;
+  flex-direction: column;
+`;
+
+const RankHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const RankTable = styled.table`
   displayl: flex;
   width: 360px;
   height: 30px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const RankTh = styled.th`
