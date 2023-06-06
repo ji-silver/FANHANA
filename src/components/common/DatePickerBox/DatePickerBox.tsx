@@ -65,8 +65,7 @@ const DatePickerBox: React.FC<Props> = ({ purpose, handeleSelect }) => {
       )
   );
 
-  // @ts-expect-error
-  handeleSelect(format(selectedDate, "yyyy.MM.dd"));
+  handeleSelect(selectedDate);
 
   return (
     <DatePicker
