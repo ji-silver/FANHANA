@@ -107,7 +107,7 @@ const JoinPage: React.FC = () => {
       avatar,
     };
     localStorage.setItem("user", JSON.stringify(user));
-    // navigate("/login");
+    navigate("/login");
   };
 
   return (
@@ -168,7 +168,8 @@ const JoinPage: React.FC = () => {
               </li>
             </ul>
           </StyledArticle>
-          <button onClick={handleRegister}>회원가입</button>
+          <Button disabled={false} purpose="base" content="회원가입" onClick={handleRegister}
+          />
           <p className="goJoin">
             이미 회원이세요? <Link to="/login">로그인</Link>
           </p>
