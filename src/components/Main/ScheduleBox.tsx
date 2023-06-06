@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import styles from "./main.module.scss";
+import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
 
 interface Team {
   _id: string;
@@ -11,10 +12,18 @@ interface Team {
 }
 
 const ScheduleBox = () => {
+  const [date, setDate] = useState<Date | null>(new Date());
+
+  const handeleSelect = (select: React.SetStateAction<Date | null>) => {
+    setDate(select);
+    console.log(date);
+  };
+
   return (
     <>
       <ScheduleContainer>
         <div className={styles.title}>경기 일정</div>
+        <DatePickerBox purpose="main" handeleSelect={handeleSelect} />
       </ScheduleContainer>
     </>
   );

@@ -13,7 +13,7 @@ interface Props {
   setSelectedDate?: Dispatch<SetStateAction<Date | null>>;
   value?: string;
   onClick?: () => void;
-  purpose: string;
+  purpose: "main" | "schedule";
   handeleSelect?: any;
 }
 
