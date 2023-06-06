@@ -6,6 +6,9 @@ import Header from "./components/common/Header/Header";
 import Footer from "./components/common/Footer";
 import LoginPage from "./pages/login";
 import JoinPage from "./pages/join";
+import KlRecord from "./pages/Record/KlRecord";
+import KboRecord from "./pages/Record/KboRecord";
+import LoLRecord from "./pages/Record/LoLRecord";
 import Shorts from "./pages/shorts";
 
 function App() {
@@ -19,9 +22,12 @@ function App() {
           <Route path="/register"></Route>
           <Route path="/mypage"></Route>
           <Route path="/soccer"></Route>
+          <Route path="/soccer/record" element={<KlRecord />}></Route>
           <Route path="/baseball"></Route>
+          <Route path="/baseball/record" element={<KboRecord />}></Route>
           <Route path="/esport"></Route>
-          <Route path="/shorts" element={<Shorts />}></Route>
+          <Route path="/esport/record" element={<LoLRecord />}></Route>
+          <Route path="/shorts"></Route>
           <Route path="/" element={<LoginPage />}></Route>
         </Routes>
         <Footer></Footer>
