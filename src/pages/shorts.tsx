@@ -1,33 +1,67 @@
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import React from "react";
-import Image from "../components/common/Image";
+import axios from "axios";
 
+import Image from "../components/common/Image";
+import ArrowButton from "../components/common/Button/ArrowButton";
+
+interface Comment {
+  id: string;
+  content: string;
+  image: string;
+}
+
+interface ImageDate {
+  id: string;
+  url: string;
+}
+
+// 최초의 이미지를 어떤걸로 설정할 것인가?
 const Shorts: React.FC = () => {
-  // url을 받아온다
-  // 받아온 url을 가지고 이미지를 보여준다
-  // 이미지와 연결된 댓글을 보여준다
-  // 이미지 양 옆에는 다른 이미지를 랜덤하게 보여주는 화살표 버튼이 있다.
-  // 새로운 이미지는 이미 받아온 데이터로 할 것인가? 아니면 버튼을 누를 때 마다 새로운 이미지로?
-  // 크기가 작아져서 두 페이지가 한번에 들어가기 힘들면 댓글은 모달로 구현
+  const [curImage, setCurImage] = useState<ImageDate | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  // image에 해당하는 댓글을 가져오는 함수
+  const getComments = async (imageId: string) => {
+    try {
+      const response = await axios.get(`/api/comments/${imageId}`);
+      const comments = response.data;
+      setComments(comments);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+  // 이전 이미지 가져오는 함수
+  const preImage = () => {};
+  // 다음 이미지 가져오는 함수
+  const nextImage = () => {};
+
+  useEffect(() => {
+    // curImage가 존재하면 현재 이미지의 id를 넘긴다.
+    if (curImage) {
+      getComments(curImage.id);
+    }
+  }, [curImage]);
+
   return (
     <ShortsContainer>
       <StyledShort>
-        <button>a</button>
+        <ArrowButton rotate={true} onClick={preImage}></ArrowButton>
         <ImageCover>
-          <Image
-            src={"https://placekitten.com/300/200"}
-            alt={"이미지입니다."}
-          ></Image>
+          <Image src={curImage.url} alt={"이미지입니다."}></Image>
         </ImageCover>
-        <button>a</button>
+        <ArrowButton onClick={nextImage}></ArrowButton>
       </StyledShort>
       <StyledComment>
         <CommentCover>
-          {/* 댓글제목 콘테이너
-          // 댓글 제목
-          // 댓글 수
-          // 닫는 버튼(이건 크기에 따라 달라졌을 때 추가되는 걸로)
-        */}
+          {/* 댓글제목 콘테이너 */}
+          {/* 댓글 제목 */}
+          {/* 댓글 수 : 댓글 수를 알려면 comments의 길이를... comments.length*/}
+          {/* 닫는 버튼(이건 크기에 따라 달라졌을 때 추가되는 걸로) */}
+          {comments.map((comment) => (
+            <Comment key={comment.id}>{comment.content}</Comment>
+          ))}
           {/* 댓글들
           // 댓글 => 전달받은 댓글 갯수만큼 댓글 컴포넌트에 담아 작성
         */}
@@ -41,7 +75,7 @@ export default Shorts;
 
 const ShortsContainer = styled.main`
   display: flex;
-  margin: 5% 162px;
+  margin: 0 162px 30px 162px;
 `;
 
 const ImageCover = styled.div`
@@ -59,9 +93,10 @@ const StyledShort = styled.div`
 `;
 
 const StyledComment = styled.div`
-  background-color: red;
   width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 20px;
+  border: 1px solid black;
 `;

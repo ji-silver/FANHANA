@@ -50,6 +50,7 @@ const SvgCover = styled.div<{
   height: string;
   rotate?: boolean;
 }>`
+  cursor: pointer;
   width: ${({ width }) => width};
   height: ${({ height }) => height};
   ${({ rotate }) =>

@@ -9,7 +9,7 @@ import JoinPage from "./pages/join";
 import KlRecord from "./pages/Record/KlRecord";
 import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
-import Shorts from "./pages/shorts";
+import Shorts from "./pages/Shorts";
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
           <Route path="/baseball/record" element={<KboRecord />}></Route>
           <Route path="/esport"></Route>
           <Route path="/esport/record" element={<LoLRecord />}></Route>
-          <Route path="/shorts"></Route>
+          <Route path="/shorts" element={<Shorts />}></Route>
           <Route path="/" element={<LoginPage />}></Route>
         </Routes>
         <Footer></Footer>
