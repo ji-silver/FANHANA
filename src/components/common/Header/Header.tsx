@@ -42,7 +42,7 @@ const HeaderContainer = styled.div`
 
 const HeaderTop = styled.div`
     width: 100vw;
-    height: 80px;
+    height: 60px;
 `
 
 const HeaderWrap = styled.div`
@@ -59,6 +59,7 @@ const Button = styled.button`
     margin-left: 20px;
     cursor: pointer;
     padding: 5px 10px;
+    font-size: 16px;
 `
 
 const Logo = styled.div`
@@ -68,12 +69,12 @@ const Logo = styled.div`
 `
 
 const LogoImg = styled.img`
-    width: 40px;
+    width: 25px;
     height: auto;
 `
 
 const LogoText = styled.span`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   padding-left: 5px;
 `;

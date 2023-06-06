@@ -65,7 +65,7 @@ const Navbar = () => {
             </NavWrap>
 
             <SubNav show={subNav.show}>
-                <NavWrap>
+                <NavWrap style={{ "height": "50px" }}>
                     <Navul>
                         <NavItem
                             active={checkActive(`${subNav.category}/페이지명`)}
@@ -102,7 +102,7 @@ export default Navbar
 
 const NavContainer = styled.nav`
     width: 100vw;
-    min-height: 60px;
+    min-height: 50px;
     background-color: #5546B7;
 `
 
@@ -114,7 +114,7 @@ const NavWrap = styled.div`
 
 const Navul = styled.ul`
     display: flex;
-    font-size: 18px;
+    font-size: 16px;
     height: 100%;
 `;
 
@@ -154,13 +154,13 @@ const fadeIn = keyframes`
   }
   to {
     opacity: 1;
-    height: 60px;
+    height: 50px;
   }
 `;
 
 const SubNav = styled.nav<{ show: boolean }>`
   background-color: #EFEAFC;
-  height: ${props => (props.show ? '60px' : '0')};
+  height: ${props => (props.show ? '50px' : '0')};
   visibility: ${props => (props.show ? 'visible' : 'hidden')};
   animation: ${fadeIn} 0.2s ease-in-out;
 `;
