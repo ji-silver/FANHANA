@@ -10,9 +10,12 @@ import KlRecord from "./pages/Record/KlRecord";
 import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
 
+import Test from "./components/common/board/test";
+
 function App() {
   return (
     <div className="App">
+      <Test/>
       <Router>
         <Routes>
           <Route path="/"></Route>
