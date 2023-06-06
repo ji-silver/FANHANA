@@ -15,9 +15,10 @@ interface Props {
   value?: string;
   onClick?: () => void;
   purpose: string;
+  handeleSelect?: any;
 }
 
-const DatePickerBox: React.FC<Props> = ({ purpose }) => {
+const DatePickerBox: React.FC<Props> = ({ purpose, handeleSelect }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const YEARS = Array.from(
@@ -50,6 +51,9 @@ const DatePickerBox: React.FC<Props> = ({ purpose }) => {
         </ScheduleInput>
       )
   );
+
+  // @ts-expect-error
+  handeleSelect(format(selectedDate, "yyyy.MM.dd"));
 
   return (
     <DatePicker
