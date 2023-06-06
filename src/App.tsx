@@ -2,9 +2,12 @@ import React from "react";
 import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
 
 import "./styles/App.css";
-import Button from "./components/common/Button/Button";
 import LoginPage from "./pages/login";
 import JoinPage from "./pages/join";
+import KlRecord from "./pages/Record/KlRecord";
+import KboRecord from "./pages/Record/KboRecord";
+import LoLRecord from "./pages/Record/LoLRecord";
+import Button from "./components/common/Button/Button";
 
 function App() {
   return (
@@ -25,8 +28,11 @@ function App() {
           <Route path="/register"></Route>
           <Route path="/mypage"></Route>
           <Route path="/soccer"></Route>
+          <Route path="/soccer/record" element={<KlRecord />}></Route>
           <Route path="/baseball"></Route>
+          <Route path="/baseball/record" element={<KboRecord />}></Route>
           <Route path="/esport"></Route>
+          <Route path="/esport/record" element={<LoLRecord />}></Route>
           <Route path="/shorts"></Route>
         </Routes>
       </Router>
