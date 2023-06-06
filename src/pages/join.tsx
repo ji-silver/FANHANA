@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { AccountBox, AccountIntro } from "./login";
 import "./../styles/login.css";
 
-import Button from "./../components/common/Button";
+import Button from "./../components/common/Button/Button";
 import Input from "./../components/common/Input";
 import userData from "./userData"; //임시데이터
 
@@ -19,7 +19,7 @@ const JoinPage: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleEmailChange = (e:any) => {
+  const handleEmailChange = (e: any) => {
     const enteredEmail = e.target.value;
     setEmail(enteredEmail);
 
@@ -97,7 +97,10 @@ const JoinPage: React.FC = () => {
     console.log("핸드폰:", phone);
     console.log("프로필 아바타:", avatar);
 
-    // 회원가입 정보를 로컬 스토리지에 저장
+    // 기존 회원 정보를 불러옴
+    const existingUsers = localStorage.getItem("users");
+    const parsedExistingUsers = existingUsers ? JSON.parse(existingUsers) : [];
+    // 새로운 회원 정보를 추가
     const user = {
       email,
       password,
@@ -106,7 +109,21 @@ const JoinPage: React.FC = () => {
       phone,
       avatar,
     };
-    localStorage.setItem("user", JSON.stringify(user));
+    const updatedUsers = [...parsedExistingUsers, user];
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+    // // 회원가입 정보를 로컬 스토리지에 저장(덮어쓰기 저장)
+    // const user = {
+    //   email,
+    //   password,
+    //   favorite,
+    //   nickname,
+    //   phone,
+    //   avatar,
+    // };
+    // localStorage.setItem("user", JSON.stringify(user));
+    
+
     navigate("/login");
   };
 
@@ -121,7 +138,12 @@ const JoinPage: React.FC = () => {
               <li>
                 {/* 이메일 입력 */}
                 <p className="inputField">이메일</p>
-                <Input type="email" value={email} onChange={handleEmailChange} />
+                {/* <Input type="email" value={email} onChange={handleEmailChange} /> */}
+                <input
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                />
                 {errorMessage && errorMessage.includes("이메일") && (
                   <ErrorMessage>{errorMessage}</ErrorMessage>
                 )}
@@ -129,12 +151,22 @@ const JoinPage: React.FC = () => {
               <li>
                 {/* 비밀번호 입력 */}
                 <p className="inputField">비밀번호</p>
-                <Input type="password" value={password} onChange={handlePasswordChange} />
+                {/* <Input type="password" value={password} onChange={handlePasswordChange} /> */}
+                <input
+                  type="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                />
               </li>
               {/* 비밀번호 확인 입력 */}
               <li>
                 <p className="inputField">비밀번호 확인</p>
-                <Input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+                {/* <Input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} /> */}
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                />
                 {errorMessage && errorMessage.includes("비밀번호") && (
                   <ErrorMessage>{errorMessage}</ErrorMessage>
                 )}
@@ -154,12 +186,18 @@ const JoinPage: React.FC = () => {
               <li>
                 {/* 닉네임 입력 */}
                 <p className="inputField">닉네임</p>
-                <Input type="text" value={nickname} onChange={handleNicknameChange}/>
+                {/* <Input type="text" value={nickname} onChange={handleNicknameChange}/> */}
+                <input
+                  type="text"
+                  value={nickname}
+                  onChange={handleNicknameChange}
+                />
               </li>
               <li>
                 {/* 핸드폰 입력 */}
                 <p className="inputField">핸드폰</p>
-                <Input type="text" value={phone} onChange={handlePhoneChange} />
+                {/* <Input type="text" value={phone} onChange={handlePhoneChange} /> */}
+                <input type="text" value={phone} onChange={handlePhoneChange} />
               </li>
               <li>
                 {/* 프로필 아바타 입력 */}
@@ -168,7 +206,11 @@ const JoinPage: React.FC = () => {
               </li>
             </ul>
           </StyledArticle>
-          <Button disabled={false} purpose="base" content="회원가입" onClick={handleRegister}
+          <Button
+            disabled={false}
+            purpose="base"
+            content="회원가입"
+            onClick={handleRegister}
           />
           <p className="goJoin">
             이미 회원이세요? <Link to="/login">로그인</Link>
