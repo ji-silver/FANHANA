@@ -9,22 +9,9 @@ import KlRecord from "./pages/Record/KlRecord";
 import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
 
-import Dropdown from "./components/common/Dropdown";
-
-import category from "./category.json";
-
 function App() {
   return (
     <div className="App">
-      <Dropdown items={category} purpose="small" />
-      <Dropdown items={category} purpose="middle" />
-      <Dropdown items={category} purpose="large" />
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo
-        nesciunt illum voluptatem impedit magni delectus, quisquam dolorum
-        ducimus consequuntur voluptatum omnis qui suscipit reiciendis ut
-        sapiente? Ea error iusto totam!
-      </p>
       <Router>
         <Routes>
           <Route path="/"></Route>
