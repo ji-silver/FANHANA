@@ -1,31 +1,43 @@
 import React, { ReactNode, FC } from 'react'
 import styled from "styled-components";
-import Header from '../../components/common/Header/Header';
-import Footer from '../../components/common/Footer';
+import Header from '../components/common/Header/Header';
+import RecordHeader from '../components/Record/RecordHeader';
 
 interface RecordTableProps {
-    season: string,
-    colgroupData: ReactNode[];
     headerTitle: ReactNode[];
     tbodyData: ReactNode;
+    seasons: string[],
+    firstSeason: string,
+    selectedSeasonCallback: (selectedSeason: string) => void
 };
 
-const RecordTable: FC<RecordTableProps> = ({ season, colgroupData, headerTitle, tbodyData }) => {
+const RecordPage: FC<RecordTableProps> = ({ headerTitle, tbodyData, seasons, firstSeason, selectedSeasonCallback }) => {
 
     // 오늘 날짜 가져오기
     const today = new Date();
     const date = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
 
+    const generateCols = (length: number) => {
+        const cols = new Array(length).fill("5%");
+        cols[0] = "3%";
+        cols[1] = "30%";
+
+        return cols;
+    };
+
+    // headerTitle 개수만큼 table col 개수 정해주기
+    const cols = generateCols(headerTitle.length);
+    const colgroupElements = cols.map((colWidth, index) => <col key={index} width={colWidth} />);
+
     return (
         <>
             <Header />
             <Container>
-                <SeasonSelect><span>{season}</span></SeasonSelect>
-
+                <RecordHeader season={seasons} firstSeason={firstSeason} selectedSeasonCallback={selectedSeasonCallback} />
                 <Todaydiv>※{date} 기준</Todaydiv>
                 <Table>
                     <colgroup>
-                        {colgroupData}
+                        {colgroupElements}
                     </colgroup>
                     <Thead>
                         <tr>
@@ -35,38 +47,22 @@ const RecordTable: FC<RecordTableProps> = ({ season, colgroupData, headerTitle, 
                     <Tbody>{tbodyData}</Tbody>
                 </Table>
             </Container>
-            {/* <Footer></Footer> */}
         </>
     );
 }
 
-export default RecordTable;
+export default RecordPage;
 
 const Container = styled.div`
     position: relative;
     padding: 0 162px 30px 162px;
 `
 
-const SeasonSelect = styled.div`
-    text-align: center;
-    font-size: 30px;
-    font-weight: bold;
-    padding: 30px 0;
-
-    span {
-        cursor: pointer;
-
-        &:hover {
-            color: #5546B7;
-        }
-    }
-`
-
 const Todaydiv = styled.div`
     position: relative;
     width: 100%;
     margin: 0 auto;
-    padding-bottom: 10px;
+    padding: 20px 0;
     text-align: right;
 `
 

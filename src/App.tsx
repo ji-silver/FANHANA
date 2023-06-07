@@ -4,9 +4,9 @@ import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
 import "./styles/App.css";
 import LoginPage from "./pages/login";
 import JoinPage from "./pages/join";
-import KlRecord from "./pages/Record/KlRecord";
-import KboRecord from "./pages/Record/KboRecord";
-import LoLRecord from "./pages/Record/LoLRecord";
+import KlRecord from "./components/Record/KlRecord";
+import KboRecord from "./components/Record/KboRecord";
+import LoLRecord from "./components/Record/LoLRecord";
 
 function App() {
   return (
