@@ -25,6 +25,9 @@ const Header = () => {
                         <NavLink to="/register">
                             <Button>회원가입</Button>
                         </NavLink>
+                        <NavLink to="/register">
+                            <Button>회원가입</Button>
+                        </NavLink>
                     </div>
                 </HeaderWrap>
             </HeaderTop>
