@@ -13,19 +13,19 @@ interface Team {
 }
 
 const ScheduleBox = () => {
-  const [date, setDate] = useState<Date | null | string>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-  const handeleSelect = (select: React.SetStateAction<Date | null>) => {
-    // @ts-expect-error
-    const selectdate = format(select, "yyyy.MM.dd");
-    setDate(selectdate);
-    console.log(date);
-  };
+  console.log(selectedDate);
 
   return (
     <>
       <ScheduleContainer>
         <div className={styles.title}>경기 일정</div>
+        <DatePickerBox
+          purpose="main"
+          setSelectedDate={setSelectedDate}
+          selectedDate={selectedDate}
+        />
       </ScheduleContainer>
     </>
   );
