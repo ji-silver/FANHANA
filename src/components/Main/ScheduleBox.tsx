@@ -26,7 +26,6 @@ const ScheduleBox = () => {
     <>
       <ScheduleContainer>
         <div className={styles.title}>경기 일정</div>
-        <DatePickerBox purpose="main" handeleSelect={handeleSelect} />
       </ScheduleContainer>
     </>
   );
