@@ -10,8 +10,8 @@ import "../../../styles/DatePickerBox.scss";
 import CalendarIcon from "./CalendarIcon";
 
 interface Props {
-  selectedDate: Date | null;
-  setSelectedDate: Dispatch<SetStateAction<Date | null>>;
+  selectedDate: Date;
+  setSelectedDate: Dispatch<SetStateAction<Date>>;
   value?: string;
   onClick?: () => void;
   purpose: "main" | "schedule";
