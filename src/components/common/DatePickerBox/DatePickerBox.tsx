@@ -155,6 +155,7 @@ const ScheduleInput = styled.button`
   width: 210px;
   font-size: 40px;
   margin: 5px;
+  align-items: center;
 `;
 
 export default DatePickerBox;
