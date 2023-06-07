@@ -81,11 +81,13 @@ const ScheduleBox = () => {
       <ScheduleContainer>
         <div className={styles.title}>경기 일정</div>
         <Body>
-          <DatePickerBox
-            purpose="main"
-            setSelectedDate={setSelectedDate}
-            selectedDate={selectedDate}
-          />
+          <DateContainer>
+            <DatePickerBox
+              purpose="main"
+              setSelectedDate={setSelectedDate}
+              selectedDate={selectedDate}
+            />
+          </DateContainer>
           <MatchContainer data={data} />
         </Body>
       </ScheduleContainer>
@@ -103,6 +105,14 @@ const ScheduleContainer = styled.div`
   background: #ffffff;
   border: 2.5px solid #d9d9d9;
   border-radius: 20px;
+`;
+
+const DateContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 160px;
+  height: 400px;
 `;
 
 const Body = styled.div`
