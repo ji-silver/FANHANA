@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import styles from '../../styles/Record.module.scss'
 import useRank from '../../hooks/useRank';
 import rankData from './rankData.json';
 import teamData from './teamData.json';
 import RecordPage from '../../pages/RecordPage';
-import styles from './Record.module.scss'
-import SeasonModal from './RecordHeader';
 
 const KboRecord = () => {
     // const {defaultSeason, seasons, reFetch, teamData } = useRank(selectedSeason);
@@ -17,7 +16,6 @@ const KboRecord = () => {
         setSelectedSeason(newSeason);
         // reFetch();
     }
-
 
     // 시즌 중복 안되게 새 배열로 반환 후 첫번째 데이터 기본으로 선택
     useEffect(() => {
@@ -77,6 +75,10 @@ const KboRecord = () => {
             })}
         </>
     );
+
+    useEffect(() => {
+        console.log(selectedSeason)
+    }, [selectedSeason])
     return (
         <div>
             <RecordPage headerTitle={headerElements} tbodyData={datas} seasons={seasons} firstSeason={season} selectedSeasonCallback={handleSeasonChange} />

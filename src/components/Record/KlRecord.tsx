@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styles from './Record.module.scss'
+import styles from '../../styles/Record.module.scss'
 import rankData from './rankData.json';
 import teamData from './teamData.json';
 import RecordPage from '../../pages/RecordPage';
