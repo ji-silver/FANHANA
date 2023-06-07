@@ -1,5 +1,5 @@
 import React from "react";
-import Button,{ ButtonProps } from "./Button";
+import Button,{ ButtonProps } from "./Button/Button";
 import styled from "styled-components";
 
 interface PopupProps extends ButtonProps {
