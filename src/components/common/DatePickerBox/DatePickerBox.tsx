@@ -10,51 +10,55 @@ import "../../../styles/DatePickerBox.scss";
 import CalendarIcon from "./CalendarIcon";
 
 interface Props {
-  selectedDate?: Date | null;
-  setSelectedDate?: Dispatch<SetStateAction<Date | null>>;
+  selectedDate: Date | null;
+  setSelectedDate: Dispatch<SetStateAction<Date | null>>;
+  value?: string;
+  onClick?: () => void;
+  purpose: "main" | "schedule";
+}
+
+interface CustomInputProps {
   value?: string;
   onClick?: () => void;
   purpose: string;
-  handeleSelect?: any;
 }
 
-const DatePickerBox: React.FC<Props> = ({ purpose, handeleSelect }) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+const MONTHS: ReadonlyArray<string> = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
+const DatePickerBox: React.FC<Props> = ({
+  purpose,
+  setSelectedDate,
+  selectedDate,
+}) => {
   const YEARS = Array.from(
     { length: getYear(new Date()) + 1 - 2000 },
     (_, i) => getYear(new Date()) - i
   );
-  const MONTHS: ReadonlyArray<string> = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
-  const CustomInput: React.FC<Props> = forwardRef(
+  const CustomInput: React.FC<CustomInputProps> = forwardRef(
     ({ value, onClick, purpose }, ref) =>
       purpose === "main" ? (
         <MainInput onClick={onClick}>{value}</MainInput>
       ) : (
         <ScheduleInput onClick={onClick}>
-          <CalendarIcon />
           {value}
+          <CalendarIcon />
         </ScheduleInput>
       )
   );
-
-  // @ts-expect-error
-  handeleSelect(format(selectedDate, "yyyy.MM.dd"));
-
   return (
     <DatePicker
       customInput={<CustomInput purpose={purpose} />}
@@ -64,9 +68,8 @@ const DatePickerBox: React.FC<Props> = ({ purpose, handeleSelect }) => {
           : "yyyy.MM"
       }
       selected={selectedDate}
-      onChange={(date) => setSelectedDate(date)}
+      onChange={(date: Date) => setSelectedDate(date)}
       minDate={new Date("2000-01-01")}
-      maxDate={new Date()}
       shouldCloseOnSelect
       yearDropdownItemNumber={100}
       calendarClassName={styles.calenderWrapper}
@@ -139,6 +142,7 @@ const ScheduleInput = styled.button`
   width: 210px;
   font-size: 40px;
   margin: 5px;
+  align-items: center;
 `;
 
 export default DatePickerBox;
