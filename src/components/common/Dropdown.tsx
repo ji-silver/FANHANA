@@ -15,10 +15,10 @@ interface Props {
   handleSelect: any;
 }
 
-const Dropdown: React.FC<Props> = ({ items, purpose, handleSelect }) => {
+const Dropdown: React.FC<Props> = ({ items, purpose, dropdownSelect }) => {
   const [selected, setSelected] = React.useState<Items | null>(items[0]);
 
-  handleSelect(selected);
+  dropdownSelect(selected);
 
   return (
     <div>
