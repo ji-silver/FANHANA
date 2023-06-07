@@ -20,33 +20,32 @@ interface Comment {
   image: string;
 }
 
-// 최초의 이미지를 어떤걸로 설정할 것인가?
 const Shorts: React.FC = () => {
   const [curShorts, setCurShorts] = useState<CurShorts | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentsCount, setCommentsCount] = useState();
   const [input, setInput] = useState("");
 
-  // 이미지를 불러오는 함수
-  // 필요한 정보(필수: 카테고리 / 추가: 이미지 아이디)
+  // 쇼츠 불러오는 함수
   const getShorts = async (category?: string) => {
     try {
-      const url = `/api/v1/shorts?category=${
-        category ? encodeURIComponent(category) : null
-      }`;
-
-      const response = await axios.get(url);
+      const response = await axios.get(
+        `/api/v1/shorts?category=${
+          category ? encodeURIComponent(category) : null
+        }`
+      );
       const shorts = response.data;
       setCurShorts(shorts);
     } catch (error) {
-      console.error("Error fetching comments:", error);
+      console.error("Error fetching shorts:", error);
     }
   };
 
   // image에 해당하는 댓글을 가져오는 함수
-  const getComments = async (imageId: string) => {
+  const getComments = async (shortsId: string) => {
     try {
-      const response = await axios.get(`/api/comments/${imageId}`);
+      // ?shorts의 id는 어떻게 받을 것인가? query? 아니면 path?
+      const response = await axios.get(`/api/comments/${shortsId}`);
       const comments = response.data;
       setComments(comments);
     } catch (error) {
@@ -115,10 +114,10 @@ const Shorts: React.FC = () => {
         <ArrowButton></ArrowButton>
       </StyledShort>
       <StyledComment>
-        <CommentTitle>
-          <h2>댓글</h2>
-          <h4>{commentsCount}</h4>
-        </CommentTitle>
+        <TitleCover>
+          <CommentsTitle>댓글</CommentsTitle>
+          <CommentsCount>3{commentsCount}</CommentsCount>
+        </TitleCover>
         <CommentCover>
           {/* 닫는 버튼(이건 크기에 따라 달라졌을 때 추가되는 걸로) */}
           {/* {comments.map((comment) => (
@@ -129,8 +128,12 @@ const Shorts: React.FC = () => {
         */}
         </CommentCover>
         <InputCover>
-          <Input value={input} onChange={handleInputChange} />
-          <Button disabled={false} purpose="base" content="댓글"></Button>
+          <InputContainer>
+            <Input value={input} onChange={handleInputChange} />
+          </InputContainer>
+          <ButtonContainer>
+            <Button disabled={false} purpose="base" content="댓글"></Button>
+          </ButtonContainer>
         </InputCover>
       </StyledComment>
     </ShortsContainer>
@@ -149,12 +152,25 @@ const ImageCover = styled.div`
   height: 640px;
 `;
 
-const CommentCover = styled.div``;
-
-const CommentTitle = styled.div`
-  position: absolute;
-  top: 0;
+const TitleCover = styled.div`
+  width: 90%;
   display: flex;
+  justify-content: start;
+  align-items: end;
+  flex-grow: 1;
+`;
+
+const CommentsTitle = styled.p`
+  font-size: 20px;
+  margin-right: 10px;
+`;
+
+const CommentsCount = styled.p`
+  font-size: 16px;
+`;
+
+const CommentCover = styled.div`
+  flex-grow: 20;
 `;
 
 const StyledShort = styled.div`
@@ -165,9 +181,9 @@ const StyledShort = styled.div`
 `;
 
 const StyledComment = styled.div`
-  position: relative;
   width: 50%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
@@ -175,8 +191,21 @@ const StyledComment = styled.div`
 `;
 
 const InputCover = styled.div`
-  width: 90%;
-  position: absolute;
-  bottom: 0;
   display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 80%;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
 `;
