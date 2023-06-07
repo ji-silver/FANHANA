@@ -3,33 +3,37 @@ import Select, { SelectProps, selectClasses } from "@mui/base/Select";
 import Option, { optionClasses } from "@mui/base/Option";
 import Popper from "@mui/base/Popper";
 import { styled } from "@mui/system";
+import { useEffect } from "react";
 
 interface Items {
   _id: number | string;
   name: string;
+  value?: string;
 }
 
 interface Props {
   items: Items[];
   purpose: "small" | "middle" | "large";
-  handleSelect: any;
+  dropdownSelect: (selectedItem: Items | null) => void;
 }
 
 const Dropdown: React.FC<Props> = ({ items, purpose, dropdownSelect }) => {
-  const [selected, setSelected] = React.useState<Items | null>(items[0]);
+  // @ts-expect-error
+  const [selected, setSelected] = React.useState<Items | null>(items[0]._id);
 
   dropdownSelect(selected);
 
   return (
     <div>
       <CustomSelect
-        value={selected?.name}
+        value={selected}
         // @ts-expect-error
         onChange={(event, newValue) => setSelected(newValue)}
+        // @ts-expect-error
         purpose={purpose}
       >
-        {items.map((item) => (
-          <StyledOption key={item._id} value={item.name}>
+        {items.map((item, index) => (
+          <StyledOption key={index} value={item._id}>
             {item.name}
           </StyledOption>
         ))}
@@ -38,20 +42,29 @@ const Dropdown: React.FC<Props> = ({ items, purpose, dropdownSelect }) => {
   );
 };
 
-function CustomSelect<TValue extends {}, Multiple extends boolean = false>(
-  props: SelectProps<TValue, Multiple> & { purpose?: string }
+const CustomSelect = React.forwardRef(function CustomSelect<
+  TValue extends {},
+  Multiple extends boolean
+>(
+  props: SelectProps<TValue, Multiple>,
+  ref: React.ForwardedRef<HTMLButtonElement>
 ) {
   const slots: SelectProps<TValue, Multiple>["slots"] = {
     root: StyledButton,
     listbox: (listboxProps) => (
-      <StyledListbox {...listboxProps} purpose={props.purpose} />
+      // @ts-expect-error
+      <StyledListbox {...listboxProps} purpose={props.purpose} ref={ref} />
     ),
     popper: StyledPopper,
     ...props.slots,
   };
 
-  return <Select {...props} slots={slots} />;
-}
+  return <Select {...props} ref={ref} slots={slots} />;
+}) as <TValue extends {}, Multiple extends boolean>(
+  props: SelectProps<TValue, Multiple> & React.RefAttributes<HTMLButtonElement>
+) => JSX.Element;
+
+export default Dropdown;
 
 const grey = {
   50: "#f6f8fa",
@@ -166,5 +179,3 @@ const StyledOption = styled(Option)(`
 const StyledPopper = styled(Popper)`
   z-index: 1;
 `;
-
-export default Dropdown;
