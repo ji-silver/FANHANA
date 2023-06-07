@@ -98,20 +98,23 @@ const RankBox = () => {
         </RankHeader>
         <RankTable>
           <HeaderTr>
-            {headers.map((item) => {
-              return <RankTh>{item}</RankTh>;
+            {headers.map((item, index) => {
+              return <RankTh key={index}>{item}</RankTh>;
             })}
           </HeaderTr>
           {data.map((item, index) => {
             return (
               <Tr key={item._id}>
-                <Td>{index + 1}</Td>
-                <Td>{item.team_id}</Td>
-                <Td>{item.wins + item.losses + item.drawns}</Td>
-                <Td>{item.wins}</Td>
-                <Td>{item.losses}</Td>
-                <Td>{item.drawns}</Td>
-                <Td>{item.winRate}%</Td>
+                <TdSm>{index + 1}</TdSm>
+                <TdLa>
+                  {item.team_id}
+                  {/*item.name*/}
+                </TdLa>
+                <TdSm>{item.wins + item.losses + item.drawns}</TdSm>
+                <TdSm>{item.wins}</TdSm>
+                <TdSm>{item.losses}</TdSm>
+                <TdSm>{item.drawns}</TdSm>
+                <TdLa>{item.winRate}%</TdLa>
               </Tr>
             );
           })}
@@ -132,12 +135,10 @@ const RankContainer = styled.div`
   border-radius: 20px;
   flex-direction: column;
 `;
-
 const RankHeader = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
 const RankTable = styled.table`
   displayl: flex;
   width: 360px;
@@ -145,22 +146,19 @@ const RankTable = styled.table`
   margin-left: auto;
   margin-right: auto;
 `;
-
 const RankTh = styled.th`
   font-size: 16px;
   font-weight: 400;
   width: 50px;
 `;
-
 const HeaderTr = styled.tr`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   border-top: 1px solid #a0a0a0;
   border-bottom: 1px solid #a0a0a0;
   height: 31px;
 `;
-
 const Tr = styled.tr`
   display: flex;
   justify-content: space-around;
@@ -169,7 +167,12 @@ const Tr = styled.tr`
   height: 33px;
   border-bottom: 1px solid #d9d9d9;
 `;
-const Td = styled.td`
+const TdSm = styled.td`
+  font-size: 14px;
+  text-align: center;
+  width: 44px;
+`;
+const TdLa = styled.td`
   font-size: 14px;
   text-align: center;
   width: 50px;

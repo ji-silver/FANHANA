@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import styles from "./main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
 import matchData from "./matchData.json";
+import category from "./category.json";
 
 interface Team {
   _id: string;
@@ -31,24 +32,40 @@ interface Match {
   season: string;
 }
 
-const MatchContainer = ({ data }) => {
-  console.log("나 자식컴포넌트에서 전달받은 데이터야!", data);
+const today = format(new Date(), "yyyy-MM-dd");
+const currentTime = format(new Date(), "hh:mm:ss");
+
+// @ts-expect-error
+const MatchContainer = ({ categoryData }) => {
+  console.log("나 자식컴포넌트에서 전달받은 데이터야!", categoryData);
+
+  // @ts-expect-error
+  const compareTime = (time) => {
+    if (currentTime < time) {
+      return "종료";
+    } else if (currentTime === time) {
+      return "진행중";
+    } else return `${time.slice(0, 5)} 예정`;
+  };
+
   return (
     <>
-      {data.map((e: any) => {
+      {categoryData.map((e: any) => {
         return (
           <MatchBox>
             <LogoImg src={e.tema1_img} />
             <MatchData>
               <div>
-                {data.category === 0
+                {categoryData.category === 0
                   ? "츅구"
-                  : data.category === 1
+                  : categoryData.category === 1
                   ? "야구"
                   : "e-스포츠"}
               </div>
               <Vs>vs</Vs>
-              <State state={e.state}>{e.state}</State>
+              <State state={e.state}>
+                {today > e.start_day ? "종료" : compareTime(e.start_time)}
+              </State>
             </MatchData>
             <LogoImg src={e.tema2_img} />
           </MatchBox>
@@ -60,26 +77,53 @@ const MatchContainer = ({ data }) => {
 
 const ScheduleBox = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [data, setData] = useState(matchData.data);
+  const [selectCategory, setSelectCategory] = useState<number>(0);
+  const [dateData, setDateData] = useState(matchData.data);
+  const [categoryData, setCategoryData] = useState(matchData.data);
 
-  //선택한 날짜에 해당하는 데이터를 받아옴
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    let targetId = Number(e.target.value);
+    console.log(targetId);
+    return setSelectCategory(targetId);
+  };
+
+  //선택한 날짜가 바뀔 때 마다 날짜 데이터 받아와서 dateData 업데이트
 
   useEffect(() => {
-    const editDate: string = format(selectedDate, "yyyy-MM-dd"); //날짜 형식에 맞게 변경
-    console.log("editDate", editDate);
-    console.log("matchData", data);
+    //선택한 카테고리가 바뀔 때 마다 categoryData 업데이트
 
-    //선택한 날짜에 해당하는 데이터 === 선택한 카테고리, 필터
-    const newData = data.filter((data) => data.category === 1);
-    console.log("newData", newData);
-    setData(newData);
-    console.log("data", data);
-  }, [selectedDate]); //선택한 날짜가 바뀔 때 마다 data를 바꿈
+    //matchData.category === 선택한 카테고리와 같은걸 필터해서 newData에 담음
+    if (selectCategory < 3) {
+      const newData = dateData.filter(
+        (data) => data.category === selectCategory
+      );
+      console.log("newData", newData);
+      setCategoryData(newData);
+      console.log("categoryData", categoryData);
+    } else {
+      setCategoryData(dateData);
+    }
+  }, [selectCategory]);
 
   return (
     <>
       <ScheduleContainer>
-        <div className={styles.title}>경기 일정</div>
+        <Header>
+          <div className={styles.title}>경기 일정</div>
+          <select
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          >
+            {category.map((item) => {
+              return (
+                <option key={item._id} value={item._id}>
+                  {item.name}
+                </option>
+              );
+            })}
+          </select>
+        </Header>
         <Body>
           <DateContainer>
             <DatePickerBox
@@ -88,7 +132,7 @@ const ScheduleBox = () => {
               selectedDate={selectedDate}
             />
           </DateContainer>
-          <MatchContainer data={data} />
+          <MatchContainer categoryData={categoryData} />
         </Body>
       </ScheduleContainer>
     </>
@@ -109,10 +153,15 @@ const ScheduleContainer = styled.div`
 
 const DateContainer = styled.div`
   display: flex;
+  justify-content: flex-start
   align-items: center;
   flex-direction: column;
   width: 160px;
-  height: 400px;
+  height: 40px;
+`;
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Body = styled.div`
@@ -120,7 +169,7 @@ const Body = styled.div`
   align-items: center;
   flex-direction: column;
   width: 390px;
-  height: 400px;
+  height: 430px;
 `;
 
 const MatchBox = styled.div`
@@ -158,5 +207,10 @@ const Vs = styled.div`
 
 const State = styled.div<{ state: string }>`
   font-size: 14px;
-  color: ${(props) => (props.state == "종료" ? "red" : "#8F6EEB")};
+  color: ${(props) =>
+    props.state == "종료"
+      ? "red"
+      : props.state == "예정"
+      ? "#8F6EEB"
+      : "#4EAF51"};
 `;
