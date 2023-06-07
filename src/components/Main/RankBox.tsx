@@ -75,7 +75,6 @@ const RankBox = () => {
     const targetData = getTeamsWithWinRate(targetCatrgory);
     // @ts-expect-error
     setData(targetData);
-    console.log("targetData", targetData);
   }, []);
 
   return (
