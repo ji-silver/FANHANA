@@ -21,6 +21,7 @@ const TableHeader = () => {
   );
 };
 
+// @ts-expect-error
 const BoardBox = ({ data }) => {
   return (
     <BoardContainer>
@@ -37,7 +38,7 @@ const BoardBox = ({ data }) => {
 const PostList = ({ data }) => {
   return (
     <>
-      {data.map((post) => {
+      {data.map((post: any) => {
         return (
           <PostTr key={post.id}>
             <Td>{post.id}</Td>
@@ -59,7 +60,7 @@ const CommunityBox = () => {
 
   return (
     <>
-      <Community>
+      <CommunityContainer>
         <div className={styles.title}>오늘의 커뮤니티</div>
         <PostListContainer>
           <BoardBox data={allData} />
@@ -67,14 +68,14 @@ const CommunityBox = () => {
           <BoardBox data={allData} />
           <BoardBox data={allData} />
         </PostListContainer>
-      </Community>
+      </CommunityContainer>
     </>
   );
 };
 
 export default CommunityBox;
 
-const Community = styled.div`
+const CommunityContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 1190px;
@@ -87,6 +88,7 @@ const Community = styled.div`
 const PostListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   width: 1190px;
   height: 675px;
 `;

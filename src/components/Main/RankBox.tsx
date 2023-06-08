@@ -138,6 +138,7 @@ const RankContainer = styled.div`
 const RankHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 const RankTable = styled.table`
   displayl: flex;
