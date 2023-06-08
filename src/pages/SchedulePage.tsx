@@ -85,8 +85,14 @@ const SchedulePage = () => {
     const getScheduleData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5500/api/v1/schedule/day/${dateString}`
+          `http://localhost:5500/api/v1/schedule/day/${dateString}`,
+          {
+            params: {
+              category: CATEGORY[sports],
+            },
+          }
         );
+
         setScheduleData(res.data.data);
       } catch (err) {
         console.log(err);
