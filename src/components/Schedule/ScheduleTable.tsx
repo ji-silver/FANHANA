@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { getDaysInMonthArr, isSameDate, formatDate } from "../../utils/date";
 import TeamMatch from "./TeamMatch";
@@ -115,11 +115,21 @@ const TableHeader = styled.th<{ isToday?: boolean }>`
   border-top: 1px solid #f3f3f3;
   vertical-align: middle;
   text-align: center;
-  ${(props) => props.isToday && `border: 1px solid #5F30E2;`}
+  ${(props) =>
+    props.isToday &&
+    css`
+      border: 1px solid #5f30e2;
+      color: #5f30e2;
+      ::after {
+        content: "오늘";
+        font-size: 14px;
+        display: block;
+        margin-top: 5px;
+      }
+    `}
 
   &.date {
     border-right: 1px solid #f3f3f3;
-    ${(props) => props.isToday && `color: #5F30E2;`}
   }
   span {
     font-weight: bold;
