@@ -1,7 +1,12 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-import { getDaysInMonthArr, isSameDate, formatDate } from "../../utils/date";
+import {
+  getDaysInMonthArr,
+  isSameDate,
+  formatDateForTable,
+  formatDate,
+} from "../../utils/date";
 import TeamMatch from "./TeamMatch";
 import { Schedule } from "../../pages/SchedulePage";
 
@@ -60,8 +65,11 @@ const ScheduleTable = ({ year, month, scheduleData }: ScheduleTableProps) => {
                     className="date"
                     scope="row"
                     isToday={isToday}
+                    data-date={formatDate(new Date(year, month - 1, date))}
                   >
-                    <span>{formatDate(`${year}-${month}-${date}`)}</span>
+                    <span>
+                      {formatDateForTable(`${year}-${month}-${date}`)}
+                    </span>
                   </TableHeader>
                 )}
                 <TableCell>{schedule.start_time.slice(0, 5)}</TableCell>
@@ -87,7 +95,7 @@ const ScheduleTable = ({ year, month, scheduleData }: ScheduleTableProps) => {
               className={`empty ${tableRowClassNames(rowIdx, isToday)}`}
             >
               <TableHeader className="date" scope="row" isToday={isToday}>
-                {formatDate(`${year}-${month}-${date}`)}
+                {formatDateForTable(`${year}-${month}-${date}`)}
               </TableHeader>
               <TableCell colSpan={3}>경기가 없습니다.</TableCell>
             </TableRow>

@@ -7,6 +7,7 @@ import DatePickerBox from "../components/common/DatePickerBox/DatePickerBox";
 import TeamList from "../components/Schedule/TeamList";
 import ScheduleTable from "../components/Schedule/ScheduleTable";
 import ArrowButton from "../components/common/Button/ArrowButton";
+import { formatDate } from "../utils/date";
 
 export interface Team {
   id: number;
@@ -115,6 +116,23 @@ const SchedulePage = () => {
       getScheduleData();
     }
   }, [selectedDate, selectedTeamId]);
+
+  useEffect(() => {
+    const scrollToSelectedDate = () => {
+      const target = document.querySelector(
+        `[data-date="${formatDate(selectedDate)}"]`
+      );
+
+      if (target) {
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    };
+
+    scrollToSelectedDate();
+  }, [selectedDate]);
 
   return (
     <Container>
