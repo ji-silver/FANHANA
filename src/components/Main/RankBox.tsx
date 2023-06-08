@@ -134,6 +134,7 @@ const RankContainer = styled.div`
   border: 2.5px solid #d9d9d9;
   border-radius: 20px;
   flex-direction: column;
+  margin-top: 20px;
 `;
 const RankHeader = styled.div`
   display: flex;

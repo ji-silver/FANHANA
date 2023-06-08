@@ -83,6 +83,7 @@ const CommunityContainer = styled.div`
   background: #ffffff;
   border: 2.5px solid #d9d9d9;
   border-radius: 20px;
+  margin-top: 20px;
 `;
 
 const PostListContainer = styled.div`
@@ -97,7 +98,6 @@ const BoardContainer = styled.div`
   flex-wrap: wrap;
   width: 550px;
   height: 250px;
-  border: 1px solid #d9d9d9;
   margin: 16px 15px 16px 25px;
 `;
 

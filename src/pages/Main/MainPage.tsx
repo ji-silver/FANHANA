@@ -25,6 +25,9 @@ export default MainPage;
 
 const Body = styled.div`
   display: flex;
+  justify-content: space-around;
+  margin: auto;
+  padding: 25px;
   flex-wrap: wrap;
   width: 1642px;
 `;
