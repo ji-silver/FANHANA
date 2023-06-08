@@ -1,10 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import dummyPosts from "./../../pages/mypage/dummyPosts";
 import styled from "styled-components";
+
+interface Post {
+  id: number;
+  popular: boolean;
+  title: string;
+  content: string;
+  createdAt: Date;
+  author: string;
+  views: number;
+}
 
 interface TableProps {
   show: "all" | "my";
+  data: Post[];
 }
 
 const TableWrapper = styled.table`
@@ -43,7 +53,7 @@ const TableCell = styled.td<{ width?: string }>`
   }
 `;
 
-const TableList: React.FC<TableProps> = ({ show }) => {
+const TableList: React.FC<TableProps> = ({ show, data }) => {
   const renderTableHeader = () => {
     if (show === "all") {
       return (
@@ -51,7 +61,7 @@ const TableList: React.FC<TableProps> = ({ show }) => {
           <TableRow>
             <TableHeaderCell width="60px">번호</TableHeaderCell>
             <TableHeaderCell width="80px">인기글</TableHeaderCell>
-            <TableHeaderCell>제목(댓글)</TableHeaderCell>
+            <TableHeaderCell>제목</TableHeaderCell>
             <TableHeaderCell width="100px">등록일</TableHeaderCell>
             <TableHeaderCell width="100px">작성자</TableHeaderCell>
             <TableHeaderCell width="60px">조회수</TableHeaderCell>
@@ -63,7 +73,7 @@ const TableList: React.FC<TableProps> = ({ show }) => {
         <TableHeader>
           <TableRow>
             <TableHeaderCell width="60px">번호</TableHeaderCell>
-            <TableHeaderCell>제목(댓글)</TableHeaderCell>
+            <TableHeaderCell>제목</TableHeaderCell>
             <TableHeaderCell width="100px">등록일</TableHeaderCell>
             <TableHeaderCell width="60px">조회수</TableHeaderCell>
           </TableRow>
@@ -73,7 +83,7 @@ const TableList: React.FC<TableProps> = ({ show }) => {
   };
 
   const renderTableRows = () => {
-    return dummyPosts.map((post, index) => (
+    return data.map((post, index) => (
       <TableRow key={post.id} even={index % 2 === 1}>
         <TableCell width="80px">{post.id}</TableCell>
         {show === "all" && (
@@ -98,3 +108,13 @@ const TableList: React.FC<TableProps> = ({ show }) => {
 };
 
 export default TableList;
+
+/* 
+설명
+
+all : 전체 게시글 목록
+my : 내가 작성한 글 목록
+
+<TableList show="all" data={}/>
+<TableList show="my" data={}/>
+*/

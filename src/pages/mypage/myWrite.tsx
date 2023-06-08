@@ -5,6 +5,8 @@ import Header from "../../components/common/Header/Header";
 
 import Button from "./../../components/common/Button/Button";
 
+import dummyPosts from "./dummyPosts";
+
 function MyWrite() {
   const [nickname, setNickname] = useState("");
   const [favorite, setFavorite] = useState("");
@@ -160,8 +162,8 @@ const TabMenu: React.FC = () => {
         {activeTab === 0 && (
           <Tab label="Tab 1">
             <p>작성글 보기</p>
-            <TableList show="all" />
-            <TableList show="my" />
+            <TableList show="all" data={dummyPosts}/>
+            <TableList show="my" data={dummyPosts}/>
           </Tab>
         )}
         {activeTab === 1 && (
