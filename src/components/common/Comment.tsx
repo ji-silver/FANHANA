@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "./Button";
+import Button from "./Button/Button";
 import Avatar from "@mui/material/Avatar";
 
 interface CommentProps {
@@ -9,14 +9,12 @@ interface CommentProps {
   nickname : string;
   info : string;
   date : string;
-
   userId : number;
-  //댓글 get 할때 불러오는  comment 테이블에서 user_id 사용
   localSaveUserId: number;
-  //로그인시 저장 userId 로컬스토리지에 저장되게 수빈님에게 말씀드리기!!
+  clickHandler: () => void;
 }
 
-const Comment:React.FC<CommentProps> = ({ alt, img, nickname, info, date, localSaveUserId, userId }) => {
+const Comment:React.FC<CommentProps> = ({ alt, img, nickname, info, date, localSaveUserId, userId, clickHandler }) => {
 
   return(
     <StyledComment>
@@ -36,8 +34,9 @@ const Comment:React.FC<CommentProps> = ({ alt, img, nickname, info, date, localS
           content={
             userId === localSaveUserId ? "삭제하기" : "신고하기"
           }
-          purpose="base"
+          purpose="reportComment"
           disabled={false}
+          onClick={clickHandler}
         />
       </div>
     </StyledComment>
@@ -76,7 +75,8 @@ const StyledComment = styled.section`
     white-space: nowrap;
     text-align: center;
   }
-  button{
+  Button{
+    width: auto;
     background: initial;
     border: 0;
     font-size: 14px;
