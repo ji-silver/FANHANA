@@ -29,7 +29,6 @@ const Comment:React.FC<CommentProps> = ({ alt, img, nickname, info, date, localS
           <p>{ info }</p>
         </section>
         <p className="commentDate">{ date }</p>
-        {/*유정님이 고치신 onclick이벤트 부분 pull 받고 진행 찬규님 한테 버튼 디자인 다양하게 만들수 있게 변경 요청*/}
         <Button 
           content={
             userId === localSaveUserId ? "삭제하기" : "신고하기"
