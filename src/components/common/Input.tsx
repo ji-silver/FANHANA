@@ -2,13 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 interface InputStyledProps {
-  type?: string; // 타입 prop 추가
+  type?: string;
   value: string;
   onChange: (value: string) => void;
 }
 
-//타입 prop 추가
-const Input: React.FC<InputStyledProps> = ({ type = "text", value, onChange }) => {
+const Input: React.FC<InputStyledProps> = ({
+  type = "text",
+  value,
+  onChange,
+}) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     onChange(newValue);
@@ -24,8 +27,7 @@ const StyledInput = styled.input`
   border: 1px solid #c7c9d9;
   border-radius: 4px;
   width: 100%;
-  box-sizing: border-box; 
-  //박스사이징 추가
+  box-sizing: border-box;
 
   &:focus {
     outline: none;
