@@ -4,6 +4,12 @@ import styled from "styled-components";
 import Navbar from './Navbar';
 import Profile from '../Profile/Profile';
 
+// 닉네임 가져오기
+// const currentUser = {
+//     nickname: '지은',
+//     img: 'profile.jpg'
+// };
+
 const Header = () => {
 
     return (
@@ -22,10 +28,7 @@ const Header = () => {
                         <NavLink to="/login">
                             <Button>로그인</Button>
                         </NavLink>
-                        <NavLink to="/register">
-                            <Button>회원가입</Button>
-                        </NavLink>
-                        <NavLink to="/register">
+                        <NavLink to="/join">
                             <Button>회원가입</Button>
                         </NavLink>
                     </div>
