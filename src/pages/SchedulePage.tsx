@@ -156,12 +156,15 @@ const SchedulePage = () => {
             <ArrowButton size="large" />
           </Button>
         </DateSelectContainer>
-        <TeamList
-          teamList={teamList}
-          selectedTeam={selectedTeamId}
-          onSelect={onSelect}
-          category={1}
-        />
+        <ListContainer>
+          <TeamList
+            teamList={teamList}
+            selectedTeam={selectedTeamId}
+            onSelect={onSelect}
+            category={1}
+          />
+        </ListContainer>
+
         <ScheduleTable
           year={selectedDate.getFullYear()}
           month={selectedDate.getMonth() + 1}
@@ -201,4 +204,10 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   background-color: transparent;
+`;
+
+const ListContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;

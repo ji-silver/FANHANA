@@ -1,5 +1,6 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
 import { Team } from "../../pages/SchedulePage";
 
 interface TeamSelectProps {
@@ -39,6 +40,14 @@ const TeamContainer = styled.li<{ isSelected: boolean }>`
   border: ${(props) =>
     props.isSelected ? "2px solid #5F30E2" : "1px solid #B5B5B5"};
   box-sizing: border-box;
+  ${(props) =>
+    props.isSelected &&
+    css`
+      ${TeamName} {
+        color: #5f30e2;
+        font-weight: bold;
+      }
+    `}
 `;
 
 const TeamImage = styled.img`
