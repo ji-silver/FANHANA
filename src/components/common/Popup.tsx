@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "./Button";
+import Button from "./Button/Button";
 //import Button,{ ButtonProps } from "./Button";//버튼에 잇는 인터페이스 가져와야해서 export 필요함 *찬규님 확인*
 
 interface PopupProps {

@@ -20,7 +20,7 @@ const JoinPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleEmailChange = (e: any) => {
-    const enteredEmail = e.target.value;
+    const enteredEmail = e;
     setEmail(enteredEmail);
 
     // 이메일 형식을 확인하는 정규식. 영어만 가능
@@ -33,21 +33,21 @@ const JoinPage: React.FC = () => {
   };
 
   const handlePasswordChange = (e: any) => {
-    setPassword(e.target.value);
+    setPassword(e);
     setErrorMessage("");
   };
 
   const handleConfirmPasswordChange = (e: any) => {
-    setConfirmPassword(e.target.value);
+    setConfirmPassword(e);
     setErrorMessage("");
   };
 
   const handleNicknameChange = (e: any) => {
-    setNickname(e.target.value);
+    setNickname(e);
   };
 
   const handlePhoneChange = (e: any) => {
-    setPhone(e.target.value);
+    setPhone(e);
   };
 
   const handleAvatarChange = (selectedImage: Image) => {
@@ -122,8 +122,7 @@ const JoinPage: React.FC = () => {
     //   avatar,
     // };
     // localStorage.setItem("user", JSON.stringify(user));
-    
-
+  
     navigate("/login");
   };
 
@@ -138,12 +137,12 @@ const JoinPage: React.FC = () => {
               <li>
                 {/* 이메일 입력 */}
                 <p className="inputField">이메일</p>
-                {/* <Input type="email" value={email} onChange={handleEmailChange} /> */}
-                <input
+                <Input type="email" value={email} onChange={handleEmailChange} />
+                {/* <input
                   type="email"
                   value={email}
                   onChange={handleEmailChange}
-                />
+                /> */}
                 {errorMessage && errorMessage.includes("이메일") && (
                   <ErrorMessage>{errorMessage}</ErrorMessage>
                 )}
@@ -151,22 +150,18 @@ const JoinPage: React.FC = () => {
               <li>
                 {/* 비밀번호 입력 */}
                 <p className="inputField">비밀번호</p>
-                {/* <Input type="password" value={password} onChange={handlePasswordChange} /> */}
-                <input
+                 <Input type="password" value={password} onChange={handlePasswordChange} />
+                {/* <input
                   type="password"
                   value={password}
                   onChange={handlePasswordChange}
-                />
+                /> */}
               </li>
               {/* 비밀번호 확인 입력 */}
               <li>
                 <p className="inputField">비밀번호 확인</p>
-                {/* <Input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} /> */}
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={handleConfirmPasswordChange}
-                />
+                <Input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+                {/* <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} /> */}
                 {errorMessage && errorMessage.includes("비밀번호") && (
                   <ErrorMessage>{errorMessage}</ErrorMessage>
                 )}
@@ -186,18 +181,14 @@ const JoinPage: React.FC = () => {
               <li>
                 {/* 닉네임 입력 */}
                 <p className="inputField">닉네임</p>
-                {/* <Input type="text" value={nickname} onChange={handleNicknameChange}/> */}
-                <input
-                  type="text"
-                  value={nickname}
-                  onChange={handleNicknameChange}
-                />
+                <Input type="text" value={nickname} onChange={handleNicknameChange}/>
+                {/* <input type="text" value={nickname} onChange={handleNicknameChange} /> */}
               </li>
               <li>
                 {/* 핸드폰 입력 */}
                 <p className="inputField">핸드폰</p>
-                {/* <Input type="text" value={phone} onChange={handlePhoneChange} /> */}
-                <input type="text" value={phone} onChange={handlePhoneChange} />
+                <Input type="text" value={phone} onChange={handlePhoneChange} /> 
+                {/* <input type="text" value={phone} onChange={handlePhoneChange} /> */}
               </li>
               <li>
                 {/* 프로필 아바타 입력 */}
