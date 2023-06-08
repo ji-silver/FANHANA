@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import styles from "./main.module.scss";
+import styles from "../../styles/main.module.scss";
 import rankData from "./rankData.json";
 import teamData from "../../pages/Record/teamData.json";
 import category from "./category.json";

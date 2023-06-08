@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { format } from "date-fns";
 
-import styles from "./main.module.scss";
+import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
 import matchData from "./matchData.json";
 import category from "./category.json";

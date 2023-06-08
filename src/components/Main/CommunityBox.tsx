@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import styles from "./main.module.scss";
+import styles from "../../styles/main.module.scss";
 import communityData from "./communityData.json";
 
 interface Data {
