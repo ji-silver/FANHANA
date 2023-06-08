@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 import DatePickerBox from "../components/common/DatePickerBox/DatePickerBox";
 import TeamList from "../components/Schedule/TeamList";
@@ -27,10 +29,18 @@ export interface Schedule {
   state: string;
 }
 
+const CATEGORY: { [key: string]: number } = {
+  soccer: 0,
+  baseball: 1,
+  esports: 2,
+};
+
 const SchedulePage = () => {
+  const { sports } = useParams() as { sports: string };
+
   const [teamList, setTeamList] = useState<Team[]>([]);
   const [scheduleData, setScheduleData] = useState<Schedule[]>([]);
-  const [selectedTeamId, setSelectedTeamId] = useState<number>(0);
+  const [selectedTeamId, setSelectedTeamId] = useState<number>(0); // id가 0이면 전체 팀
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const onSelect = (id: number) => {
@@ -49,12 +59,69 @@ const SchedulePage = () => {
     );
   };
 
+  useEffect(() => {
+    const getTeamList = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5500/api/v1/team/${CATEGORY[sports]}`
+        );
+        setTeamList(res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getTeamList();
+  }, []);
+
+  useEffect(() => {
+    const dateString = `${selectedDate.getFullYear()}${(
+      "0" +
+      (selectedDate.getMonth() + 1)
+    ).slice(-2)}`;
+
+    // 날짜별 일정 가져오기
+    const getScheduleData = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5500/api/v1/schedule/day/${dateString}`
+        );
+        setScheduleData(res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    // 팀별 일정 가져오기
+    const getScheduleDataByTeamId = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5500/api/v1/schedule/${CATEGORY[sports]}/team`,
+          {
+            params: {
+              teamId: selectedTeamId,
+            },
+          }
+        );
+        setScheduleData(res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (selectedTeamId !== 0) {
+      getScheduleDataByTeamId();
+    } else {
+      getScheduleData();
+    }
+  }, [selectedDate, selectedTeamId]);
+
   return (
     <Container>
       <ScheduleContentContainer>
         <DateSelectContainer>
           <Button onClick={setPrevMonth}>
-            <ArrowButton size="large" rotate={true} />
+            <ArrowButton size="large" turn={true} />
           </Button>
           <DatePickerBox
             purpose="schedule"
