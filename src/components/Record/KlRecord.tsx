@@ -1,30 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styles from '../../styles/Record.module.scss'
-import rankData from './rankData.json';
-import teamData from './teamData.json';
 import RecordPage from '../../pages/RecordPage';
 import useRank from '../../hooks/useRank';
 
 const KlRecord = () => {
-    // const {defaultSeason, seasons, reFetch, teamData } = useRank(selectedSeason);
-    const { data } = useRank(teamData, rankData);
-    const [season, setSeason] = useState<string>('');
-    const [seasons, setSeasons] = useState<string[]>([]);
-    const [selectedSeason, setSelectedSeason] = useState("");
+    const { reFetch, data } = useRank();
 
+    // 선택한 시즌에 대한 데이터 불러오기
     const handleSeasonChange = (newSeason: string): void => {
-        setSelectedSeason(newSeason);
-        // reFetch();
+        console.log(newSeason)
+        reFetch(newSeason);
     }
-
-    // 시즌 중복 안되게 새 배열로 반환 후 첫번째 데이터 기본으로 선택
-    useEffect(() => {
-        if (data.length > 0) {
-            const seasons = Array.from(new Set(data.map(item => item.season)));
-            setSeason(seasons[0]);
-            setSeasons(seasons);
-        }
-    }, [data]);
 
     const headers = ['순위', '팀', '경기', '승', '무', '패', '득점', '실점', '득실차', '승점'];
     const headerElements = headers.map((header, index) => (
@@ -50,7 +36,7 @@ const KlRecord = () => {
     const datas = (
         <>
             {sortedData.map((team, index) => {
-                const { name, wins, drawns, losses, scored, conceded, points, img } = team;
+                const { team_name, wins, drawns, losses, scored, conceded, points, img } = team;
                 // 순위 계산
                 const rank = index + 1;
                 // 총 게임 수
@@ -58,9 +44,9 @@ const KlRecord = () => {
                 // 득실차 계산
                 const goalDifference = scored - conceded;
                 return (
-                    <tr key={name}>
+                    <tr key={team_name}>
                         <td className={styles.rank}>{rank}</td>
-                        <td className={styles.team}><img className={styles.teamImg} src={img} alt="" /><span>{name}</span></td>
+                        <td className={styles.team}><img className={styles.teamImg} src={img} alt="" /><span>{team_name}</span></td>
                         <td>{totalGames}</td>
                         <td>{wins}</td>
                         <td>{drawns}</td>
@@ -74,13 +60,10 @@ const KlRecord = () => {
             })}
         </>
     );
-    useEffect(() => {
-        console.log(selectedSeason)
-    }, [selectedSeason])
 
     return (
         <div>
-            <RecordPage headerTitle={headerElements} tbodyData={datas} seasons={seasons} firstSeason={season} selectedSeasonCallback={handleSeasonChange} />
+            <RecordPage headerTitle={headerElements} tbodyData={datas} selectedSeasonCallback={handleSeasonChange} />
         </div>
     )
 }

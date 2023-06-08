@@ -6,12 +6,10 @@ import RecordHeader from '../components/Record/RecordHeader';
 interface RecordTableProps {
     headerTitle: ReactNode[];
     tbodyData: ReactNode;
-    seasons: string[],
-    firstSeason: string,
     selectedSeasonCallback: (selectedSeason: string) => void
 };
 
-const RecordPage: FC<RecordTableProps> = ({ headerTitle, tbodyData, seasons, firstSeason, selectedSeasonCallback }) => {
+const RecordPage: FC<RecordTableProps> = ({ headerTitle, tbodyData, selectedSeasonCallback }) => {
 
     // 오늘 날짜 가져오기
     const today = new Date();
@@ -33,7 +31,7 @@ const RecordPage: FC<RecordTableProps> = ({ headerTitle, tbodyData, seasons, fir
         <>
             <Header />
             <Container>
-                <RecordHeader season={seasons} firstSeason={firstSeason} selectedSeasonCallback={selectedSeasonCallback} />
+                <RecordHeader selectedSeasonCallback={selectedSeasonCallback} />
                 <Todaydiv>※{date} 기준</Todaydiv>
                 <Table>
                     <colgroup>

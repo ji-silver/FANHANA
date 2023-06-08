@@ -19,11 +19,11 @@ function App() {
           <Route path="/register"></Route>
           <Route path="/mypage"></Route>
           <Route path="/soccer"></Route>
-          <Route path="/soccer/record" element={<KlRecord />}></Route>
+          <Route path="/soccer/record" element={<KlRecord />} />
           <Route path="/baseball"></Route>
-          <Route path="/baseball/record" element={<KboRecord />}></Route>
+          <Route path="/baseball/record" element={<KboRecord />} />
           <Route path="/esport"></Route>
-          <Route path="/esport/record" element={<LoLRecord />}></Route>
+          <Route path="/esport/record" element={<LoLRecord />} />
           <Route path="/shorts"></Route>
         </Routes>
       </Router>
