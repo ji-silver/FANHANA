@@ -9,7 +9,7 @@ import JoinPage from "./pages/join";
 import KlRecord from "./pages/Record/KlRecord";
 import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
-import Shorts from "./pages/Shorts";
+import Shorts from "./pages/shorts/shorts";
 
 function App() {
   return (
