@@ -1,28 +1,42 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 import Image from "../../components/common/Image";
 import ArrowButton from "../../components/common/Button/ArrowButton";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button/Button";
+import Comment from "../../components/common/Comment";
 
 interface CurShorts {
   id: string;
   title: string;
   hits: number;
   url: string;
+  // 카테고리가 어떤 값으로 오는지 한번 더 체크
+  category: string;
 }
 
-interface Comment {
-  id: string;
-  content: string;
-  image: string;
+// Comment 컴포넌트의 타입과 완전히 같은데 불러오는 방법 찾아보기???
+interface CommentType {
+  alt: string;
+  img: string;
+  nickname: string;
+  info: string;
+  date: string;
+  userId: number;
+  localSaveUserId: number;
+  clickHandler: () => void;
 }
 
 const Shorts: React.FC = () => {
-  const [curShorts, setCurShorts] = useState<any>();
-  const [comments, setComments] = useState<Comment[]>([]);
+  // 이전 페이지에서 category 값을 전달받아서 어디 카테고리에서 온 지 확인해 데이터를 불러온다.
+  const location = useLocation();
+  const previousCategory = location.state?.category;
+
+  const [curShorts, setCurShorts] = useState<CurShorts>();
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [commentsCount, setCommentsCount] = useState();
   const [input, setInput] = useState("");
 
@@ -31,7 +45,7 @@ const Shorts: React.FC = () => {
     try {
       const response = await axios.get(
         `http://localhost:5500/api/v1/shorts?category=${
-          category ? encodeURIComponent(category) : null
+          category ? encodeURIComponent(category) : ""
         }`
       );
       const shorts = response.data;
@@ -41,7 +55,7 @@ const Shorts: React.FC = () => {
     }
   };
 
-  // image에 해당하는 댓글을 가져오는 함수
+  // shorts에 해당하는 댓글을 가져오는 함수
   const getComments = async (shortsId: string) => {
     try {
       // ?shorts의 id는 어떻게 받을 것인가? query? 아니면 path?
@@ -57,6 +71,7 @@ const Shorts: React.FC = () => {
 
   // 이전 쇼츠를 가져오는 함수
   const preImage = () => {};
+
   // 다음 쇼츠를 가져오는 함수
   const nextImage = () => {};
 
@@ -64,6 +79,10 @@ const Shorts: React.FC = () => {
   const handleInputChange = (value: string) => {
     setInput(value);
   };
+
+  // 신고냐 삭제냐 로직
+  const handle = () => {};
+
   // 버튼을 클릭하면 input 값을 가지고 댓글 등록하는 로직 작성
   const handleComment = async () => {
     try {
@@ -75,7 +94,7 @@ const Shorts: React.FC = () => {
       const response = await axios.post(
         `http://localhost:5500/api/v1/comment`,
         {
-          content_category: "",
+          content_category: curShorts.category,
           id: curShorts.id,
           content: input,
         }
@@ -91,13 +110,8 @@ const Shorts: React.FC = () => {
     if (curShorts) {
       getComments(curShorts.id);
     } else {
-      const urlParams = new URLSearchParams(window.location.search);
-      console.log(urlParams);
-
-      const category = urlParams.get("category");
-
-      if (category) {
-        getShorts(category);
+      if (previousCategory) {
+        getShorts(previousCategory);
       } else {
         getShorts();
       }
@@ -120,14 +134,34 @@ const Shorts: React.FC = () => {
       </StyledShort>
 
       <StyledComment>
-        <TitleCover>
+        <CommentsHeader>
           <CommentsTitle>댓글</CommentsTitle>
           <CommentsCount>3{commentsCount}</CommentsCount>
-        </TitleCover>
+        </CommentsHeader>
         <CommentCover>
+          <Comment
+            alt="user"
+            img="https://cdn.pixabay.com/photo/2023/05/28/13/15/helicopter-8023696_640.jpg"
+            nickname="user"
+            info="댓글에는 이런 내용이 들어갈 예정입니다 확ㅇ"
+            date="2023-06-09"
+            localSaveUserId={0}
+            userId={0}
+            clickHandler={handle}
+          ></Comment>
+
           {/* 닫는 버튼(이건 크기에 따라 달라졌을 때 추가되는 걸로) */}
           {/* {comments.map((comment) => (
-            <Comment key={comment.id}>{comment.content}</Comment>
+            <Comment
+              alt={comment.user.nickname}
+              img={comment.user.img}
+              nickname={comment.user.nickname}
+              info={comment.content}
+              date={comment.date}
+              localSaveUserId={현재 유저의 id}
+              userId={comment.user.id}
+              clickHandler={"삭제하기"나 "신고하기" 이벤트}
+            />
           ))} */}
           {/* 댓글들
           // 댓글 => 전달받은 댓글 갯수만큼 댓글 컴포넌트에 담아 작성
@@ -164,17 +198,30 @@ const ShortsContainer = styled.main`
 const StyledShort = styled.div``;
 
 const StyledComment = styled.div`
-  width: 50%;
+  width: 450px;
   height: 640px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #efeafc;
+  border: 1px solid #efeafc;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
-  @media (max-width: 1200px) {
-    display: none;
+  transition: opacity 0.3s, width 0.3s, height 0.3s;
+
+  @media (max-width: 1400px) {
+    opacity: 0;
+    width: 0;
+  }
+
+  @media (min-width: 1400px) {
+    opacity: 1;
+    width: 450px;
+  }
+
+  @media (min-width: 2000px) {
+    width: 754px;
+    height: 1340px;
   }
 `;
 
@@ -184,18 +231,31 @@ const ImageCover = styled.div`
   background-color: black;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  @media (max-width: 1200px) {
+  transition: width 0.3s, height 0.3s;
+
+  @media (max-width: 1400px) {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
   }
+  @media (min-width: 2000px) {
+    width: 754px;
+    height: 1340px;
+  }
 `;
 
-const TitleCover = styled.div`
+const CommentCover = styled.div`
+  flex-grow: 20;
+  width: 90%;
+  overflow: auto;
+`;
+
+const CommentsHeader = styled.div`
   width: 90%;
   display: flex;
   justify-content: start;
   align-items: end;
   flex-grow: 1;
+  margin-bottom: 10px;
 `;
 
 const CommentsTitle = styled.p`
@@ -205,10 +265,6 @@ const CommentsTitle = styled.p`
 
 const CommentsCount = styled.p`
   font-size: 16px;
-`;
-
-const CommentCover = styled.div`
-  flex-grow: 20;
 `;
 
 const InputCover = styled.div`
