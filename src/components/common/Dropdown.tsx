@@ -75,16 +75,17 @@ const grey = {
 };
 
 const StyledButton = styled("button")<{ purpose?: string }>(
-  ({ purpose }) => `
+  ({ purpose }) =>
+    `
   font-size: 0.875rem;
   box-sizing: border-box;
   min-height: calc(1.5em + 18px);
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 4px;
   text-align: left;
   line-height: 1.5;
   background:  #fff;
-  border: 1px solid ${grey[200]};
+  border: 1px solid #C7C9D9;
   color: ${grey[900]};
 
   transition-property: all;
@@ -98,12 +99,20 @@ const StyledButton = styled("button")<{ purpose?: string }>(
 
   &.${selectClasses.expanded} {
     &::after {
-      content: '▴';
+      content: '∨';
+      transform: rotate(180deg);
+      font-weight:bold;
+      font-size: 16px;
+      color: #8F90A6;
     }
   }
-
   &::after {
-    content: '▾';
+    content: "∧";
+    transform: rotate(180deg);
+    font-weight:bold;
+    font-size: 16px;
+    color: #8F90A6;
+    margin: 0px 0px 0px 0px;
     float: right;
   }
 
@@ -144,7 +153,7 @@ const StyledListbox = styled("ul")<{ purpose?: string }>(
 const StyledOption = styled(Option)(`
   list-style: none;
   padding: 8px;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: default;
 
   &:last-of-type {
