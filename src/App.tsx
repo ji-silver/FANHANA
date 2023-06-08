@@ -7,6 +7,7 @@ import JoinPage from "./pages/join";
 import KlRecord from "./pages/Record/KlRecord";
 import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
+import MyShorts from "./pages/mypage/MyShorts";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/join" element={<JoinPage />}></Route>
           <Route path="/register"></Route>
-          <Route path="/mypage"></Route>
+          <Route path="/mypage" element={<MyShorts />}></Route>
           <Route path="/soccer"></Route>
           <Route path="/soccer/record" element={<KlRecord />}></Route>
           <Route path="/baseball"></Route>
