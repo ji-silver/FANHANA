@@ -21,6 +21,18 @@ const TableHeader = () => {
   );
 };
 
+const BoardBox = ({ data }) => {
+  return (
+    <BoardContainer>
+      <BoardTitle>{data.category}</BoardTitle>
+      <Table>
+        <TableHeader />
+        <PostList data={data.data} />
+      </Table>
+    </BoardContainer>
+  );
+};
+
 // @ts-expect-error
 const PostList = ({ data }) => {
   return (
@@ -43,38 +55,18 @@ const CommunityBox = () => {
   //카테고리별로 들어옴
   //allData soccerData baseballData eSportsData
 
+  const allData = communityData;
+
   return (
     <>
       <Community>
         <div className={styles.title}>오늘의 커뮤니티</div>
-        <BoardContainer>
-          <BoardTitle>최신글</BoardTitle>
-          <Table>
-            <TableHeader />
-            <PostList data={communityData} />
-          </Table>
-        </BoardContainer>
-        <BoardContainer>
-          <BoardTitle>최신글</BoardTitle>
-          <Table>
-            <TableHeader />
-            <PostList data={communityData} />
-          </Table>
-        </BoardContainer>
-        <BoardContainer>
-          <BoardTitle>최신글</BoardTitle>
-          <Table>
-            <TableHeader />
-            <PostList data={communityData} />
-          </Table>
-        </BoardContainer>
-        <BoardContainer>
-          <BoardTitle>최신글</BoardTitle>
-          <Table>
-            <TableHeader />
-            <PostList data={communityData} />
-          </Table>
-        </BoardContainer>
+        <PostListContainer>
+          <BoardBox data={allData} />
+          <BoardBox data={allData} />
+          <BoardBox data={allData} />
+          <BoardBox data={allData} />
+        </PostListContainer>
       </Community>
     </>
   );
@@ -92,7 +84,15 @@ const Community = styled.div`
   border-radius: 20px;
 `;
 
+const PostListContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 1190px;
+  height: 675px;
+`;
+
 const BoardContainer = styled.div`
+  flex-wrap: wrap;
   width: 550px;
   height: 250px;
   border: 1px solid #d9d9d9;
