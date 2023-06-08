@@ -1,5 +1,10 @@
-import React from "react";
-import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  Routes,
+  BrowserRouter as Router,
+  Route,
+  useActionData,
+} from "react-router-dom";
 
 import "./styles/App.css";
 import LoginPage from "./pages/login";
@@ -8,12 +13,23 @@ import KlRecord from "./pages/Record/KlRecord";
 import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
 
-import Test from "./components/common/board/test";
+import Dropdown from "./components/common/Dropdown";
+import category from "./category.json";
 
 function App() {
+  const [selectItem, setSelectItem] = useState("");
+
+  const dropdownSelect = (item: any) => {
+    console.log(item);
+  };
+
   return (
     <div className="App">
-      <Test/>
+      <Dropdown
+        items={category}
+        dropdownSelect={dropdownSelect}
+        purpose="small"
+      />
       <Router>
         <Routes>
           <Route path="/"></Route>
