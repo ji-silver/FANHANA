@@ -15,6 +15,9 @@ import LoLRecord from "./pages/Record/LoLRecord";
 
 import Dropdown from "./components/common/Dropdown";
 import category from "./category.json";
+import Input from "./components/common/Input";
+import Edit from "./pages/notice/Edit";
+import Detail from "./pages/notice/Detail";
 
 function App() {
   const [selectItem, setSelectItem] = useState("");
@@ -23,13 +26,12 @@ function App() {
     console.log(item);
   };
 
+
+
   return (
     <div className="App">
-      <Dropdown
-        items={category}
-        dropdownSelect={dropdownSelect}
-        purpose="small"
-      />
+        <Edit/>
+       <Detail/> 
       <Router>
         <Routes>
           <Route path="/"></Route>
