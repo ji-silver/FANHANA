@@ -50,11 +50,11 @@ const RecordPage: FC<RecordTableProps> = ({ headerTitle, tbodyData, selectedSeas
                     </Table>
                 </div>
 
-                <div>
+                {/* <div>
                     <Table>
-                        {/* <colgroup>
+                        <colgroup>
                             {colgroupElements}
-                        </colgroup> */}
+                        </colgroup>
                         <Thead>
                             <tr>
                                 {headerTitle}
@@ -62,7 +62,8 @@ const RecordPage: FC<RecordTableProps> = ({ headerTitle, tbodyData, selectedSeas
                         </Thead>
                         <Tbody>{tbodyData}</Tbody>
                     </Table>
-                </div>
+                </div> */}
+
             </Container>
         </>
     );
