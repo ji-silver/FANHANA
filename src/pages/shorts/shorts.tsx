@@ -10,12 +10,12 @@ import Button from "../../components/common/Button/Button";
 import Comment from "../../components/common/Comment";
 
 interface CurShorts {
-  id: string;
+  id: number;
   title: string;
-  hits: number;
-  url: string;
+  views: number;
+  src: string;
   // 카테고리가 어떤 값으로 오는지 한번 더 체크
-  category: string;
+  category: number;
 }
 
 // Comment 컴포넌트의 타입과 완전히 같은데 불러오는 방법 찾아보기???
@@ -30,18 +30,29 @@ interface CommentType {
   clickHandler: () => void;
 }
 
+interface ShortsListType {
+  id: number;
+  title: string;
+  src: string;
+  user_img: string;
+  nickname: string;
+  views: number;
+}
+
 const Shorts: React.FC = () => {
   // 이전 페이지에서 category 값을 전달받아서 어디 카테고리에서 온 지 확인해 데이터를 불러온다.
   const location = useLocation();
   const previousCategory = location.state?.category;
 
-  const [curShorts, setCurShorts] = useState<CurShorts>();
+  const [curShorts, setCurShorts] = useState<any>();
+  const [loading, setLoading] = useState(true);
+  const [shortsList, setShortsList] = useState([]);
   const [comments, setComments] = useState<CommentType[]>([]);
   const [commentsCount, setCommentsCount] = useState();
   const [input, setInput] = useState("");
 
-  // 쇼츠 불러오는 함수
-  const getShorts = async (category?: string) => {
+  // 최신순 불러오는 함수
+  const getShortsList = async (category?: string) => {
     try {
       const response = await axios.get(
         `http://localhost:5500/api/v1/shorts?category=${
@@ -49,18 +60,37 @@ const Shorts: React.FC = () => {
         }`
       );
       const shorts = response.data;
-      setCurShorts(shorts);
+      setShortsList(shorts);
+      return shorts;
     } catch (error) {
       console.error("Error fetching shorts:", error);
     }
   };
 
+  // 쇼츠 하나만 불러오는 함수
+  const getShorts = async (shortsId: number) => {
+    try {
+      const response = await axios.get(`http://localhost:5500/api/v1/shorts`, {
+        params: {
+          shortsId,
+        },
+      });
+      const shorts = response.data;
+      setCurShorts(shorts);
+    } catch (error) {}
+  };
+
   // shorts에 해당하는 댓글을 가져오는 함수
-  const getComments = async (shortsId: string) => {
+  const getComments = async (shortsId: number) => {
     try {
       // ?shorts의 id는 어떻게 받을 것인가? query? 아니면 path?
       const response = await axios.get(
-        `http://localhost:5500/api/v1/comment/list/:${shortsId}`
+        `http://localhost:5500/api/v1/comment/list`,
+        {
+          params: {
+            shortsId,
+          },
+        }
       );
       const comments = response.data;
       setComments(comments);
@@ -107,30 +137,53 @@ const Shorts: React.FC = () => {
 
   useEffect(() => {
     // curImage가 존재하면 현재 이미지의 id를 넘긴다.
+    setLoading(true);
+
     if (curShorts) {
       getComments(curShorts.id);
     } else {
       if (previousCategory) {
-        getShorts(previousCategory);
+        getShortsList(previousCategory)
+          .then((shorts) => {
+            console.log(shorts);
+            if (shorts.length > 0) {
+              const firstShortsId = shorts[0].id;
+              getShorts(firstShortsId);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching shorts:", error);
+          });
       } else {
-        getShorts();
+        getShortsList()
+          .then((shorts) => {
+            if (shorts.length > 0) {
+              const firstShortsId = shorts[0].id;
+              getShorts(firstShortsId);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching shorts:", error);
+          });
       }
     }
-  }, [curShorts]);
+
+    setLoading(false);
+  }, [curShorts, previousCategory]);
 
   return (
     <ShortsContainer>
-      <ArrowButton rotate={true}></ArrowButton>
+      <ArrowButton rotate={180}></ArrowButton>
       <StyledShort>
-        <ImageCover>
-          <Image
-            src={
-              "https://images.unsplash.com/photo-1682686578023-dc680e7a3aeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60"
-            }
-            // src={curShorts.url}
-            alt={"쇼츠입니다."}
-          ></Image>
-        </ImageCover>
+        {loading ? ( // Render "Loading..." when loading state is true
+          <p>Loading...</p>
+        ) : (
+          curShorts && (
+            <ImageCover>
+              <Image src={curShorts.src} alt={"쇼츠입니다."}></Image>
+            </ImageCover>
+          )
+        )}
       </StyledShort>
 
       <StyledComment>
@@ -181,7 +234,7 @@ const Shorts: React.FC = () => {
           </ButtonContainer>
         </InputCover>
       </StyledComment>
-      <ArrowButton></ArrowButton>
+      <ArrowButton rotate={0}></ArrowButton>
     </ShortsContainer>
   );
 };
@@ -285,4 +338,9 @@ const InputContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   height: 50px;
+`;
+
+const LoadingMessage = styled.p`
+  width: 100px;
+  height: 100px;
 `;
