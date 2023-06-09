@@ -89,6 +89,7 @@ const ScheduleBox = () => {
   };
 
   //날짜당 데이터 받아옴
+  // @ts-expect-error
   const getSceduleData = async (date) => {
     try {
       const res = await axios.get(
