@@ -98,7 +98,8 @@ const grey = {
 };
 
 const StyledButton = styled("button")<{ purpose?: string }>(
-  ({ purpose }) => `
+  ({ purpose }) =>
+    `
   font-size: 0.875rem;
   box-sizing: border-box;
   min-height: calc(1.5em + 18px);
@@ -175,7 +176,7 @@ const StyledListbox = styled("ul")<{ purpose?: string }>(
 const StyledOption = styled(Option)(`
   list-style: none;
   padding: 8px;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: default;
 
   &:last-of-type {
