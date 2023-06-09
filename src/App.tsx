@@ -14,18 +14,9 @@ import KlRecord from "./pages/Record/KlRecord";
 import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
 
-import Dropdown from "./components/common/Dropdown";
-
 function App() {
-  const [selectItem, setSelectItem] = useState("");
-
-  const dropdownSelect = (item: any) => {
-    console.log(item);
-  };
-
   return (
     <div className="App">
-      <Dropdown allCategory dropdownSelect={dropdownSelect} purpose="middle" />
       <Router>
         <Routes>
           <Route path="/"></Route>
