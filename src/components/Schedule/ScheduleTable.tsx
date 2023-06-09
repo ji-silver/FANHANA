@@ -1,11 +1,11 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { format } from "date-fns";
 
 import {
   getDaysInMonthArr,
   isSameDate,
   formatDateForTable,
-  formatDate,
 } from "../../utils/date";
 import TeamMatch from "./TeamMatch";
 import { Schedule } from "../../pages/SchedulePage";
@@ -65,7 +65,10 @@ const ScheduleTable = ({ year, month, scheduleData }: ScheduleTableProps) => {
                     className="date"
                     scope="row"
                     isToday={isToday}
-                    data-date={formatDate(new Date(year, month - 1, date))}
+                    data-date={format(
+                      new Date(year, month - 1, date),
+                      "yyyyMMdd"
+                    )}
                   >
                     <span>
                       {formatDateForTable(`${year}-${month}-${date}`)}

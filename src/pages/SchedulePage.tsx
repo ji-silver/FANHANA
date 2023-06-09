@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { format } from "date-fns";
 
 import DatePickerBox from "../components/common/DatePickerBox/DatePickerBox";
 import TeamList from "../components/Schedule/TeamList";
 import ScheduleTable from "../components/Schedule/ScheduleTable";
 import ArrowButton from "../components/common/Button/ArrowButton";
-import { formatDate } from "../utils/date";
 
 export interface Team {
   id: number;
@@ -126,7 +126,7 @@ const SchedulePage = () => {
   useEffect(() => {
     const scrollToSelectedDate = () => {
       const target = document.querySelector(
-        `[data-date="${formatDate(selectedDate)}"]`
+        `[data-date="${format(selectedDate, "yyyyMMdd")}"]`
       );
 
       if (target) {
