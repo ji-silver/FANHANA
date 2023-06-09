@@ -4,12 +4,6 @@ import styled from "styled-components";
 import Navbar from './Navbar';
 import Profile from '../Profile/Profile';
 
-// 닉네임 가져오기
-// const currentUser = {
-//     nickname: '지은',
-//     img: 'profile.jpg'
-// };
-
 const Header = () => {
 
     return (
@@ -28,7 +22,7 @@ const Header = () => {
                         <NavLink to="/login">
                             <Button>로그인</Button>
                         </NavLink>
-                        <NavLink to="/join">
+                        <NavLink to="/register">
                             <Button>회원가입</Button>
                         </NavLink>
                     </div>
@@ -43,12 +37,15 @@ export default Header
 
 const HeaderContainer = styled.div`
     position: relative;
-    padding-bottom: 30px;
 `
 
 const HeaderTop = styled.div`
     width: 100vw;
     height: 60px;
+
+    @media (max-width: 768px) {
+        height: 45px;
+    }
 `
 
 const HeaderWrap = styled.div`
@@ -58,6 +55,10 @@ const HeaderWrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 768px) {
+        padding: 0 15px;
+    }
 `
 
 const Button = styled.button`
@@ -66,6 +67,10 @@ const Button = styled.button`
     cursor: pointer;
     padding: 5px 10px;
     font-size: 16px;
+
+    @media (max-width: 768px) {
+        display: none;
+    }
 `
 
 const Logo = styled.div`
@@ -77,12 +82,17 @@ const Logo = styled.div`
 const LogoImg = styled.img`
     width: 25px;
     height: auto;
+    @media (max-width: 768px) {
+        width: 20px;
+    }
 `
 
 const LogoText = styled.span`
   font-size: 20px;
   font-weight: bold;
   padding-left: 5px;
+
+  
 `;
 
 const NavLink = styled(Link)`
