@@ -44,12 +44,14 @@ function MyWrite() {
           <p className="favorite">
             선호종목 : <span>{favoriteOptions[favorite]}</span>
           </p>
-          <Button
-            disabled={false}
-            purpose="base"
-            content="로그아웃"
-            // onClick={}
-          />
+          <div style={{ width: 100, height: 40, margin:'0 auto' }}>
+            <Button
+              disabled={false}
+              purpose="base"
+              content="로그아웃"
+              // onClick={}
+            />
+          </div>
         </MyProfile>
         <MyContent>
           <TabMenu />

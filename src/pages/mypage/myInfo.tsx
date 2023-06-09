@@ -1,110 +1,128 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const MyInfo = () => {
-  // 사용자 정보를 가져올 때 로컬스토리지에서 읽어온다고 가정합니다.
-  const userInfoFromLocalStorage = {
-    email: "user@example.com",
-    nickname: "JohnDoe",
-    phone: "010-1234-5678",
-    favoriteSport: "Football",
-  };
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    nickname: "",
+    phone: "",
+    favoriteSport: "",
+  });
 
   const [editing, setEditing] = useState(false);
-  const [nickname, setNickname] = useState(userInfoFromLocalStorage.nickname);
-  const [phone, setPhone] = useState(userInfoFromLocalStorage.phone);
-  const [favoriteSport, setFavoriteSport] = useState(
-    userInfoFromLocalStorage.favoriteSport
-  );
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get("http://localhost:5500/api/v1/user/1");
+      const data = response.data;
+      setUserInfo(data);
+    } catch (error) {
+      console.log("불러오기 실패 왜 안나오냐고라ㅓㄹ아ㅓ랑런ㄹㄴ아ㅓ", error);
+    }
+  };
 
   const handleNicknameChange = (e:any) => {
-    setNickname(e.target.value);
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo,
+      nickname: e.target.value,
+    }));
   };
 
   const handlePhoneChange = (e:any) => {
-    setPhone(e.target.value);
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo,
+      phone: e.target.value,
+    }));
   };
 
   const handleFavoriteSportChange = (e:any) => {
-    setFavoriteSport(e.target.value);
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo,
+      favoriteSport: e.target.value,
+    }));
   };
 
   const handleEditClick = () => {
     setEditing(true);
   };
 
-  const handleSaveClick = () => {
-    // 여기서는 간단히 콘솔에 업데이트된 정보를 출력합니다.
-    console.log("Updated User Info:", {
-      nickname,
-      phone,
-      favoriteSport,
-    });
-    // 실제로는 서버로 업데이트 요청을 보낼 수 있습니다.
+  const handleSaveClick = async () => {
+    try {
+      // 정보수정
+      await axios.put("http://localhost:5500/api/v1/user/1", userInfo);
+      console.log("수정", userInfo);
+    } catch (error) {
+      console.log("수정실패", error);
+    }
 
     setEditing(false);
   };
 
   return (
     <div>
-      <h2>User Profile</h2>
-      <table>
+      <h2>유저정보</h2>
+      <table style={{textAlign: "left"}}>
         <tbody>
           <tr>
-            <th>Email</th>
-            <td>{userInfoFromLocalStorage.email}</td>
+            <th>이메일</th>
+            <td>{userInfo.email} : 이게 이메일 근데 왜 안나오냐고</td>
           </tr>
           <tr>
-            <th>Nickname</th>
+            <th>닉네임</th>
             <td>
               {editing ? (
                 <input
                   type="text"
-                  value={nickname}
+                  value={userInfo.nickname}
                   onChange={handleNicknameChange}
                 />
               ) : (
-                nickname
+                userInfo.nickname
               )}
             </td>
           </tr>
           <tr>
-            <th>Phone</th>
+            <th>핸드폰</th>
             <td>
               {editing ? (
                 <input
                   type="text"
-                  value={phone}
+                  value={userInfo.phone}
                   onChange={handlePhoneChange}
                 />
               ) : (
-                phone
+                userInfo.phone
               )}
             </td>
           </tr>
           <tr>
-            <th>Favorite Sport</th>
+            <th>선호종목</th>
             <td>
               {editing ? (
                 <select
-                  value={favoriteSport}
+                  value={userInfo.favoriteSport}
                   onChange={handleFavoriteSportChange}
                 >
-                  <option value="Football">Football</option>
-                  <option value="Basketball">Basketball</option>
-                  <option value="Tennis">Tennis</option>
-                  <option value="Baseball">Baseball</option>
+                  <option value="">선호 종목을 선택하세요</option>
+                  <option value="0">축구</option>
+                  <option value="1">야구</option>
+                  <option value="2">롤</option>
                 </select>
               ) : (
-                favoriteSport
+                userInfo.favoriteSport
               )}
             </td>
           </tr>
         </tbody>
       </table>
       {editing ? (
-        <button onClick={handleSaveClick}>Save</button>
+        <button onClick={handleSaveClick}>저장</button>
       ) : (
-        <button onClick={handleEditClick}>Edit</button>
+        <button onClick={handleEditClick}>수정</button>
       )}
     </div>
   );
