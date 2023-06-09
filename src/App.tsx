@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Routes,
   BrowserRouter as Router,
@@ -14,7 +14,6 @@ import KboRecord from "./pages/Record/KboRecord";
 import LoLRecord from "./pages/Record/LoLRecord";
 
 import Dropdown from "./components/common/Dropdown";
-import category from "./category.json";
 
 function App() {
   const [selectItem, setSelectItem] = useState("");
@@ -25,11 +24,7 @@ function App() {
 
   return (
     <div className="App">
-      <Dropdown
-        items={category}
-        dropdownSelect={dropdownSelect}
-        purpose="small"
-      />
+      <Dropdown allCategory dropdownSelect={dropdownSelect} purpose="small" />
       <Router>
         <Routes>
           <Route path="/"></Route>

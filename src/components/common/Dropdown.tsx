@@ -3,37 +3,64 @@ import Select, { SelectProps, selectClasses } from "@mui/base/Select";
 import Option, { optionClasses } from "@mui/base/Option";
 import Popper from "@mui/base/Popper";
 import { styled } from "@mui/system";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface Items {
-  _id: number | string;
+  id: number;
   name: string;
-  value?: string;
 }
 
 interface Props {
-  items: Items[];
+  allCategory?: boolean;
   purpose: "small" | "middle" | "large";
   dropdownSelect: (selectedItem: Items | null) => void;
 }
 
-const Dropdown: React.FC<Props> = ({ items, purpose, dropdownSelect }) => {
-  // @ts-expect-error
-  const [selected, setSelected] = React.useState<Items | null>(items[0]._id);
+const Dropdown: React.FC<Props> = ({
+  allCategory,
+  purpose,
+  dropdownSelect,
+}) => {
+  const [selected, setSelected] = React.useState<any>(allCategory ? 4 : 0);
+  const [category, setCategory] = useState<Items[]>([]);
 
-  dropdownSelect(selected);
+  useEffect(() => {
+    dropdownSelect(selected);
+  }, [selected]);
+
+  useEffect(() => {
+    const getCategory = async () => {
+      try {
+        const res = await axios.get("http://localhost:5500/api/v1/category");
+        const categoryData = res.data.data;
+
+        if (allCategory) {
+          categoryData.unshift({
+            id: 4,
+            name: "전체",
+          });
+        }
+        const newData = [...categoryData];
+        setCategory(newData);
+        console.log("category", category);
+      } catch (error) {
+        console.error("카테고리 데이터 불러오는거 실패함", error);
+      }
+    };
+    getCategory();
+  }, []);
 
   return (
     <div>
       <CustomSelect
         value={selected}
-        // @ts-expect-error
         onChange={(event, newValue) => setSelected(newValue)}
         // @ts-expect-error
         purpose={purpose}
       >
-        {items.map((item, index) => (
-          <StyledOption key={index} value={item._id}>
+        {category.map((item, index) => (
+          <StyledOption key={index} value={item.id}>
             {item.name}
           </StyledOption>
         ))}
