@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TableList from "../../components/common/TableList";
+import MyInfo from "./myInfo";
 import Header from "../../components/common/Header/Header";
 
 import Button from "./../../components/common/Button/Button";
@@ -162,8 +163,8 @@ const TabMenu: React.FC = () => {
         {activeTab === 0 && (
           <Tab label="Tab 1">
             <p>작성글 보기</p>
-            <TableList show="all" data={dummyPosts}/>
-            <TableList show="my" data={dummyPosts}/>
+            <TableList show="all" data={dummyPosts} />
+            <TableList show="my" data={dummyPosts} />
           </Tab>
         )}
         {activeTab === 1 && (
@@ -171,7 +172,11 @@ const TabMenu: React.FC = () => {
             <p>내 동영상</p>
           </Tab>
         )}
-        {activeTab === 2 && <Tab label="Tab 3">내정보</Tab>}
+        {activeTab === 2 && (
+          <Tab label="Tab 3">
+            <MyInfo />
+          </Tab>
+        )}
       </TabContentWrapper>
     </TabMenuWrapper>
   );
