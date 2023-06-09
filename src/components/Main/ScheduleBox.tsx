@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { format } from "date-fns";
+import axios from "axios";
 
 import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
@@ -87,7 +88,23 @@ const ScheduleBox = () => {
     return setSelectCategory(targetId);
   };
 
+  //날짜당 데이터 받아옴
+  const getSceduleData = async (date) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5500/api/v1/schedule/day/${date}`
+      );
+      setDateData(res.data);
+    } catch (error) {
+      console.error("경기순위 불러오는거 실패함", error);
+    }
+  };
+
   //선택한 날짜가 바뀔 때 마다 날짜 데이터 받아와서 dateData 업데이트
+  useEffect(() => {
+    getSceduleData(selectedDate);
+    console.log(dateData);
+  }, [selectedDate]);
 
   useEffect(() => {
     //선택한 카테고리가 바뀔 때 마다 categoryData 업데이트

@@ -29,14 +29,11 @@ const RankBox = () => {
   const [targetCatrgory, setTargetCatrgory] = useState(category[0]);
   const [data, setData] = useState<Rank[]>([]);
 
-  const SEASON = "2023 Season";
-
   //시즌별 팀 순위 받아옴
-  //5개까지 자르기
-  const getRankData = async (category) => {
+  const getRankData = async (category: any) => {
     try {
       const res = await axios.get(
-        `http://localhost:5500/api/v1/rank/${category}/${SEASON}`
+        `http://localhost:5500/api/v1/rank/1/2023 Season`
       );
       setData(res.data);
     } catch (error) {
@@ -72,6 +69,7 @@ const RankBox = () => {
     });
     // @ts-expect-error
     teamsWithWinRate.sort((a, b) => b.winRate - a.winRate);
+    //정렬한거 자르는 코드 구현필요
     return teamsWithWinRate;
   };
 
