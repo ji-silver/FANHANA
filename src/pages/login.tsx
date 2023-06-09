@@ -7,6 +7,7 @@ import axios from "axios";
 import userData from "./userData";
 import Input from "./../components/common/Input";
 import Button from "./../components/common/Button/Button";
+import Header from "./../components/common/Header/Header";
 
 interface AccountBox {
   login: string;
@@ -39,42 +40,50 @@ const LoginPage: React.FC = () => {
   };
 
   const handleLogin = () => {
-    axios.post('http://localhost:5500/api/v1/auth/logIn', { email, password })
-      .then(response => {
+    axios
+      .post("http://localhost:5500/api/v1/auth/logIn", { email, password })
+      .then((response) => {
         // 로그인 성공
         console.log("로그인 되었습니다.");
       })
-      .catch(error => {
+      .catch((error) => {
         // 로그인 실패
         alert("잘못된 계정 또는 존재하지 않는 계정입니다.");
-        //window.location.reload();
+        window.location.reload();
       });
   };
 
   return (
-    <section>
-      <AccountBox login="login">
-        <AccountIntro />
-        <div className="accountForm">
-          <h2 className="title">로그인</h2>
-          <article style={{ marginBottom: "30px" }}>
-            <p style={{ marginBottom: "15px" }}>이메일</p>
-            <Input type="text" value={email} onChange={handleEmailChange} />
-            <p style={{ margin: "30px 0 15px 0" }}>비밀번호</p>
-            <Input type="password" value={password} onChange={handlePasswordChange} />
-          </article>
-          <Button
-            disabled={false}
-            purpose="base"
-            content="로그인"
-            onClick={handleLogin}
-          />
-          <p className="goJoin">
-            아직 회원이 아니세요? <Link to="/join">회원가입</Link>
-          </p>
-        </div>
-      </AccountBox>
-    </section>
+    <>
+      <Header />
+      <section>
+        <AccountBox login="login">
+          <AccountIntro />
+          <div className="accountForm">
+            <h2 className="title">로그인</h2>
+            <article style={{ marginBottom: "30px" }}>
+              <p style={{ marginBottom: "15px" }}>이메일</p>
+              <Input type="text" value={email} onChange={handleEmailChange} />
+              <p style={{ margin: "30px 0 15px 0" }}>비밀번호</p>
+              <Input
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </article>
+            <Button
+              disabled={false}
+              purpose="base"
+              content="로그인"
+              onClick={handleLogin}
+            />
+            <p className="goJoin">
+              아직 회원이 아니세요? <Link to="/join">회원가입</Link>
+            </p>
+          </div>
+        </AccountBox>
+      </section>
+    </>
   );
 };
 

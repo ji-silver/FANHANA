@@ -7,9 +7,11 @@ import "./../styles/login.css";
 
 import Button from "./../components/common/Button/Button";
 import Input from "./../components/common/Input";
+import Header from "./../components/common/Header/Header";
 import userData from "./userData"; //임시데이터
 
 const JoinPage: React.FC = () => {
+  //나중에 하나로 정리하기
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,6 +23,7 @@ const JoinPage: React.FC = () => {
   const navigate = useNavigate();
 
   // 회원가입 요청을 보내는 함수
+  // 문서좀 제대로 읽기
   const registerUser = () => {
     axios
       .post("http://localhost:5500/api/v1/auth/register", {
@@ -29,7 +32,7 @@ const JoinPage: React.FC = () => {
         interest,
         nickname,
         phone,
-        avatar: avatarId,
+        img: avatarId,
         role: 0,
       })
       .then((response) => {
@@ -45,12 +48,6 @@ const JoinPage: React.FC = () => {
       })
       .catch((error) => {
         console.error("회원가입 실패:", error);
-        console.log("이메일:", email);
-        console.log("비밀번호:", password);
-        console.log("선호종목:", interest);
-        console.log("닉네임:", nickname);
-        console.log("핸드폰:", phone);
-        console.log("아바타 ID:", avatarId);
         alert("회원가입에 실패했습니다. 다시 시도해주세요.");
       });
   };
@@ -87,90 +84,93 @@ const JoinPage: React.FC = () => {
   };
 
   return (
-    <section>
-      <AccountBox login="join">
-        <AccountIntro />
-        <div className="accountForm">
-          <h2 className="title">회원가입</h2>
-          <StyledArticle>
-            <ul>
-              <li>
-                {/* 이메일 입력 */}
-                <p className="inputField">이메일</p>
-                <Input type="email" value={email} onChange={setEmail} />
-                {errorMessage && errorMessage.includes("이메일") && (
-                  <ErrorMessage>{errorMessage}</ErrorMessage>
-                )}
-              </li>
-              <li>
-                {/* 비밀번호 입력 */}
-                <p className="inputField">비밀번호</p>
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={setPassword}
-                />
-              </li>
-              {/* 비밀번호 확인 입력 */}
-              <li>
-                <p className="inputField">비밀번호 확인</p>
-                <Input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={setConfirmPassword}
-                />
-                {errorMessage && errorMessage.includes("비밀번호") && (
-                  <ErrorMessage>{errorMessage}</ErrorMessage>
-                )}
-              </li>
-              <li>
-                {/* 선호종목 입력 */}
-                <p className="inputField">선호종목</p>
-                <select
-                  value={interest}
-                  onChange={(e) => setInterest(e.target.value)}
-                >
-                  <option value="">선호 종목을 선택하세요</option>
-                  <option value="0">축구</option>
-                  <option value="1">야구</option>
-                  <option value="2">롤</option>
-                </select>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                {/* 닉네임 입력 */}
-                <p className="inputField">닉네임</p>
-                <Input type="text" value={nickname} onChange={setNickname} />
-              </li>
-              <li>
-                {/* 핸드폰 입력 */}
-                <p className="inputField">핸드폰</p>
-                <Input type="text" value={phone} onChange={setPhone} />
-              </li>
-              <li>
-                {/* 프로필 아바타 입력 */}
-                <p className="inputField">프로필아바타</p>
-                <Gallery
-                  onAvatarChange={(selectedImage: Image) =>
-                    setAvatarId(selectedImage.id)
-                  }
-                />
-              </li>
-            </ul>
-          </StyledArticle>
-          <Button
-            disabled={false}
-            purpose="base"
-            content="회원가입"
-            onClick={handleRegister}
-          />
-          <p className="goJoin">
-            이미 회원이세요? <Link to="/login">로그인</Link>
-          </p>
-        </div>
-      </AccountBox>
-    </section>
+    <>
+      <Header />
+      <section>
+        <AccountBox login="join">
+          <AccountIntro />
+          <div className="accountForm">
+            <h2 className="title">회원가입</h2>
+            <StyledArticle>
+              <ul>
+                <li>
+                  {/* 이메일 입력 */}
+                  <p className="inputField">이메일</p>
+                  <Input type="email" value={email} onChange={setEmail} />
+                  {errorMessage && errorMessage.includes("이메일") && (
+                    <ErrorMessage>{errorMessage}</ErrorMessage>
+                  )}
+                </li>
+                <li>
+                  {/* 비밀번호 입력 */}
+                  <p className="inputField">비밀번호</p>
+                  <Input
+                    type="password"
+                    value={password}
+                    onChange={setPassword}
+                  />
+                </li>
+                {/* 비밀번호 확인 입력 */}
+                <li>
+                  <p className="inputField">비밀번호 확인</p>
+                  <Input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={setConfirmPassword}
+                  />
+                  {errorMessage && errorMessage.includes("비밀번호") && (
+                    <ErrorMessage>{errorMessage}</ErrorMessage>
+                  )}
+                </li>
+                <li>
+                  {/* 선호종목 입력 */}
+                  <p className="inputField">선호종목</p>
+                  <select
+                    value={interest}
+                    onChange={(e) => setInterest(e.target.value)}
+                  >
+                    <option value="">선호 종목을 선택하세요</option>
+                    <option value="0">축구</option>
+                    <option value="1">야구</option>
+                    <option value="2">롤</option>
+                  </select>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  {/* 닉네임 입력 */}
+                  <p className="inputField">닉네임</p>
+                  <Input type="text" value={nickname} onChange={setNickname} />
+                </li>
+                <li>
+                  {/* 핸드폰 입력 */}
+                  <p className="inputField">핸드폰</p>
+                  <Input type="text" value={phone} onChange={setPhone} />
+                </li>
+                <li>
+                  {/* 프로필 아바타 입력 */}
+                  <p className="inputField">프로필아바타</p>
+                  <Gallery
+                    onAvatarChange={(selectedImage: Image) =>
+                      setAvatarId(selectedImage.id)
+                    }
+                  />
+                </li>
+              </ul>
+            </StyledArticle>
+            <Button
+              disabled={false}
+              purpose="base"
+              content="회원가입"
+              onClick={handleRegister}
+            />
+            <p className="goJoin">
+              이미 회원이세요? <Link to="/login">로그인</Link>
+            </p>
+          </div>
+        </AccountBox>
+      </section>
+    </>
   );
 };
 //입력폼 스타일드 컴포넌트
