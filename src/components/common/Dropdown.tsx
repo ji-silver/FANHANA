@@ -68,7 +68,6 @@ const Dropdown: React.FC<Props> = ({
     </div>
   );
 };
-
 const CustomSelect = React.forwardRef(function CustomSelect<
   TValue extends {},
   Multiple extends boolean
@@ -78,10 +77,7 @@ const CustomSelect = React.forwardRef(function CustomSelect<
 ) {
   const slots: SelectProps<TValue, Multiple>["slots"] = {
     root: StyledButton,
-    listbox: (listboxProps) => (
-      // @ts-expect-error
-      <StyledListbox {...listboxProps} purpose={props.purpose} ref={ref} />
-    ),
+    listbox: StyledListbox,
     popper: StyledPopper,
     ...props.slots,
   };

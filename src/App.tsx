@@ -25,7 +25,7 @@ function App() {
 
   return (
     <div className="App">
-      <Dropdown allCategory dropdownSelect={dropdownSelect} purpose="small" />
+      <Dropdown allCategory dropdownSelect={dropdownSelect} purpose="middle" />
       <Router>
         <Routes>
           <Route path="/"></Route>
