@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import styles from "../../styles/main.module.scss";
-import shortsData from "./shortsData.json";
+import shortsData from "./Dummy/shortsData.json";
 
 interface Data {
   id: number;

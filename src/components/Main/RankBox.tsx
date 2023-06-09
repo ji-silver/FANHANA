@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import styles from "../../styles/main.module.scss";
-import rankData from "./rankData.json";
+import rankData from "./Dummy/rankData.json";
 import teamData from "../../pages/Record/teamData.json";
-import category from "./category.json";
+import category from "./Dummy/category.json";
 
 interface Team {
   _id: string;

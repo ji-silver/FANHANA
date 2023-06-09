@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import styles from "../../styles/main.module.scss";
-import communityData from "./communityData.json";
+import communityData from "./Dummy/communityData.json";
 
 interface Data {
   id: number;

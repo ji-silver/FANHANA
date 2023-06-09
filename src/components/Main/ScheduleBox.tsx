@@ -4,8 +4,8 @@ import { format } from "date-fns";
 
 import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
-import matchData from "./matchData.json";
-import category from "./category.json";
+import matchData from "./Dummy/matchData.json";
+import category from "./Dummy/category.json";
 
 interface Team {
   _id: string;
