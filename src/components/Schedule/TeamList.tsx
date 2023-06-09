@@ -26,9 +26,9 @@ const TeamList = ({
   const settings = {
     dots: false,
     infinite: false,
-    speed: 500,
-    slidesToShow: teamList.length + 1,
-    slidesToScroll: teamList.length + 1,
+    speed: 1500,
+    slidesToShow: teamList.length > 6 ? 6 : teamList.length,
+    slidesToScroll: teamList.length > 6 ? 6 : teamList.length,
     prevArrow: (
       <PrevButton onClick={() => slickRef.current?.slickPrev()}>
         <ArrowButton size="small" turn={true} />
@@ -98,6 +98,9 @@ const StyledSlider = styled(Slider)`
   .slick-prev:before,
   .slick-next:before {
     content: "";
+  }
+  .slick-track {
+    margin: 0;
   }
 `;
 
