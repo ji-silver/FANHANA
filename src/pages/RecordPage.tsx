@@ -75,7 +75,7 @@ const Container = styled.div`
     position: relative;
     padding: 0 162px 30px 162px;
 
-    @media all and (max-width:767px) {
+    @media (max-width: 768px) {
         padding: 0;
     }
 `
@@ -88,7 +88,7 @@ const TodayDivDesktop = styled.div`
     padding: 20px 0;
     text-align: right;
 
-    @media all and (max-width: 767px) {
+    @media (max-width: 768px) {
     display: none;
   }
 `
@@ -96,7 +96,7 @@ const TodayDivDesktop = styled.div`
 const TodayDivMobile = styled.div`
     display: none;
 
-    @media all and (max-width:767px) {
+    @media (max-width: 768px) {
         position: absolute;
         display: block;
         padding: 0;
@@ -122,7 +122,7 @@ const Thead = styled.thead`
         vertical-align: middle;
     }
 
-    @media all and (max-width:767px) {
+    @media (max-width: 768px) {
         height: 40px;
     }
 `
