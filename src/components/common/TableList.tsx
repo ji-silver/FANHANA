@@ -115,6 +115,7 @@ export default TableList;
 all : 전체 게시글 목록
 my : 내가 작성한 글 목록
 
+data props로 데이터 전달
 <TableList show="all" data={}/>
 <TableList show="my" data={}/>
 */
