@@ -16,7 +16,6 @@ const Input: React.FC<InputStyledProps> = ({
     const newValue = e.target.value;
     onChange(newValue);
   };
-
   return <StyledInput type={type} value={value} onChange={handleChange} />;
 };
 
