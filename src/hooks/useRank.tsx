@@ -15,14 +15,12 @@ interface Team {
     points: number;
 }
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
 const useRank = () => {
-    const url = BASE_URL;
+    const url = "http://localhost:5500/api/v1";
     const location = useLocation();
 
     const path = location.pathname.split("/")[1];
-    // 축구: 1, 야구: 2, 롤: 3
+    // 축구: 0, 야구: 1, 롤: 2
     const initCategory = path === 'soccer' ? '0' : path === 'baseball' ? '1' : path === 'esport' ? '2' : '';
 
     const [category, setCategory] = useState(initCategory);

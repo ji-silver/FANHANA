@@ -1,6 +1,5 @@
 import React, { ReactNode, FC } from 'react'
 import styled from "styled-components";
-import Header from '../components/common/Header/Header';
 import RecordHeader from '../components/Record/RecordHeader';
 
 interface RecordTableProps {
@@ -13,7 +12,10 @@ const RecordPage: FC<RecordTableProps> = ({ headerTitle, tbodyData, selectedSeas
 
     // 오늘 날짜 가져오기
     const today = new Date();
-    const date = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+
 
     const generateCols = (length: number) => {
         const cols = new Array(length).fill("5%");
@@ -27,23 +29,40 @@ const RecordPage: FC<RecordTableProps> = ({ headerTitle, tbodyData, selectedSeas
     const cols = generateCols(headerTitle.length);
     const colgroupElements = cols.map((colWidth, index) => <col key={index} width={colWidth} />);
 
+
     return (
         <>
-            <Header />
             <Container>
                 <RecordHeader selectedSeasonCallback={selectedSeasonCallback} />
-                <Todaydiv>※{date} 기준</Todaydiv>
-                <Table>
-                    <colgroup>
-                        {colgroupElements}
-                    </colgroup>
-                    <Thead>
-                        <tr>
-                            {headerTitle}
-                        </tr>
-                    </Thead>
-                    <Tbody>{tbodyData}</Tbody>
-                </Table>
+                <TodayDivDesktop>※{year}년 {month}월 {day}일 기준</TodayDivDesktop>
+                <TodayDivMobile>{('' + year).slice(-2)}.{month < 10 ? '0' + month : month}.{day < 10 ? '0' + day : day}</TodayDivMobile>
+                <div>
+                    <Table>
+                        <colgroup>
+                            {colgroupElements}
+                        </colgroup>
+                        <Thead>
+                            <tr>
+                                {headerTitle}
+                            </tr>
+                        </Thead>
+                        <Tbody>{tbodyData}</Tbody>
+                    </Table>
+                </div>
+
+                <div>
+                    <Table>
+                        {/* <colgroup>
+                            {colgroupElements}
+                        </colgroup> */}
+                        <Thead>
+                            <tr>
+                                {headerTitle}
+                            </tr>
+                        </Thead>
+                        <Tbody>{tbodyData}</Tbody>
+                    </Table>
+                </div>
             </Container>
         </>
     );
@@ -54,14 +73,36 @@ export default RecordPage;
 const Container = styled.div`
     position: relative;
     padding: 0 162px 30px 162px;
+
+    @media all and (max-width:767px) {
+        padding: 0;
+    }
 `
 
-const Todaydiv = styled.div`
+const TodayDivDesktop = styled.div`
+    display: block;
     position: relative;
     width: 100%;
     margin: 0 auto;
     padding: 20px 0;
     text-align: right;
+
+    @media all and (max-width: 767px) {
+    display: none;
+  }
+`
+
+const TodayDivMobile = styled.div`
+    display: none;
+
+    @media all and (max-width:767px) {
+        position: absolute;
+        display: block;
+        padding: 0;
+        top: 17px;
+        right: 10px;
+        text-align: right;
+    }
 `
 
 const Table = styled.table`
@@ -78,6 +119,10 @@ const Thead = styled.thead`
 
     th {
         vertical-align: middle;
+    }
+
+    @media all and (max-width:767px) {
+        height: 40px;
     }
 `
 

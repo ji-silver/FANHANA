@@ -52,7 +52,7 @@ const LoLRecord = () => {
                 return (
                     <tr key={team_name}>
                         <td className={styles.rank}>{rank}</td>
-                        <td className={styles.team}><img className={styles.teamImg} src={img} alt="" /><span>{team_name}</span></td>
+                        <td className={styles.team}><img className={styles.teamImg} src={img} alt="팀 로고" /><span>{team_name}</span></td>
                         <td className={styles.selected}>{wins}</td>
                         <td>{losses}</td>
                         <td>{scoreDifference}</td>
