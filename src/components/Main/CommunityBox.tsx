@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios, { all } from "axios";
 
 import styles from "../../styles/main.module.scss";
 import communityData from "./Dummy/communityData.json";
@@ -52,22 +53,42 @@ const PostList = ({ data }) => {
 };
 
 const CommunityBox = () => {
+  const [boardData, setBoardData] = useState([]);
+
   //메인 게시판 데이터 받아와서 communityData에 저장
+  const getBoardData = async () => {
+    try {
+      const res = await axios.get("http://localhost:5500/api/v1/post/main/1");
+      setBoardData(res.data);
+    } catch (error) {
+      console.error("게시판 불러오는거 실패함", error);
+    }
+  };
+  //
+
+  //페이지 로딩시 받아올 데이터
+  useEffect(() => {
+    getBoardData();
+  }, []);
+
   //카테고리별로 들어옴
   //allData soccerData baseballData eSportsData
-
   const allData = communityData;
+  console.log("getBoardData", boardData); //api 통신 성공
 
   return (
     <>
       <CommunityContainer>
         <div className={styles.title}>오늘의 커뮤니티</div>
-        <PostListContainer>
-          <BoardBox data={allData} />
-          <BoardBox data={allData} />
-          <BoardBox data={allData} />
-          <BoardBox data={allData} />
-        </PostListContainer>
+        <Body>
+          {allData.map((category, index) => {
+            return (
+              <PostListContainer key={index}>
+                <BoardBox data={category} />
+              </PostListContainer>
+            );
+          })}
+        </Body>
       </CommunityContainer>
     </>
   );
@@ -86,19 +107,27 @@ const CommunityContainer = styled.div`
   margin-top: 20px;
 `;
 
-const PostListContainer = styled.div`
+const Body = styled.div`
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
+  justify-content: space-around;
+  align-content: space-around;
   width: 1190px;
-  height: 675px;
+  height: 550px;
+  padding-top: 10px;
+`;
+
+const PostListContainer = styled.div`
+  display: flex;
+  flex-flow: column wrap;
+  width: 550px;
+  height: 250px;
 `;
 
 const BoardContainer = styled.div`
   flex-wrap: wrap;
   width: 550px;
-  height: 250px;
-  margin: 16px 15px 16px 25px;
+  height: 220px;
 `;
 
 const BoardTitle = styled.div`

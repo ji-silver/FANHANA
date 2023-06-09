@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios, { all } from "axios";
 
 import styles from "../../styles/main.module.scss";
 import rankData from "./Dummy/rankData.json";
@@ -24,7 +25,7 @@ interface Rank {
 }
 
 const RankBox = () => {
-  const headers = ["순위", "팀명", "경기", "승", "패", "무", "승률"];
+  const HEADER_LIST = ["순위", "팀명", "경기", "승", "패", "무", "승률"];
   const [targetCatrgory, setTargetCatrgory] = useState(category[0]);
   const [data, setData] = useState<Rank[]>([rankData[0]]); // Set data as an array
 
@@ -37,7 +38,7 @@ const RankBox = () => {
     return winRate.toFixed(2);
   };
 
-  //카테고리 입력시, 해당하는 팀의 rankData를 찾아서 승률 삽입->정렬 후 반환
+  //카테고리 인자로 받음, 해당하는 팀의 rankData를 찾아서 승률 삽입->정렬 후 반환
   const getTeamsWithWinRate = (targetCatrgory: any) => {
     const targetTeam = teamData.filter(
       (team) => team.category === targetCatrgory._id
@@ -63,19 +64,21 @@ const RankBox = () => {
     return setTargetCatrgory(category[targetId]);
   };
 
-  useEffect(() => {
-    const targetData = getTeamsWithWinRate(targetCatrgory);
-    const newData = [...targetData];
-    // @ts-expect-error
-    setData(newData);
-  }, [targetCatrgory]);
-
+  //페이지 로딩시 전체 데이터 받아옴
   useEffect(() => {
     setTargetCatrgory(category[0]);
     const targetData = getTeamsWithWinRate(targetCatrgory);
     // @ts-expect-error
     setData(targetData);
   }, []);
+
+  //카테고리 변경시 targetdata 변경
+  useEffect(() => {
+    const targetData = getTeamsWithWinRate(targetCatrgory);
+    const newData = [...targetData];
+    // @ts-expect-error
+    setData(newData);
+  }, [targetCatrgory]);
 
   return (
     <>
@@ -98,7 +101,7 @@ const RankBox = () => {
         </RankHeader>
         <RankTable>
           <HeaderTr>
-            {headers.map((item, index) => {
+            {HEADER_LIST.map((item, index) => {
               return <RankTh key={index}>{item}</RankTh>;
             })}
           </HeaderTr>
