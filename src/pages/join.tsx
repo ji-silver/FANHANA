@@ -13,7 +13,7 @@ const JoinPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [favorite, setFavorite] = useState("");
+  const [interest, setInterest] = useState("");
   const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
   const [avatarId, setAvatarId] = useState(1); // 선택된 아바타의 ID
@@ -26,7 +26,7 @@ const JoinPage: React.FC = () => {
       .post("http://localhost:5500/api/v1/auth/register", {
         email,
         password,
-        favorite,
+        interest,
         nickname,
         phone,
         avatar: avatarId,
@@ -35,16 +35,22 @@ const JoinPage: React.FC = () => {
       .then((response) => {
         console.log("회원가입 성공");
         alert("회원가입이 완료되었습니다. 환영합니다!");
-        // console.log("이메일:", email);
-        // console.log("비밀번호:", password);
-        // console.log("선호종목:", favorite);
-        // console.log("닉네임:", nickname);
-        // console.log("핸드폰:", phone);
-        // console.log("아바타 ID:", avatarId);
+        console.log("이메일:", email);
+        console.log("비밀번호:", password);
+        console.log("선호종목:", interest);
+        console.log("닉네임:", nickname);
+        console.log("핸드폰:", phone);
+        console.log("아바타 ID:", avatarId);
         navigate("/login");
       })
       .catch((error) => {
         console.error("회원가입 실패:", error);
+        console.log("이메일:", email);
+        console.log("비밀번호:", password);
+        console.log("선호종목:", interest);
+        console.log("닉네임:", nickname);
+        console.log("핸드폰:", phone);
+        console.log("아바타 ID:", avatarId);
         alert("회원가입에 실패했습니다. 다시 시도해주세요.");
       });
   };
@@ -68,7 +74,7 @@ const JoinPage: React.FC = () => {
       email === "" ||
       password === "" ||
       confirmPassword === "" ||
-      favorite === "" ||
+      interest === "" ||
       nickname === "" ||
       phone === ""
     ) {
@@ -121,8 +127,8 @@ const JoinPage: React.FC = () => {
                 {/* 선호종목 입력 */}
                 <p className="inputField">선호종목</p>
                 <select
-                  value={favorite}
-                  onChange={(e) => setFavorite(e.target.value)}
+                  value={interest}
+                  onChange={(e) => setInterest(e.target.value)}
                 >
                   <option value="">선호 종목을 선택하세요</option>
                   <option value="0">축구</option>
