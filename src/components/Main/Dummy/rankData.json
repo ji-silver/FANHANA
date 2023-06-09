@@ -1,134 +1,75 @@
-[
-  {
-    "_id": "1",
-    "team_id": 1,
-    "season": "2023",
-    "wins": 12,
-    "drawns": 2,
-    "losses": 1,
-    "scored": 32,
-    "conceded": 16,
-    "points": 28
-  },
-  {
-    "_id": "2",
-    "team_id": 2,
-    "season": "2023",
-    "wins": 10,
-    "drawns": 4,
-    "losses": 1,
-    "scored": 28,
-    "conceded": 12,
-    "points": 24
-  },
-  {
-    "_id": "3",
-    "team_id": 3,
-    "season": "2023",
-    "wins": 11,
-    "drawns": 3,
-    "losses": 1,
-    "scored": 30,
-    "conceded": 14,
-    "points": 26
-  },
-  {
-    "_id": "4",
-    "team_id": 4,
-    "season": "2023",
-    "wins": 6,
-    "drawns": 6,
-    "losses": 3,
-    "scored": 22,
-    "conceded": 18,
-    "points": 18
-  },
-  {
-    "_id": "5",
-    "team_id": 5,
-    "season": "2023",
-    "wins": 32,
-    "drawns": 1,
-    "losses": 17,
-    "scored": 0,
-    "conceded": 0,
-    "points": 0
-  },
-  {
-    "_id": "6",
-    "team_id": 6,
-    "season": "2023",
-    "wins": 29,
-    "drawns": 0,
-    "losses": 18,
-    "scored": 0,
-    "conceded": 0,
-    "points": 0
-  },
-  {
-    "_id": "7",
-    "team_id": 7,
-    "season": "2023",
-    "wins": 24,
-    "drawns": 1,
-    "losses": 23,
-    "scored": 0,
-    "conceded": 0,
-    "points": 0
-  },
-  {
-    "_id": "8",
-    "team_id": 8,
-    "season": "2023",
-    "wins": 25,
-    "drawns": 0,
-    "losses": 23,
-    "scored": 0,
-    "conceded": 0,
-    "points": 0
-  },
-  {
-    "_id": "9",
-    "team_id": 9,
-    "season": "2023 스프링",
-    "wins": 17,
-    "drawns": 0,
-    "losses": 1,
-    "scored": 30,
-    "conceded": 3,
-    "points": 0
-  },
-  {
-    "_id": "10",
-    "team_id": 10,
-    "season": "2023 스프링",
-    "wins": 13,
-    "drawns": 0,
-    "losses": 5,
-    "scored": 27,
-    "conceded": 14,
-    "points": 0
-  },
-  {
-    "_id": "11",
-    "team_id": 11,
-    "season": "2023 스프링",
-    "wins": 13,
-    "drawns": 0,
-    "losses": 5,
-    "scored": 30,
-    "conceded": 13,
-    "points": 0
-  },
-  {
-    "_id": "12",
-    "team_id": 12,
-    "season": "2023 스프링",
-    "wins": 12,
-    "drawns": 0,
-    "losses": 6,
-    "scored": 25,
-    "conceded": 13,
-    "points": 0
-  }
-]
+{
+  "message": "순위 목록 조회 성공",
+  "data": [
+    {
+      "rating": 1,
+      "category": 1,
+      "season": "2023 Season",
+      "team_id": 1,
+      "team_name": "Team A",
+      "img": "/path/to/teamA.jpg",
+      "wins": 6,
+      "losses": 1,
+      "drawns": 1,
+      "scored": 15,
+      "conceded": 8,
+      "points": 19
+    },
+    {
+      "rating": 2,
+      "category": 1,
+      "season": "2023 Season",
+      "team_id": 2,
+      "team_name": "Team B",
+      "img": "/path/to/teamB.jpg",
+      "wins": 3,
+      "losses": 1,
+      "drawns": 2,
+      "scored": 10,
+      "conceded": 6,
+      "points": 11
+    },
+    {
+      "rating": 3,
+      "category": 1,
+      "season": "2023 Season",
+      "team_id": 3,
+      "team_name": "Team C",
+      "img": "/path/to/teamC.jpg",
+      "wins": 2,
+      "losses": 0,
+      "drawns": 4,
+      "scored": 9,
+      "conceded": 7,
+      "points": 10
+    },
+    {
+      "rating": 4,
+      "category": 1,
+      "season": "2023 Season",
+      "team_id": 5,
+      "team_name": "Team E",
+      "img": "/path/to/teamE.jpg",
+      "wins": 2,
+      "losses": 1,
+      "drawns": 1,
+      "scored": 7,
+      "conceded": 4,
+      "points": 7
+    },
+    {
+      "rating": 5,
+      "category": 1,
+      "season": "2023 Season",
+      "team_id": 4,
+      "team_name": "Team D",
+      "img": "/path/to/teamD.jpg",
+      "wins": 1,
+      "losses": 1,
+      "drawns": 4,
+      "scored": 5,
+      "conceded": 3,
+      "points": 7
+    }
+  ]
+}

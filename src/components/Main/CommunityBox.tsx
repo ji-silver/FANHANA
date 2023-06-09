@@ -74,7 +74,6 @@ const CommunityBox = () => {
   //카테고리별로 들어옴
   //allData soccerData baseballData eSportsData
   const allData = communityData;
-  console.log("getBoardData", boardData); //api 통신 성공
 
   return (
     <>

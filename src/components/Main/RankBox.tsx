@@ -27,7 +27,22 @@ interface Rank {
 const RankBox = () => {
   const HEADER_LIST = ["순위", "팀명", "경기", "승", "패", "무", "승률"];
   const [targetCatrgory, setTargetCatrgory] = useState(category[0]);
-  const [data, setData] = useState<Rank[]>([rankData[0]]); // Set data as an array
+  const [data, setData] = useState<Rank[]>([]);
+
+  const SEASON = "2023 Season";
+
+  //시즌별 팀 순위 받아옴
+  //5개까지 자르기
+  const getRankData = async (category) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5500/api/v1/rank/${category}/${SEASON}`
+      );
+      setData(res.data);
+    } catch (error) {
+      console.error("랭크데이터 불러오는거 실패함", error);
+    }
+  };
 
   //승률변환 함수
   const calculateWinRate = (rank: Rank) => {
@@ -39,6 +54,7 @@ const RankBox = () => {
   };
 
   //카테고리 인자로 받음, 해당하는 팀의 rankData를 찾아서 승률 삽입->정렬 후 반환
+  //api 연결시 -> targetData에 승률 삽입->정렬 후 반환
   const getTeamsWithWinRate = (targetCatrgory: any) => {
     const targetTeam = teamData.filter(
       (team) => team.category === targetCatrgory._id
@@ -64,21 +80,27 @@ const RankBox = () => {
     return setTargetCatrgory(category[targetId]);
   };
 
-  //페이지 로딩시 전체 데이터 받아옴
+  //페이지 로딩시 default category(=축구) 데이터 받아옴
   useEffect(() => {
     setTargetCatrgory(category[0]);
     const targetData = getTeamsWithWinRate(targetCatrgory);
-    // @ts-expect-error
     setData(targetData);
+
+    // getRankData(0);
   }, []);
 
   //카테고리 변경시 targetdata 변경
   useEffect(() => {
     const targetData = getTeamsWithWinRate(targetCatrgory);
     const newData = [...targetData];
-    // @ts-expect-error
     setData(newData);
+
+    //const targetData = getRankData(targetCatrgory)
+    //const sortData = getTeamsWithWinRate(targetData)
+    //setData(sortData);
   }, [targetCatrgory]);
+
+  console.log("data", data);
 
   return (
     <>
