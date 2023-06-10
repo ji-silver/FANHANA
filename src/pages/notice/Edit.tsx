@@ -35,8 +35,6 @@ const Edit = () => {
     ['image']
   ]
 
-  console.log('content::::', content);
-
   return(
     <BoardBg margin="50px auto" height="1200px">
       <TableTag>
