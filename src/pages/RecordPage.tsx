@@ -101,7 +101,7 @@ const TodayDivMobile = styled.div`
         display: block;
         padding: 0;
         top: 43px;
-        right: 10px;
+        right: 15px;
         text-align: right;
     }
 `
