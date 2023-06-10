@@ -145,7 +145,7 @@ const SchedulePage = () => {
       <ScheduleContentContainer>
         <DateSelectContainer>
           <Button onClick={setPrevMonth}>
-            <ArrowButton size="large" turn={true} />
+            <ArrowButton size="large" rotate={180} />
           </Button>
           <DatePickerBox
             purpose="schedule"
@@ -153,7 +153,7 @@ const SchedulePage = () => {
             selectedDate={selectedDate}
           />
           <Button onClick={setNextMonth}>
-            <ArrowButton size="large" />
+            <ArrowButton size="large" rotate={0} />
           </Button>
         </DateSelectContainer>
         <ListContainer>

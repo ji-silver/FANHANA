@@ -27,16 +27,16 @@ const TeamList = ({
     dots: false,
     infinite: false,
     speed: 1500,
-    slidesToShow: teamList.length > 6 ? 6 : teamList.length,
-    slidesToScroll: teamList.length > 6 ? 6 : teamList.length,
+    slidesToShow: teamList.length > 6 ? 6 : teamList.length + 1,
+    slidesToScroll: teamList.length > 6 ? 6 : teamList.length + 1,
     prevArrow: (
       <PrevButton onClick={() => slickRef.current?.slickPrev()}>
-        <ArrowButton size="small" turn={true} />
+        <ArrowButton size="small" rotate={180} />
       </PrevButton>
     ),
     nextArrow: (
       <NextButton onClick={() => slickRef.current?.slickNext()}>
-        <ArrowButton size="small" />
+        <ArrowButton size="small" rotate={0} />
       </NextButton>
     ),
     variableWidth: true,
