@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+
 const MyInfo = () => {
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -18,10 +19,10 @@ const MyInfo = () => {
   const fetchUserInfo = async () => {
     try {
       const response = await axios.get("http://localhost:5500/api/v1/user/1");
-      const data = response.data;
+      const data = response.data.data; 
       setUserInfo(data);
     } catch (error) {
-      console.log("불러오기 실패 왜 안나오냐고라ㅓㄹ아ㅓ랑런ㄹㄴ아ㅓ", error);
+      console.log("불러오기 실패", error);
     }
   };
 
@@ -69,7 +70,7 @@ const MyInfo = () => {
         <tbody>
           <tr>
             <th>이메일</th>
-            <td>{userInfo.email} : 이게 이메일 근데 왜 안나오냐고</td>
+            <td>{userInfo.email}</td>
           </tr>
           <tr>
             <th>닉네임</th>
