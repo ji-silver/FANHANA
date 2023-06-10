@@ -73,10 +73,10 @@ export default RecordPage;
 
 const Container = styled.div`
     position: relative;
-    padding: 0 162px 30px 162px;
+    padding: 30px 162px;
 
     @media (max-width: 768px) {
-        padding: 0;
+        padding: 20px 0;
     }
 `
 
@@ -100,7 +100,7 @@ const TodayDivMobile = styled.div`
         position: absolute;
         display: block;
         padding: 0;
-        top: 17px;
+        top: 43px;
         right: 10px;
         text-align: right;
     }
