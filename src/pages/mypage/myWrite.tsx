@@ -36,7 +36,6 @@ function MyWrite() {
 
   return (
     <>
-      <Header />
       <StyledSection>
         <MyProfile>
           <div className="profileImg"></div>
