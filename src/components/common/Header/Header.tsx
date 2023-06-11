@@ -42,6 +42,7 @@ const Header = () => {
         fetchUserInfo();
     }, []);
 
+    // 스크롤 이벤트 발생 시 실행. navbar가 상단에 닿으면 고정, 원래 위치로 돌아가면 해제
     useEffect(() => {
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
@@ -117,7 +118,7 @@ const HeaderWrap = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1024px){
         padding: 0 15px;
     }
 `
@@ -131,6 +132,7 @@ const Button = styled.button<{ isLogin?: boolean }>`
 
     @media (max-width: 1024px) {
         display: ${({ isLogin }) => (isLogin ? 'block' : 'none')};
+        padding: 0;
         font-size: 14px;
         margin-left: 0;
   }
@@ -145,6 +147,7 @@ const Logo = styled.div`
 const LogoImg = styled.img`
     width: 25px;
     height: auto;
+
     @media (max-width: 1024px) {
         width: 20px;
     }
@@ -154,8 +157,6 @@ const LogoText = styled.span`
   font-size: 20px;
   font-weight: bold;
   padding-left: 5px;
-
-  
 `;
 
 const NavLink = styled(Link)`
@@ -163,6 +164,7 @@ const NavLink = styled(Link)`
     text-decoration: none;
 `
 
+// 1024px부터 navbar 고정
 const NavbarWrapper = styled.div<NavbarWrapperProps>`
 @media (max-width: 1024px) {
     ${({ isFixed }) =>

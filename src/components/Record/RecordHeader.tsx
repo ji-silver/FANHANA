@@ -114,7 +114,7 @@ const SeasonList = styled.ul`
   border: 1px solid #ccc;
   border-radius: 12px;
   box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
-  z-index: 1;
+  z-index: 5;
 
   &::-webkit-scrollbar {
   display: none;
