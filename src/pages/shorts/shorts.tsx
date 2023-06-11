@@ -9,14 +9,14 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button/Button";
 import Comment from "../../components/common/Comment";
 
-interface CurShorts {
-  id: number;
-  title: string;
-  views: number;
-  src: string;
-  // 카테고리가 어떤 값으로 오는지 한번 더 체크
-  category: number;
-}
+// interface CurShorts {
+//   id: number;
+//   title: string;
+//   views: number;
+//   src: string;
+//   // 카테고리가 어떤 값으로 오는지 한번 더 체크
+//   category: number;
+// }
 
 // Comment 컴포넌트의 타입과 완전히 같은데 불러오는 방법 찾아보기???
 interface CommentType {
@@ -30,60 +30,42 @@ interface CommentType {
   clickHandler: () => void;
 }
 
-interface ShortsListType {
-  id: number;
-  title: string;
-  src: string;
-  user_img: string;
-  nickname: string;
-  views: number;
-}
-
 const Shorts: React.FC = () => {
-  // 이전 페이지에서 category 값을 전달받아서 어디 카테고리에서 온 지 확인해 데이터를 불러온다.
+  // 이전 페이지에서 category 값을 uri로 전달받아서 어디 카테고리에서 온 건지, shortsId가 있는지 확인해 데이터를 불러온다.
   const location = useLocation();
-  const previousCategory = location.state?.category;
+  const preCategory = location.state?.category;
+  const preShortsId = location.state?.shortsId;
+  // const preShortsId = 123;
 
   const [curShorts, setCurShorts] = useState<any>();
   const [loading, setLoading] = useState(true);
-  const [shortsList, setShortsList] = useState([]);
+  const [shortsList, setShortsList] = useState<any[]>([]);
   const [comments, setComments] = useState<CommentType[]>([]);
   const [commentsCount, setCommentsCount] = useState();
   const [input, setInput] = useState("");
 
-  // 최신순 불러오는 함수
-  const getShortsList = async (category?: string) => {
+  // 쇼츠를 불러오는 함수
+  const getShorts = async (shortsId?: number, category?: number) => {
     try {
-      const response = await axios.get(
-        `http://localhost:5500/api/v1/shorts?category=${
-          category ? encodeURIComponent(category) : ""
-        }`
-      );
+      // shorts를 랜덤 조회하는 API가 하나 필요하다! 백엔드와 얘기하기
+      const response = await axios.get(`http://localhost:5500/api/v1/shorts`, {
+        params: {
+          shortsId,
+          category,
+        },
+      });
       const shorts = response.data;
-      setShortsList(shorts);
-      return shorts;
+      setShortsList((pre) => [...pre, shorts.id]);
+      setCurShorts(shorts);
+      console.log(shorts);
     } catch (error) {
       console.error("Error fetching shorts:", error);
     }
   };
 
-  // 쇼츠 하나만 불러오는 함수
-  const getShorts = async (shortsId: number) => {
-    try {
-      const response = await axios.get(`http://localhost:5500/api/v1/shorts`, {
-        params: {
-          shortsId,
-        },
-      });
-      const shorts = response.data;
-      setCurShorts(shorts);
-    } catch (error) {}
-  };
-
-  // shorts에 해당하는 댓글을 가져오는 함수
+  // shortsId에 해당하는 댓글을 가져오는 함수
   const getComments = async (shortsId: number) => {
     try {
-      // ?shorts의 id는 어떻게 받을 것인가? query? 아니면 path?
       const response = await axios.get(
         `http://localhost:5500/api/v1/comment/list`,
         {
@@ -100,10 +82,12 @@ const Shorts: React.FC = () => {
   };
 
   // 이전 쇼츠를 가져오는 함수
-  const preImage = () => {};
+  const preShorts = () => {};
 
   // 다음 쇼츠를 가져오는 함수
-  const nextImage = () => {};
+  const nextShorts = () => {
+    getShorts();
+  };
 
   // input 핸들러
   const handleInputChange = (value: string) => {
@@ -111,7 +95,9 @@ const Shorts: React.FC = () => {
   };
 
   // 신고냐 삭제냐 로직
-  const handle = () => {};
+  const handle = () => {
+    // 현재 이벤트가 속한 댓글의 value가 "신고하기"냐 "삭제하기" 냐에 따라 다른 로직 수행
+  };
 
   // 버튼을 클릭하면 input 값을 가지고 댓글 등록하는 로직 작성
   const handleComment = async () => {
@@ -136,44 +122,22 @@ const Shorts: React.FC = () => {
   };
 
   useEffect(() => {
-    // curImage가 존재하면 현재 이미지의 id를 넘긴다.
     setLoading(true);
 
-    if (curShorts) {
-      getComments(curShorts.id);
-    } else {
-      if (previousCategory) {
-        getShortsList(previousCategory)
-          .then((shorts) => {
-            console.log(shorts);
-            if (shorts.length > 0) {
-              const firstShortsId = shorts[0].id;
-              getShorts(firstShortsId);
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching shorts:", error);
-          });
-      } else {
-        getShortsList()
-          .then((shorts) => {
-            if (shorts.length > 0) {
-              const firstShortsId = shorts[0].id;
-              getShorts(firstShortsId);
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching shorts:", error);
-          });
-      }
-    }
+    getShorts(preShortsId, preCategory);
 
     setLoading(false);
-  }, [curShorts, previousCategory]);
+  }, []);
+
+  useEffect(() => {
+    if (curShorts) {
+      const response = getComments(curShorts.id);
+    }
+  }, [curShorts]);
 
   return (
     <ShortsContainer>
-      <ArrowButton rotate={180}></ArrowButton>
+      <ArrowButton rotate={180} onClick={preShorts}></ArrowButton>
       <StyledShort>
         {loading ? ( // Render "Loading..." when loading state is true
           <p>Loading...</p>
@@ -234,7 +198,7 @@ const Shorts: React.FC = () => {
           </ButtonContainer>
         </InputCover>
       </StyledComment>
-      <ArrowButton rotate={0}></ArrowButton>
+      <ArrowButton rotate={0} onClick={nextShorts}></ArrowButton>
     </ShortsContainer>
   );
 };
