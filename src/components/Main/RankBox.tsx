@@ -6,6 +6,7 @@ import styles from "../../styles/main.module.scss";
 import rankData from "./Dummy/rankData.json";
 import teamData from "./Dummy/teamData.json";
 import category from "./Dummy/category.json";
+import Dropdown from "../common/Dropdown";
 
 interface Team {
   _id: string;
@@ -26,16 +27,20 @@ interface Rank {
 
 const RankBox = () => {
   const HEADER_LIST = ["순위", "팀명", "경기", "승", "패", "무", "승률"];
-  const [targetCatrgory, setTargetCatrgory] = useState(category[0]);
+  const [targetCatrgory, setTargetCatrgory] = useState(0);
   const [data, setData] = useState<Rank[]>([]);
 
-  //시즌별 팀 순위 받아옴
+  const dropdownSelect = (item) => {
+    setTargetCatrgory(item);
+  };
+
   const getRankData = async (category: any) => {
     try {
       const res = await axios.get(
-        `http://localhost:5500/api/v1/rank/1/2023 Season`
+        `http://localhost:5500/api/v1/rank/${category}/${season}`
       );
-      setData(res.data);
+      //setData(res.data);
+      console.log(res.data);
     } catch (error) {
       console.error("랭크데이터 불러오는거 실패함", error);
     }
@@ -50,77 +55,44 @@ const RankBox = () => {
     return winRate.toFixed(2);
   };
 
-  //카테고리 인자로 받음, 해당하는 팀의 rankData를 찾아서 승률 삽입->정렬 후 반환
-  //api 연결시 -> targetData에 승률 삽입->정렬 후 반환
-  const getTeamsWithWinRate = (targetCatrgory: any) => {
-    const targetTeam = teamData.filter(
-      (team) => team.category === targetCatrgory._id
-    );
-
-    const teamIdsToFind = targetTeam.map((e) => Number(e._id));
-    const targetRanks = rankData.filter((item) =>
-      teamIdsToFind.includes(item.team_id)
-    );
-
-    // 팀별 승률 계산 및 정렬
-    const teamsWithWinRate = targetRanks.map((rank) => {
+  //rankData 받아서 승률 삽입->정렬 후 반환
+  const getTeamsWithWinRate = (data: any) => {
+    const teamsWithWinRate = data.map((rank) => {
       const winRate = calculateWinRate(rank);
       return { ...rank, winRate };
     });
-    // @ts-expect-error
-    teamsWithWinRate.sort((a, b) => b.winRate - a.winRate);
-    //정렬한거 자르는 코드 구현필요
-    return teamsWithWinRate;
-  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    let targetId = Number(e.target.value);
-    return setTargetCatrgory(category[targetId]);
+    // @ts-expect-error
+    const sortData = teamsWithWinRate.sort((a, b) => b.winRate - a.winRate);
+    sortData.slice(4);
+    return sortData;
   };
 
   //페이지 로딩시 default category(=축구) 데이터 받아옴
-  useEffect(() => {
-    setTargetCatrgory(category[0]);
-    const targetData = getTeamsWithWinRate(targetCatrgory);
-    // @ts-expect-error
-    setData(targetData);
+  // useEffect(() => {
+  //   getRankData(targetCatrgory);
+  //   // @ts-expect-error
+  //   setData(targetData);
+  //   const targetData = getTeamsWithWinRate(data);
+  // }, []);
 
-    // getRankData(0);
-  }, []);
+  // //카테고리 변경시 data 변경
+  // useEffect(() => {
+  //   getRankData(targetCatrgory);
+  //   const targetData = getTeamsWithWinRate(data);
+  //   const newData = [...targetData];
+  //   setData(newData);
+  // }, [targetCatrgory]);
 
-  //카테고리 변경시 targetdata 변경
-  useEffect(() => {
-    const targetData = getTeamsWithWinRate(targetCatrgory);
-    const newData = [...targetData];
-    // @ts-expect-error
-    setData(newData);
-
-    //const targetData = getRankData(targetCatrgory)
-    //const sortData = getTeamsWithWinRate(targetData)
-    //setData(sortData);
-  }, [targetCatrgory]);
-
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <>
       <RankContainer>
-        <RankHeader>
+        <Header>
           <div className={styles.title}>경기 순위</div>
-          <select
-            onChange={(e) => {
-              handleChange(e);
-            }}
-          >
-            {category.map((item) => {
-              return (
-                <option key={item._id} value={item._id}>
-                  {item.name}
-                </option>
-              );
-            })}
-          </select>
-        </RankHeader>
+          <Dropdown purpose="small" dropdownSelect={dropdownSelect} />
+        </Header>
         <RankTable>
           <HeaderTr>
             {HEADER_LIST.map((item, index) => {
@@ -161,13 +133,13 @@ const RankContainer = styled.div`
   flex-direction: column;
   margin-top: 20px;
 `;
-const RankHeader = styled.div`
+
+const Header = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-around;
 `;
 const RankTable = styled.table`
-  displayl: flex;
+  display: flex;
   width: 360px;
   height: 30px;
   margin-left: auto;

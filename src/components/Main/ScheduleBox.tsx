@@ -7,6 +7,7 @@ import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
 import matchData from "./Dummy/matchData.json";
 import category from "./Dummy/category.json";
+import Dropdown from "../common/Dropdown";
 
 interface Team {
   _id: string;
@@ -38,15 +39,15 @@ const currentTime = format(new Date(), "hh:mm:ss");
 
 // @ts-expect-error
 const MatchContainer = ({ categoryData }) => {
-  console.log("나 자식컴포넌트에서 전달받은 데이터야!", categoryData);
-
   // @ts-expect-error
   const compareTime = (time) => {
     if (currentTime < time) {
       return "종료";
-    } else if (currentTime === time) {
+    }
+    if (currentTime === time) {
       return "진행중";
-    } else return `${time.slice(0, 5)} 예정`;
+    }
+    return `${time.slice(0, 5)} 예정`;
   };
 
   return (
@@ -58,7 +59,7 @@ const MatchContainer = ({ categoryData }) => {
             <MatchData>
               <div>
                 {categoryData.category === 0
-                  ? "츅구"
+                  ? "축구"
                   : categoryData.category === 1
                   ? "야구"
                   : "e-스포츠"}
@@ -82,10 +83,8 @@ const ScheduleBox = () => {
   const [dateData, setDateData] = useState(matchData.data);
   const [categoryData, setCategoryData] = useState(matchData.data);
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    let targetId = Number(e.target.value);
-    console.log(targetId);
-    return setSelectCategory(targetId);
+  const dropdownSelect = (category: any) => {
+    setSelectCategory(category);
   };
 
   //날짜당 데이터 받아옴
@@ -109,16 +108,14 @@ const ScheduleBox = () => {
 
   useEffect(() => {
     //선택한 카테고리가 바뀔 때 마다 categoryData 업데이트
-
     //matchData.category === 선택한 카테고리와 같은걸 필터해서 newData에 담음
-    if (selectCategory < 3) {
+    if (selectCategory !== 0) {
       const newData = dateData.filter(
         (data) => data.category === selectCategory
       );
-      console.log("newData", newData);
       setCategoryData(newData);
-      console.log("categoryData", categoryData);
-    } else {
+    }
+    if (selectCategory === 4) {
       setCategoryData(dateData);
     }
   }, [selectCategory]);
@@ -128,19 +125,11 @@ const ScheduleBox = () => {
       <ScheduleContainer>
         <Header>
           <div className={styles.title}>경기 일정</div>
-          <select
-            onChange={(e) => {
-              handleChange(e);
-            }}
-          >
-            {category.map((item) => {
-              return (
-                <option key={item._id} value={item._id}>
-                  {item.name}
-                </option>
-              );
-            })}
-          </select>
+          <Dropdown
+            allCategory
+            purpose="small"
+            dropdownSelect={dropdownSelect}
+          />
         </Header>
         <Body>
           <DateContainer>
@@ -177,9 +166,9 @@ const DateContainer = styled.div`
   width: 160px;
   height: 40px;
 `;
-const Header = styled.div`wi
+const Header = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 const Body = styled.div`
