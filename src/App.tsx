@@ -18,6 +18,9 @@ import LoLRecord from "./components/Record/LoLRecord";
 import MyWrite from "./pages/mypage/myWrite";
 import MainPage from "./pages/Main/MainPage";
 import Shorts from "./pages/shorts/shorts";
+import SoccerPage from "./pages/Main/SoccerPage";
+import BaseballPage from "./pages/Main/BaseballPage";
+import EsportPage from "./pages/Main/EsportPage";
 
 function App() {
   return (
@@ -35,11 +38,11 @@ function App() {
             <Route path="myInfo" element={<p>내정보</p>} />
           </Route>
           <Route path="/:sports/schedule" element={<SchedulePage />}></Route>
-          <Route path="/soccer"></Route>
+          <Route path="/soccer" element={<SoccerPage />}></Route>
           <Route path="/soccer/record" element={<KlRecord />} />
-          <Route path="/baseball"></Route>
+          <Route path="/baseball" element={<BaseballPage />}></Route>
           <Route path="/baseball/record" element={<KboRecord />} />
-          <Route path="/esport"></Route>
+          <Route path="/esport" element={<EsportPage />}></Route>
           <Route path="/esport/record" element={<LoLRecord />} />
           <Route path="/shorts" element={<Shorts />}></Route>
         </Routes>

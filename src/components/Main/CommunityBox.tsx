@@ -23,13 +23,38 @@ const TableHeader = () => {
 };
 
 // @ts-expect-error
-const BoardBox = ({ data }) => {
+const BoardBox = ({ category }) => {
+  const [boardData, setBoardData] = useState([]);
+
+  const getCategoryName = (category) => {
+    if (category === 0) return "축구";
+    if (category === 1) return "야구";
+    if (category === 2) return "e-스포츠";
+  };
+
+  //카테고리별로 게시판 데이터 받아와서 communityData에 저장
+  useEffect(() => {
+    const getBoardData = async (category: any) => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5500/api/v1/post/main/${category}`
+        );
+        setBoardData(res.data.data);
+      } catch (error) {
+        console.error("게시판 불러오는거 실패함", error);
+      }
+    };
+    getBoardData(category);
+  }, []);
+
+  const name = getCategoryName(category);
+
   return (
     <BoardContainer>
-      <BoardTitle>{data.category}</BoardTitle>
+      <BoardTitle>{name} 게시판</BoardTitle>
       <Table>
         <TableHeader />
-        <PostList data={data.data} />
+        <PostList data={boardData} />
       </Table>
     </BoardContainer>
   );
@@ -53,40 +78,17 @@ const PostList = ({ data }) => {
 };
 
 const CommunityBox = () => {
-  const [boardData, setBoardData] = useState([]);
-
-  //메인 게시판 데이터 받아와서 communityData에 저장
-  const getBoardData = async () => {
-    try {
-      const res = await axios.get("http://localhost:5500/api/v1/post/main/1");
-      setBoardData(res.data);
-    } catch (error) {
-      console.error("게시판 불러오는거 실패함", error);
-    }
-  };
-  //
-
-  //페이지 로딩시 받아올 데이터
-  useEffect(() => {
-    getBoardData();
-  }, []);
-
-  //카테고리별로 들어옴
-  //allData soccerData baseballData eSportsData
-  const allData = communityData;
-
   return (
     <>
       <CommunityContainer>
         <div className={styles.title}>오늘의 커뮤니티</div>
         <Body>
-          {allData.map((category, index) => {
-            return (
-              <PostListContainer key={index}>
-                <BoardBox data={category} />
-              </PostListContainer>
-            );
-          })}
+          <PostListContainer>
+            <BoardBox category={0} />
+            <BoardBox category={0} />
+            <BoardBox category={1} />
+            <BoardBox category={2} />
+          </PostListContainer>
         </Body>
       </CommunityContainer>
     </>
@@ -119,19 +121,24 @@ const Body = styled.div`
 const PostListContainer = styled.div`
   display: flex;
   flex-flow: column wrap;
-  width: 550px;
-  height: 250px;
+  width: 1190px;
+  height: 550px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-around;
 `;
 
 const BoardContainer = styled.div`
   flex-wrap: wrap;
+  flex-direction: row;
   width: 550px;
   height: 220px;
 `;
 
 const BoardTitle = styled.div`
   font-size: 18px;
-  width: 100px;
+  width: 150px;
   height: 35px;
   font-weight: 400;
   font-size: 18px;
