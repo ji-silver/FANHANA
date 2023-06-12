@@ -30,14 +30,14 @@ const TeamList = ({
     slidesToShow: teamList.length > 6 ? 6 : teamList.length + 1,
     slidesToScroll: teamList.length > 6 ? 6 : teamList.length + 1,
     prevArrow: (
-      <PrevButton onClick={() => slickRef.current?.slickPrev()}>
+      <Button onClick={() => slickRef.current?.slickPrev()}>
         <ArrowButton size="small" rotate={180} />
-      </PrevButton>
+      </Button>
     ),
     nextArrow: (
-      <NextButton onClick={() => slickRef.current?.slickNext()}>
+      <Button onClick={() => slickRef.current?.slickNext()}>
         <ArrowButton size="small" rotate={0} />
-      </NextButton>
+      </Button>
     ),
     variableWidth: true,
     responsive: [
@@ -56,7 +56,7 @@ const TeamList = ({
         },
       },
       {
-        breakpoint: 750,
+        breakpoint: 760,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -104,14 +104,11 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
-const PrevButton = styled.button`
+const Button = styled.button`
   position: absolute;
   background: none;
   border: none;
-`;
-
-const NextButton = styled.button`
-  position: absolute;
-  background: none;
-  border: none;
+  &.slick-disabled {
+    opacity: 0;
+  }
 `;
