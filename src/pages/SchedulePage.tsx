@@ -122,12 +122,25 @@ const SchedulePage = () => {
 
   useEffect(() => {
     const scrollToSelectedDate = () => {
-      const target = document.querySelector(
+      // 이전에 선택된 날짜가 있으면 selected 클래스 제거
+      const prevSelectedList = document.querySelectorAll(".selected");
+      if (prevSelectedList) {
+        prevSelectedList.forEach((prevSelected) => {
+          prevSelected.classList.remove("selected");
+        });
+      }
+
+      const selectedList = document.querySelectorAll(
         `[data-date="${format(selectedDate, "yyyyMMdd")}"]`
       );
 
-      if (target) {
-        target.scrollIntoView({
+      if (selectedList.length > 0) {
+        // 선택된 날짜에 selected 클래스 추가
+        selectedList.forEach((target) => {
+          target.classList.add("selected");
+        });
+
+        selectedList[0].scrollIntoView({
           behavior: "smooth",
           block: "center",
         });
