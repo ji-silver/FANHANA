@@ -2,12 +2,41 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { BsFillChatLeftDotsFill } from "react-icons/bs";
 
 import Image from "../../components/common/Image";
 import ArrowButton from "../../components/common/Button/ArrowButton";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button/Button";
 import Comment from "../../components/common/Comment";
+
+// 가짜 데이터
+const fakeShorts = {
+  id: 1,
+  title: "Fake Shorts",
+  views: 100,
+  src: "https://cdn.pixabay.com/photo/2023/05/16/14/17/sail-boat-7997799_1280.jpg",
+  category: 1,
+};
+
+const fakeComments = [
+  {
+    alt: "user1",
+    img: "https://cdn.pixabay.com/photo/2023/05/30/15/43/koala-8028992_1280.jpg",
+    nickname: "User 1",
+    info: "Comment 1",
+    date: "2023-06-10",
+    userId: 1,
+  },
+  {
+    alt: "user2",
+    img: "https://cdn.pixabay.com/photo/2023/05/31/17/54/cat-8031947_640.jpg",
+    nickname: "User 2",
+    info: "Comment 2",
+    date: "2023-06-11",
+    userId: 2,
+  },
+];
 
 // interface CurShorts {
 //   id: number;
@@ -19,17 +48,16 @@ import Comment from "../../components/common/Comment";
 // }
 
 // Comment 컴포넌트의 타입과 완전히 같은데 불러오는 방법 찾아보기???
-interface CommentType {
-  alt: string;
-  img: string;
-  nickname: string;
-  info: string;
-  date: string;
-  userId: number;
-  localSaveUserId: number;
-  clickHandler: () => void;
-}
+// interface CommentType {
+//   alt: string;
+//   img: string;
+//   nickname: string;
+//   info: string;
+//   date: string;
+//   userId: number;
+// }
 
+// 서버에 데이터를 받아올 때 이미 존재하는 id이면 다시 받아오도록
 const Shorts: React.FC = () => {
   // 이전 페이지에서 category 값을 uri로 전달받아서 어디 카테고리에서 온 건지, shortsId가 있는지 확인해 데이터를 불러온다.
   const location = useLocation();
@@ -37,27 +65,36 @@ const Shorts: React.FC = () => {
   const preShortsId = location.state?.shortsId;
   // const preShortsId = 123;
 
+  const localSaveUserId = localStorage.getItem("userId");
+  const parsedUserId = localSaveUserId ? parseInt(localSaveUserId) : null;
+
   const [curShorts, setCurShorts] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [shortsList, setShortsList] = useState<any[]>([]);
-  const [comments, setComments] = useState<CommentType[]>([]);
-  const [commentsCount, setCommentsCount] = useState();
+  const [comments, setComments] = useState<any[]>([]);
   const [input, setInput] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   // 쇼츠를 불러오는 함수
-  const getShorts = async (shortsId?: number, category?: number) => {
+  const getShorts = async (shorts_id: number = 15, category: number = 2) => {
+    // 지금은 고정 값이지만 페이지가 바뀌면서 새로운 값을 받도록
     try {
-      // shorts를 랜덤 조회하는 API가 하나 필요하다! 백엔드와 얘기하기
-      const response = await axios.get(`http://localhost:5500/api/v1/shorts`, {
-        params: {
-          shortsId,
-          category,
-        },
-      });
-      const shorts = response.data;
+      const response = await axios.get(
+        `http://localhost:5500/api/v1/shorts/detail`,
+        {
+          params: {
+            shorts_id,
+            category,
+          },
+        }
+      );
+      const shorts = response.data.data;
+
       setShortsList((pre) => [...pre, shorts.id]);
       setCurShorts(shorts);
-      console.log(shorts);
+
+      // setShortsList((pre) => [...pre, fakeShorts.id]); // 가짜 데이터
+      // setCurShorts(fakeShorts); // 가짜 데이터
     } catch (error) {
       console.error("Error fetching shorts:", error);
     }
@@ -67,26 +104,37 @@ const Shorts: React.FC = () => {
   const getComments = async (shortsId: number) => {
     try {
       const response = await axios.get(
-        `http://localhost:5500/api/v1/comment/list`,
+        `http://localhost:5500/api/v1/comment/list/${shortsId}`,
         {
           params: {
-            shortsId,
+            contents_category: 0,
           },
         }
       );
-      const comments = response.data;
+      const comments = response.data.data;
       setComments(comments);
+      // setComments(fakeComments); // 가짜 데이터
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
   };
 
   // 이전 쇼츠를 가져오는 함수
-  const preShorts = () => {};
+  const preShorts = () => {
+    setShortsList((prev) => {
+      const updatedShortsList = [...prev];
+      updatedShortsList.pop(); // 가장 마지막 값 제거
+      const previousShortsId = updatedShortsList[updatedShortsList.length - 1]; // 이전 쇼츠의 id
+
+      getShorts(previousShortsId, preCategory); // 이전 쇼츠 가져오기
+
+      return updatedShortsList;
+    });
+  };
 
   // 다음 쇼츠를 가져오는 함수
   const nextShorts = () => {
-    getShorts();
+    getShorts(undefined, preCategory);
   };
 
   // input 핸들러
@@ -107,15 +155,25 @@ const Shorts: React.FC = () => {
         throw new Error("No current shorts available");
       }
 
-      const response = await axios.post(
-        `http://localhost:5500/api/v1/comment`,
-        {
-          content_category: curShorts.category,
-          id: curShorts.id,
-          content: input,
-        }
+      const token = localStorage.getItem("token");
+
+      const requestBody = {
+        contents_category: 0,
+        id: curShorts.id,
+        content: input,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      await axios.post(
+        `http://localhost:5500/api/v1/comment/`,
+        requestBody,
+        config
       );
-      const responseData = response.data;
     } catch (error) {
       console.error("Error submitting comment: ", error);
     }
@@ -130,10 +188,14 @@ const Shorts: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
+
     if (curShorts) {
-      const response = getComments(curShorts.id);
+      getComments(curShorts.id);
     }
-  }, [curShorts]);
+
+    setLoading(false);
+  }, [curShorts, comments]);
 
   return (
     <ShortsContainer>
@@ -145,18 +207,42 @@ const Shorts: React.FC = () => {
           curShorts && (
             <ImageCover>
               <Image src={curShorts.src} alt={"쇼츠입니다."}></Image>
+
+              <ShortsButton onClick={() => setModalOpen(true)}>
+                <CommentsButton />
+              </ShortsButton>
             </ImageCover>
           )
         )}
       </StyledShort>
 
+      {modalOpen && ( // 모달 창이 열려있을 때에만 Modal 컴포넌트를 렌더링합니다.
+        <Modal onClick={() => setModalOpen(false)}>
+          <CommentCover>
+            {comments &&
+              comments.map((comment) => (
+                <Comment
+                  alt={comment.nickname}
+                  img={comment.img}
+                  nickname={comment.nickname}
+                  info={comment.content}
+                  date={comment.date}
+                  localSaveUserId={parsedUserId}
+                  userId={comment.userId}
+                  clickHandler={handle}
+                />
+              ))}
+          </CommentCover>
+        </Modal>
+      )}
+
       <StyledComment>
         <CommentsHeader>
           <CommentsTitle>댓글</CommentsTitle>
-          <CommentsCount>3{commentsCount}</CommentsCount>
+          <CommentsCount>{comments.length}</CommentsCount>
         </CommentsHeader>
         <CommentCover>
-          <Comment
+          {/* <Comment
             alt="user"
             img="https://cdn.pixabay.com/photo/2023/05/28/13/15/helicopter-8023696_640.jpg"
             nickname="user"
@@ -165,21 +251,22 @@ const Shorts: React.FC = () => {
             localSaveUserId={0}
             userId={0}
             clickHandler={handle}
-          ></Comment>
+          ></Comment> */}
 
           {/* 닫는 버튼(이건 크기에 따라 달라졌을 때 추가되는 걸로) */}
-          {/* {comments.map((comment) => (
+          {comments.map((comment, index) => (
             <Comment
-              alt={comment.user.nickname}
-              img={comment.user.img}
-              nickname={comment.user.nickname}
+              key={index}
+              alt={comment.nickname}
+              img={comment.img}
+              nickname={comment.nickname}
               info={comment.content}
               date={comment.date}
-              localSaveUserId={현재 유저의 id}
-              userId={comment.user.id}
-              clickHandler={"삭제하기"나 "신고하기" 이벤트}
+              localSaveUserId={parsedUserId}
+              userId={comment.userId}
+              clickHandler={handle}
             />
-          ))} */}
+          ))}
           {/* 댓글들
           // 댓글 => 전달받은 댓글 갯수만큼 댓글 컴포넌트에 담아 작성
         */}
@@ -207,7 +294,7 @@ export default Shorts;
 
 const ShortsContainer = styled.main`
   display: flex;
-  margin: 0 162px 30px 162px;
+  margin: 30px 162px 30px 162px;
   align-items: center;
   justify-content: center;
 `;
@@ -243,6 +330,7 @@ const StyledComment = styled.div`
 `;
 
 const ImageCover = styled.div`
+  position: relative;
   width: 360px;
   height: 640px;
   background-color: black;
@@ -304,7 +392,35 @@ const ButtonContainer = styled.div`
   height: 50px;
 `;
 
-const LoadingMessage = styled.p`
-  width: 100px;
-  height: 100px;
+const ShortsButton = styled.button`
+  position: absolute;
+  bottom: 50px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 50px;
+  height: 50px;
+  background-color: #efeafc;
+  border: 1px solid black;
+  border-radius: 50%;
+
+  @media (min-width: 1400px) {
+    display: none;
+  }
 `;
+
+const Modal = styled.div`
+  width: 360px;
+  height: 640px;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.6);
+`;
+
+const CommentsButton = styled(BsFillChatLeftDotsFill)``;
