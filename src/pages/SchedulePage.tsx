@@ -76,10 +76,7 @@ const SchedulePage = () => {
   }, []);
 
   useEffect(() => {
-    const dateString = `${selectedDate.getFullYear()}${(
-      "0" +
-      (selectedDate.getMonth() + 1)
-    ).slice(-2)}`;
+    const dateString = format(selectedDate, "yyyyMM");
 
     // 날짜별 일정 가져오기
     const getScheduleData = async () => {
