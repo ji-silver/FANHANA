@@ -171,7 +171,7 @@ const SchedulePage = () => {
             teamList={teamList}
             selectedTeam={selectedTeamId}
             onSelect={onSelect}
-            category={1}
+            category={CATEGORY[sports]}
           />
         </ListContainer>
 

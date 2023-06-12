@@ -72,10 +72,26 @@ const TeamList = ({
     ],
   };
 
+  const getImgSrc = (category: number) => {
+    switch (category) {
+      case 0:
+        return "kleague";
+      case 1:
+        return "kbo";
+      case 2:
+        return "lck";
+    }
+  };
+
   return (
     <StyledSlider {...settings} ref={slickRef}>
       <TeamSelectContainer
-        team={{ id: 0, name: "전체", category: category, img: "" }}
+        team={{
+          id: 0,
+          name: "전체",
+          category: category,
+          img: `/images/${getImgSrc(category)}.png`,
+        }}
         isSelected={selectedTeam === 0}
         onSelect={onSelect}
       />
