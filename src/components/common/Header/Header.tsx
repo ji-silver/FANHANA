@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from './Navbar';
@@ -20,6 +21,7 @@ interface NavbarWrapperProps {
 const id = localStorage.getItem("id");
 
 const Header = () => {
+    const isTablet = useMediaQuery({ query: '(max-width: 1024px)' });
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [isNavbarFixed, setIsNavbarFixed] = useState(false);
     const url = "http://localhost:5500/api/v1";
@@ -79,11 +81,13 @@ const Header = () => {
                     ) : (
                         <div>
                             <NavLink to="/login">
-                                <Button isLogin>로그인</Button>
+                                <Button>로그인</Button>
                             </NavLink>
-                            <NavLink to="/register">
-                                <Button>회원가입</Button>
-                            </NavLink>
+                            {!isTablet &&
+                                <NavLink to="/register">
+                                    <Button>회원가입</Button>
+                                </NavLink>
+                            }
                         </div>
                     )}
                 </HeaderWrap>
@@ -131,7 +135,6 @@ const Button = styled.button<{ isLogin?: boolean }>`
     font-size: 16px;
 
     @media (max-width: 1024px) {
-        display: ${({ isLogin }) => (isLogin ? 'block' : 'none')};
         padding: 0;
         font-size: 14px;
         margin-left: 0;
@@ -157,7 +160,7 @@ const LogoText = styled.span`
   font-size: 20px;
   font-weight: bold;
   padding-left: 5px;
-`;
+`
 
 const NavLink = styled(Link)`
     color: inherit;
@@ -180,4 +183,4 @@ const NavbarWrapper = styled.div<NavbarWrapperProps>`
     position: static;
   `}
     }
-`;
+`

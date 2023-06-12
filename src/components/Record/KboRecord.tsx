@@ -53,7 +53,7 @@ const KboRecord = () => {
                 const totalGames = wins + drawns + losses;
                 // 승률 계산 (무승부 포함 x)
                 const winRate = (wins / (wins + losses)).toFixed(3);
-                // 게임차 계산 (kbo 기준)
+                // 게임차 계산
                 const gameBehind = index === 0 ? '0.0' : (((sortedData[0].wins - wins) + (losses - sortedData[0].losses)) / 2).toFixed(1);
 
                 return (

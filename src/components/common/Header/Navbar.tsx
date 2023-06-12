@@ -84,14 +84,14 @@ const Navbar = () => {
                             순위
                         </SubNavItem>
                         <SubNavItem
-                            active={checkActive(`${subNav.category}/board`)}
-                            onClick={() => handleSubNavClick('/board')}
+                            active={checkActive(`${subNav.category}/페이지명`)}
+                            onClick={() => handleSubNavClick('/페이지명')}
                         >
                             게시판
                         </SubNavItem>
                         <SubNavItem
-                            active={checkActive(`${subNav.category}/shorts`)}
-                            onClick={() => handleSubNavClick('/shorts')}
+                            active={checkActive(`${subNav.category}/페이지명`)}
+                            onClick={() => handleSubNavClick('/페이지명')}
                         >
                             쇼츠
                         </SubNavItem>
@@ -125,7 +125,12 @@ const NavWrap = styled.div`
     }
 
     @media (max-width: 768px) {
-        height: 50px
+        height: 50px;
+        overflow-y: hidden;
+        white-space: nowrap;
+        ::-webkit-scrollbar {
+            display: none;
+        }  
     }
 `;
 
@@ -187,5 +192,10 @@ const SubNav = styled.nav<{ show: boolean }>`
 
   @media (max-width: 768px) {
         height: ${props => (props.show ? '40px' : '0')};
+        overflow-y: hidden;
+        white-space: nowrap;
+        ::-webkit-scrollbar {
+            display: none;
+        } 
     }
 `;

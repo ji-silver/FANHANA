@@ -1,16 +1,18 @@
 import React, { ReactNode, FC } from 'react'
+import { useMediaQuery } from 'react-responsive'
 import styled from "styled-components";
 import RecordHeader from '../components/Record/RecordHeader';
 
 interface RecordTableProps {
     headerTitle: ReactNode[];
-    teamHeaderElements?: ReactNode[];
-    tbodyData?: ReactNode;
-    teamDatas?: ReactNode;
+    teamHeaderElements: ReactNode[];
+    tbodyData: ReactNode;
+    teamDatas: ReactNode;
     selectedSeasonCallback: (selectedSeason: string) => void
 };
 
 const RecordPage: FC<RecordTableProps> = ({ headerTitle, teamHeaderElements, tbodyData, teamDatas, selectedSeasonCallback }) => {
+    const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
     // 오늘 날짜 가져오기
     const today = new Date();
@@ -19,63 +21,33 @@ const RecordPage: FC<RecordTableProps> = ({ headerTitle, teamHeaderElements, tbo
     const day = today.getDate();
 
 
-    const generateCols = (length: number) => {
-        const cols = new Array(length).fill("10%");
-        cols[0] = "5%";
-        cols[1] = "30%";
+    const cols = [
+        "5%",   // 첫 번째 열(순위) 너비
+        "20%",  // 두 번째 열(팀) 너비
+        ...new Array(headerTitle.length - 2).fill("8%"),  // 나머지 열 너비
+    ];
 
-        return cols;
-    };
-
-    // headerTitle 개수만큼 table col 개수 정해주기
-    const cols = generateCols(headerTitle.length);
-    const colgroupElements = cols.map((colWidth, index) => <col key={index} width={colWidth} />);
-
+    const colgroupElements = cols.map((colWidth, index) => (
+        <Col key={index} width={colWidth} />
+    ));
 
     return (
         <>
             <Container>
                 <RecordHeader selectedSeasonCallback={selectedSeasonCallback} />
-                <TodayDivDesktop>※{year}년 {month}월 {day}일 기준</TodayDivDesktop>
-                <TodayDivMobile>{('' + year).slice(-2)}.{month < 10 ? '0' + month : month}.{day < 10 ? '0' + day : day}</TodayDivMobile>
-                <DesktopTableWrap>
-                    <Table>
-                        <colgroup>
-                            {colgroupElements}
-                        </colgroup>
-                        <Thead>
-                            <tr>
-                                {headerTitle}
-                            </tr>
-                        </Thead>
-                        <Tbody>
-                            {tbodyData}
-                        </Tbody>
-                    </Table>
-                </DesktopTableWrap>
+                {!isMobile &&
+                    <TodayDivDesktop>※{year}년 {month}월 {day}일 기준</TodayDivDesktop>
+                }
+                {isMobile &&
+                    <TodayDivMobile>{('' + year).slice(-2)}.{month < 10 ? '0' + month : month}.{day < 10 ? '0' + day : day}</TodayDivMobile>
+                }
 
-                <MobileTableWrap>
-                    <FirstTable>
-                        <RankTeamTable>
-                            <Colgroup>
+                {!isMobile &&
+                    <DesktopTableWrap>
+                        <Table>
+                            <colgroup>
                                 {colgroupElements}
-                            </Colgroup>
-                            <Thead>
-                                <tr>
-                                    {teamHeaderElements}
-                                </tr>
-                            </Thead>
-                            <Tbody>
-                                {teamDatas}
-                            </Tbody>
-                        </RankTeamTable>
-                    </FirstTable>
-
-                    <SecondTable>
-                        <RankScrollTable>
-                            <Colgroup>
-                                {colgroupElements}
-                            </Colgroup>
+                            </colgroup>
                             <Thead>
                                 <tr>
                                     {headerTitle}
@@ -84,10 +56,45 @@ const RecordPage: FC<RecordTableProps> = ({ headerTitle, teamHeaderElements, tbo
                             <Tbody>
                                 {tbodyData}
                             </Tbody>
-                        </RankScrollTable>
-                    </SecondTable>
-                </MobileTableWrap>
+                        </Table>
+                    </DesktopTableWrap>
+                }
 
+                {isMobile &&
+                    <MobileTableWrap>
+                        <FirstTable>
+                            <RankTeamTable>
+                                <colgroup>
+                                    {colgroupElements}
+                                </colgroup>
+                                <Thead>
+                                    <tr>
+                                        {teamHeaderElements}
+                                    </tr>
+                                </Thead>
+                                <Tbody>
+                                    {teamDatas}
+                                </Tbody>
+                            </RankTeamTable>
+                        </FirstTable>
+
+                        <SecondTable>
+                            <RankScrollTable>
+                                <colgroup>
+                                    {colgroupElements}
+                                </colgroup>
+                                <Thead>
+                                    <tr>
+                                        {headerTitle}
+                                    </tr>
+                                </Thead>
+                                <Tbody>
+                                    {tbodyData}
+                                </Tbody>
+                            </RankScrollTable>
+                        </SecondTable>
+                    </MobileTableWrap>
+                }
             </Container>
         </>
     );
@@ -104,63 +111,58 @@ const Container = styled.div`
         margin: 0 auto;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
         padding: 20px 0;
     }
 `
 
 const TodayDivDesktop = styled.div`
-    display: block;
     position: relative;
-    width: 100%;
     margin: 0 auto;
     padding: 20px 0;
     text-align: right;
-
-    @media (max-width: 1024px) {
-        display: none;
-  }
+    @media (max-width: 1024px){
+        padding-right: 15px;
+    }
 `
 
 const TodayDivMobile = styled.div`
-    display: none;
-
-    @media (max-width: 1024px) {
-        position: absolute;
-        display: block;
-        padding-right: 15px;
-        top: 55px;
-        right: 0;
-        text-align: right;
-    }
-
-    @media (max-width: 768px) {
-        top: 43px;
-    }
+    position: absolute;
+    display: block;
+    padding: 0;
+    top: 47px;
+    right: 10px;
+    text-align: right;
 `
 
 const DesktopTableWrap = styled.div`
-    display: block;
-
-    @media (max-width: 768px) {
-        display: none;
-  }
+    position: relative;
 `
 
 const MobileTableWrap = styled.div`
-    display: none;
-
-    @media (max-width: 768px) {
-        display: block;
-        position: relative;
-        
-  }
+    position: relative;
 `
 
 const Table = styled.table`
     width: 100%;
     position: relative;
     text-align: center;
+`
+
+const Col = styled.col`
+    width: ${(props) => props.width};
+    
+    @media (max-width: 767px) {
+        width: initial;
+
+        &:nth-child(1) {
+        width: 40px;
+    }
+
+    &:nth-child(2) {
+        width: 150px;
+    }
+}
 `
 
 const Thead = styled.thead`
@@ -174,7 +176,7 @@ const Thead = styled.thead`
         vertical-align: middle;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
         height: 40px;
     }
 `
@@ -190,7 +192,7 @@ const Tbody = styled.tbody`
 `
 
 const FirstTable = styled.div`
-    width: 180px;
+    width: 190px;
     position: absolute;
     top: 0;
     left: 0;
@@ -206,7 +208,6 @@ const SecondTable = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
-
 `
 
 const RankTeamTable = styled(Table)`
@@ -216,17 +217,4 @@ const RankTeamTable = styled(Table)`
 const RankScrollTable = styled(Table)`
     width: max-content;
     min-width: 100%;
-`
-
-const Colgroup = styled.colgroup`
-    & > col {
-        width: inherit;
-    }
-    & > col:nth-child(1) {
-        width: 30px;
-    }
-
-    & > col:nth-child(2) {
-        width: 150px;
-    }
 `
