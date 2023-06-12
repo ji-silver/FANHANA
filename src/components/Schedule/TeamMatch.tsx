@@ -15,13 +15,10 @@ const TeamMatch = (props: TeamMatchProps) => {
   const { team1, team2, team1_img, team2_img, score1, score2, state } = props;
 
   const getGameStatus = () => {
-    if (state === "경기전") {
+    if (state === "경기 전") {
       return "vs";
-    } else if (state === "경기 중") {
-      return "경기 중";
-    } else {
-      return "종료";
     }
+    return state;
   };
 
   return (
