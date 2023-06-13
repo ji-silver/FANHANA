@@ -10,34 +10,6 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button/Button";
 import Comment from "../../components/common/Comment";
 
-// 가짜 데이터
-const fakeShorts = {
-  id: 1,
-  title: "Fake Shorts",
-  views: 100,
-  src: "https://cdn.pixabay.com/photo/2023/05/16/14/17/sail-boat-7997799_1280.jpg",
-  category: 1,
-};
-
-const fakeComments = [
-  {
-    alt: "user1",
-    img: "https://cdn.pixabay.com/photo/2023/05/30/15/43/koala-8028992_1280.jpg",
-    nickname: "User 1",
-    info: "Comment 1",
-    date: "2023-06-10",
-    userId: 1,
-  },
-  {
-    alt: "user2",
-    img: "https://cdn.pixabay.com/photo/2023/05/31/17/54/cat-8031947_640.jpg",
-    nickname: "User 2",
-    info: "Comment 2",
-    date: "2023-06-11",
-    userId: 2,
-  },
-];
-
 // interface CurShorts {
 //   id: number;
 //   title: string;
@@ -92,9 +64,6 @@ const Shorts: React.FC = () => {
 
       setShortsList((pre) => [...pre, shorts.id]);
       setCurShorts(shorts);
-
-      // setShortsList((pre) => [...pre, fakeShorts.id]); // 가짜 데이터
-      // setCurShorts(fakeShorts); // 가짜 데이터
     } catch (error) {
       console.error("Error fetching shorts:", error);
     }
@@ -112,8 +81,8 @@ const Shorts: React.FC = () => {
         }
       );
       const comments = response.data.data;
+      console.log(comments);
       setComments(comments);
-      // setComments(fakeComments); // 가짜 데이터
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -195,7 +164,7 @@ const Shorts: React.FC = () => {
     }
 
     setLoading(false);
-  }, [curShorts, comments]);
+  }, [curShorts]);
 
   return (
     <ShortsContainer>
@@ -220,8 +189,9 @@ const Shorts: React.FC = () => {
         <Modal onClick={() => setModalOpen(false)}>
           <CommentCover>
             {comments &&
-              comments.map((comment) => (
+              comments.map((comment, index) => (
                 <Comment
+                  key={index}
                   alt={comment.nickname}
                   img={comment.img}
                   nickname={comment.nickname}
@@ -417,7 +387,6 @@ const Modal = styled.div`
   position: fixed;
   display: flex;
   justify-content: center;
-  align-items: center;
   z-index: 1000;
   overflow: auto;
   background: rgba(0, 0, 0, 0.6);
