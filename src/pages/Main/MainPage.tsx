@@ -15,11 +15,11 @@ const MainPage = () => {
   return (
     <>
       <div className={styles.body}>
-        {/* <ScheduleBox />
-        <ShortsBox />
-        <WeatherBox />
-        <CommunityBox /> */}
-        <RankBox />
+        <ScheduleBox />
+        {/* <ShortsBox /> */}
+        {/* <WeatherBox />
+        <CommunityBox />
+        <RankBox /> */}
       </div>
     </>
   );

@@ -5,7 +5,6 @@ import axios from "axios";
 
 import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
-import matchData from "./Dummy/matchData.json";
 import Dropdown from "../common/Dropdown";
 
 interface Team {
@@ -54,21 +53,21 @@ const MatchContainer = ({ categoryData }) => {
       {categoryData.map((e: any) => {
         return (
           <MatchBox>
-            <LogoImg src={e.tema1_img} />
+            <ImgBox>
+              <LogoImg src={e.tema1_img} />
+              <div>{e.team1}</div>
+            </ImgBox>
             <MatchData>
-              <div>
-                {categoryData.category === 0
-                  ? "축구"
-                  : categoryData.category === 1
-                  ? "야구"
-                  : "e-스포츠"}
-              </div>
+              <div>{e.season}</div>
               <Vs>vs</Vs>
               <State state={e.state}>
                 {today > e.start_day ? "종료" : compareTime(e.start_time)}
               </State>
             </MatchData>
-            <LogoImg src={e.tema2_img} />
+            <ImgBox>
+              <LogoImg src={e.tema2_img} />
+              <div>{e.team2}</div>
+            </ImgBox>
           </MatchBox>
         );
       })}
@@ -80,7 +79,7 @@ const ScheduleBox = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectCategory, setSelectCategory] = useState<number>(4);
   const [dateData, setDateData] = useState([]);
-  const [categoryData, setCategoryData] = useState(matchData.data);
+  const [categoryData, setCategoryData] = useState([]);
 
   const dropdownSelect = (category: any) => {
     setSelectCategory(category);
@@ -103,11 +102,24 @@ const ScheduleBox = () => {
   useEffect(() => {
     getSceduleData(selectedDate);
     setCategoryData(dateData);
+    // dropdownSelect(4);
+    setSelectCategory(4);
   }, [selectedDate]);
 
   useEffect(() => {
     console.log("dateData", dateData);
+    console.log("selectCategoty", selectCategory);
+    if (selectCategory == 4) {
+      const newdata = [...dateData];
+      setCategoryData(newdata);
+    }
+  }, [dateData]);
+
+  useEffect(() => {
+    console.log("dateData", dateData);
+    console.log("selectCategoty", selectCategory);
     if (selectCategory !== 4) {
+      // @ts-expect-error
       const data = dateData.filter((data) => data.category === selectCategory);
       const newData = [...data];
       setCategoryData(newData);
@@ -189,7 +201,7 @@ const MatchBox = styled.div`
 const LogoImg = styled.img`
   width: 60px;
   height: 60px;
-  margin: 10px;
+  margin: 5px;
   border-radius: 100%;
 `;
 
@@ -218,4 +230,13 @@ const State = styled.div<{ state: string }>`
       : props.state == "예정"
       ? "#8F6EEB"
       : "#4EAF51"};
+`;
+
+const ImgBox = styled.div`
+  display: flex;
+  width: 70px;
+  height: 96px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;

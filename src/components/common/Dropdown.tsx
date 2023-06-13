@@ -42,7 +42,7 @@ const Dropdown: React.FC<Props> = ({
           });
         }
         const newData = [...categoryData];
-        setCategory(newData);
+        setCategory([...newData]);
       } catch (error) {
         console.error("카테고리 데이터 불러오는거 실패함", error);
       }

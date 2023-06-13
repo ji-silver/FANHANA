@@ -26,15 +26,16 @@ const TableHeader = () => {
 const BoardBox = ({ category }) => {
   const [boardData, setBoardData] = useState([]);
 
-  const getCategoryName = (category: any) => {
+  const getCategoryName = (category?: any) => {
     if (category === 0) return "축구";
     if (category === 1) return "야구";
     if (category === 2) return "e-스포츠";
+    return "전체";
   };
 
   //카테고리별로 게시판 데이터 받아와서 communityData에 저장
   useEffect(() => {
-    const getBoardData = async (category: any) => {
+    const getBoardData = async (category?: any) => {
       try {
         const res = await axios.get(
           `http://localhost:5500/api/v1/post/main/${category}`
@@ -68,7 +69,11 @@ const PostList = ({ data }) => {
         return (
           <PostTr key={post.id}>
             <Td>{post.id}</Td>
-            <PostTitle>{post.title}</PostTitle>
+            <PostTitle>
+              {post.title.length >= 30
+                ? post.title.substr(0, 25) + `....`
+                : post.title}
+            </PostTitle>
             <Td>{post.views}</Td>
           </PostTr>
         );
@@ -84,7 +89,7 @@ const CommunityBox = () => {
         <div className={styles.title}>오늘의 커뮤니티</div>
         <Body>
           <PostListContainer>
-            <BoardBox category={0} />
+            <BoardBox category={null} />
             <BoardBox category={0} />
             <BoardBox category={1} />
             <BoardBox category={2} />
