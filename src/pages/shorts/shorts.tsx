@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+
 import { BsFillChatLeftDotsFill } from "react-icons/bs";
 
 import Image from "../../components/common/Image";
@@ -10,54 +10,67 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button/Button";
 import Comment from "../../components/common/Comment";
 
-// interface CurShorts {
-//   id: number;
-//   title: string;
-//   views: number;
-//   src: string;
-//   // 카테고리가 어떤 값으로 오는지 한번 더 체크
-//   category: number;
-// }
+interface CommentType {
+  img: string;
+  nickname: string;
+  content: string;
+  created_at: string;
+  user_id: number;
+}
 
-// Comment 컴포넌트의 타입과 완전히 같은데 불러오는 방법 찾아보기???
-// interface CommentType {
-//   alt: string;
-//   img: string;
-//   nickname: string;
-//   info: string;
-//   date: string;
-//   userId: number;
-// }
+interface ShortsType {
+  id: number;
+  title: string;
+  views: number;
+  src: string;
+  category: number;
+}
+
+interface ShortsPropsType {
+  id?: number;
+  category?: number;
+}
 
 // 서버에 데이터를 받아올 때 이미 존재하는 id이면 다시 받아오도록
-const Shorts: React.FC = () => {
-  // 이전 페이지에서 category 값을 uri로 전달받아서 어디 카테고리에서 온 건지, shortsId가 있는지 확인해 데이터를 불러온다.
-  const location = useLocation();
-  const preCategory = location.state?.category;
-  const preShortsId = location.state?.shortsId;
-
+const Shorts: React.FC<ShortsPropsType> = ({ id, category }) => {
   const localSaveUserId = localStorage.getItem("userId");
   const parsedUserId = localSaveUserId ? parseInt(localSaveUserId) : null;
 
-  const [curShorts, setCurShorts] = useState<any>();
+  const [curShorts, setCurShorts] = useState<ShortsType>();
   const [loading, setLoading] = useState(true);
-  const [shortsList, setShortsList] = useState<any[]>([]);
-  const [comments, setComments] = useState<any[]>([]);
+  const [shortsList, setShortsList] = useState<ShortsType[]>([]);
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [input, setInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [index, setIndex] = useState(0);
 
-  // 쇼츠를 불러오는 함수
-  const getShorts = async (shorts_id: number = 15, category: number = 2) => {
-    // 지금은 고정 값이지만 페이지가 바뀌면서 새로운 값을 받도록
+  const getFirstShorts = async (id?: number, category?: number) => {
     try {
       const response = await axios.get(
         `http://localhost:5500/api/v1/shorts/detail`,
         {
           params: {
-            shorts_id,
+            shorts_id: id,
             category,
           },
         }
+      );
+
+      const shorts = response.data.data.shorts;
+      const shortsList = response.data.data.list;
+
+      setCurShorts(shorts);
+      setShortsList(shortsList);
+    } catch (error) {
+      console.error("Error fetching shorts:", error);
+    }
+  };
+
+  // 쇼츠를 불러오는 함수
+  const getShorts = async (shorts_id?: number) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5500/api/v1/shorts/detail/${shorts_id}`
       );
       const shorts = response.data.data;
 
@@ -79,7 +92,6 @@ const Shorts: React.FC = () => {
         }
       );
       const comments = response.data.data;
-
       setComments(comments);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -88,24 +100,22 @@ const Shorts: React.FC = () => {
 
   // 이전 쇼츠를 가져오는 함수
   const preShorts = () => {
-    if (shortsList.length <= 0) return;
-    setShortsList((prev) => {
-      const updatedShortsList = [...prev];
-      updatedShortsList.pop(); // 가장 마지막 값 제거
-      const previousShortsId = updatedShortsList[updatedShortsList.length - 1]; // 이전 쇼츠의 id
-
-      getShorts(previousShortsId, preCategory); // 이전 쇼츠 가져오기
-
-      console.log(shortsList);
-      return updatedShortsList;
-    });
+    setIndex((prev) => prev - 1);
+    if (index >= shortsList.length) {
+      setIndex(() => shortsList.length - 1);
+    }
+    const shortsId = shortsList[index].id;
+    getShorts(shortsId);
   };
 
   // 다음 쇼츠를 가져오는 함수
   const nextShorts = () => {
-    getShorts(undefined, preCategory);
-    setShortsList((pre) => [...pre, curShorts.id]);
-    console.log(shortsList);
+    setIndex((prev) => prev + 1);
+    if (index >= shortsList.length) {
+      setIndex(() => 0);
+    }
+    const shortsId = shortsList[index].id;
+    getShorts(shortsId);
   };
 
   // input 핸들러
@@ -157,7 +167,7 @@ const Shorts: React.FC = () => {
   useEffect(() => {
     setLoading(true);
 
-    getShorts(preShortsId, preCategory);
+    getFirstShorts(id, category);
 
     setLoading(false);
   }, []);
@@ -202,9 +212,9 @@ const Shorts: React.FC = () => {
                   img={comment.img}
                   nickname={comment.nickname}
                   info={comment.content}
-                  date={comment.date}
+                  date={comment.created_at}
+                  userId={comment.user_id}
                   localSaveUserId={parsedUserId}
-                  userId={comment.userId}
                   clickHandler={handle}
                 />
               ))}
@@ -239,15 +249,12 @@ const Shorts: React.FC = () => {
               img={comment.img}
               nickname={comment.nickname}
               info={comment.content}
-              date={comment.date}
+              date={comment.created_at}
+              userId={comment.user_id}
               localSaveUserId={parsedUserId}
-              userId={comment.userId}
               clickHandler={handle}
             />
           ))}
-          {/* 댓글들
-          // 댓글 => 전달받은 댓글 갯수만큼 댓글 컴포넌트에 담아 작성
-        */}
         </CommentCover>
         <InputCover>
           <InputContainer>

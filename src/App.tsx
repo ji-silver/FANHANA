@@ -17,7 +17,8 @@ import KboRecord from "./components/Record/KboRecord";
 import LoLRecord from "./components/Record/LoLRecord";
 import MyWrite from "./pages/mypage/myWrite";
 import MainPage from "./pages/Main/MainPage";
-import Shorts from "./pages/shorts/shorts";
+import DetailShorts from "./pages/shorts/DetailShorts";
+import NavShorts from "./pages/shorts/NavShorts";
 
 function App() {
   return (
@@ -37,11 +38,14 @@ function App() {
           <Route path="/:sports/schedule" element={<SchedulePage />}></Route>
           <Route path="/soccer"></Route>
           <Route path="/soccer/record" element={<KlRecord />} />
+          <Route path="/soccer/shorts" element={<NavShorts />}></Route>
           <Route path="/baseball"></Route>
           <Route path="/baseball/record" element={<KboRecord />} />
+          <Route path="/baseball/shorts" element={<NavShorts />}></Route>
           <Route path="/esport"></Route>
           <Route path="/esport/record" element={<LoLRecord />} />
-          <Route path="/shorts" element={<Shorts />}></Route>
+          <Route path="/esport/shorts" element={<NavShorts />}></Route>
+          <Route path="/shorts" element={<DetailShorts />}></Route>
         </Routes>
         <Footer></Footer>
       </Router>
