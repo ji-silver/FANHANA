@@ -1,7 +1,6 @@
 import React, { ReactNode, FC } from 'react'
 import styled from "styled-components";
 import RecordHeader from '../components/Record/RecordHeader';
-import Weather from '../components/common/Weather/Weather';
 
 interface RecordTableProps {
     headerTitle: ReactNode[];
@@ -64,7 +63,7 @@ const RecordPage: FC<RecordTableProps> = ({ headerTitle, tbodyData, selectedSeas
                         <Tbody>{tbodyData}</Tbody>
                     </Table>
                 </div> */}
-                <Weather height="300px"></Weather>
+
             </Container>
         </>
     );
@@ -74,10 +73,10 @@ export default RecordPage;
 
 const Container = styled.div`
     position: relative;
-    padding: 30px 162px;
+    padding: 0 162px 30px 162px;
 
     @media (max-width: 768px) {
-        padding: 20px 0;
+        padding: 0;
     }
 `
 
@@ -101,8 +100,8 @@ const TodayDivMobile = styled.div`
         position: absolute;
         display: block;
         padding: 0;
-        top: 43px;
-        right: 15px;
+        top: 17px;
+        right: 10px;
         text-align: right;
     }
 `
