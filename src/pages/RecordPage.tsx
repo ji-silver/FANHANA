@@ -1,6 +1,7 @@
 import React, { ReactNode, FC } from 'react'
 import styled from "styled-components";
 import RecordHeader from '../components/Record/RecordHeader';
+import Weather from '../components/common/Weather/Weather';
 
 interface RecordTableProps {
     headerTitle: ReactNode[];
@@ -63,7 +64,7 @@ const RecordPage: FC<RecordTableProps> = ({ headerTitle, tbodyData, selectedSeas
                         <Tbody>{tbodyData}</Tbody>
                     </Table>
                 </div> */}
-
+                <Weather height="300px"></Weather>
             </Container>
         </>
     );

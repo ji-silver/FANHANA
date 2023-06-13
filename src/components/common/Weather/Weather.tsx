@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FC } from "react";
 import { weatherDescKo } from './WeatherDesc';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import styled from "styled-components";
+import { makeStyles } from '@mui/styles';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -18,7 +19,7 @@ interface WeatherState {
     icon: string | null;
 };
 
-const Weather: React.FC<WeatherProps> = ({ height }) => {
+const Weather: FC<WeatherProps> = ({ height }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [weather, setWeather] = useState<WeatherState>({
@@ -89,7 +90,7 @@ const Weather: React.FC<WeatherProps> = ({ height }) => {
                     sx={{
                         background: 'linear-gradient(to left, #7474BF, #348AC7)',
                         height: height,
-                        borderRadius: '20px',
+                        borderRadius: '20px'
                     }}
                 >
                     <WeatherContainer>
