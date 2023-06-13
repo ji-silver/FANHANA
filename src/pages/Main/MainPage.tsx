@@ -15,10 +15,10 @@ const MainPage = () => {
   return (
     <>
       <div className={styles.body}>
-        <ScheduleBox />
+        {/* <ScheduleBox />
         <ShortsBox />
         <WeatherBox />
-        <CommunityBox />
+        <CommunityBox /> */}
         <RankBox />
       </div>
     </>

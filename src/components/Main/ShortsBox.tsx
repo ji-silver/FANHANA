@@ -38,9 +38,7 @@ const ShortsBox = () => {
   useEffect(() => {
     const getShortsData = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5500/api/v1/shorts/?category=2`
-        );
+        const res = await axios.get(`http://localhost:5500/api/v1/shorts/`);
         setData(res.data.data);
       } catch (error) {
         console.error("비디오데이터 불러오는거 실패함", error);
