@@ -61,7 +61,6 @@ const Shorts: React.FC = () => {
       );
       const shorts = response.data.data;
 
-      setShortsList((pre) => [...pre, shorts.id]);
       setCurShorts(shorts);
     } catch (error) {
       console.error("Error fetching shorts:", error);
@@ -89,6 +88,7 @@ const Shorts: React.FC = () => {
 
   // 이전 쇼츠를 가져오는 함수
   const preShorts = () => {
+    if (shortsList.length <= 0) return;
     setShortsList((prev) => {
       const updatedShortsList = [...prev];
       updatedShortsList.pop(); // 가장 마지막 값 제거
@@ -96,6 +96,7 @@ const Shorts: React.FC = () => {
 
       getShorts(previousShortsId, preCategory); // 이전 쇼츠 가져오기
 
+      console.log(shortsList);
       return updatedShortsList;
     });
   };
@@ -103,6 +104,8 @@ const Shorts: React.FC = () => {
   // 다음 쇼츠를 가져오는 함수
   const nextShorts = () => {
     getShorts(undefined, preCategory);
+    setShortsList((pre) => [...pre, curShorts.id]);
+    console.log(shortsList);
   };
 
   // input 핸들러
@@ -189,8 +192,8 @@ const Shorts: React.FC = () => {
       </StyledShort>
 
       {modalOpen && ( // 모달 창이 열려있을 때에만 Modal 컴포넌트를 렌더링합니다.
-        <Modal onClick={() => setModalOpen(false)}>
-          <CommentCover>
+        <Modal>
+          <CommentCover onClick={() => setModalOpen(false)}>
             {comments &&
               comments.map((comment, index) => (
                 <Comment
@@ -206,6 +209,19 @@ const Shorts: React.FC = () => {
                 />
               ))}
           </CommentCover>
+          <InputCover>
+            <InputContainer>
+              <Input value={input} onChange={handleInputChange} />
+            </InputContainer>
+            <ButtonContainer>
+              <Button
+                disabled={false}
+                purpose="base"
+                content="댓글"
+                onClick={handleComment}
+              ></Button>
+            </ButtonContainer>
+          </InputCover>
         </Modal>
       )}
 
@@ -312,7 +328,7 @@ const ImageCover = styled.div`
 
 const CommentCover = styled.div`
   flex-grow: 20;
-  width: 90%;
+  width: 80%;
   overflow: auto;
 `;
 
@@ -378,6 +394,7 @@ const Modal = styled.div`
   height: 640px;
   position: fixed;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   z-index: 1000;
   overflow: auto;
