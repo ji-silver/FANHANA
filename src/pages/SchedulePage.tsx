@@ -199,6 +199,10 @@ const ScheduleContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const DateSelectContainer = styled.div`
@@ -218,4 +222,8 @@ const ListContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;

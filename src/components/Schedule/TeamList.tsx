@@ -111,19 +111,37 @@ export default TeamList;
 
 const StyledSlider = styled(Slider)`
   width: 100%;
+
   .slick-prev:before,
   .slick-next:before {
     content: "";
   }
+
   .slick-track {
     margin: 0;
+  }
+
+  .slick-slide {
+    margin-right: 22px;
+  }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    content: "";
+    background-image: linear-gradient(270deg, #fff, hsla(0, 0%, 100%, 0));
+  }
+
+  &::after {
+    right: 0;
   }
 `;
 
 const Button = styled.button`
   position: absolute;
-  background: none;
-  border: none;
+
   &.slick-disabled {
     opacity: 0;
   }
