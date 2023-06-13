@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 
 import styles from "../../styles/main.module.scss";
+import { getCategoryName } from "../common/Dropdown";
 
 interface Data {
   id: number;
@@ -32,8 +33,10 @@ const VideoContainer = ({ data }) => {
   );
 };
 
-const ShortsBox = ({ category }) => {
+const ShortsBox = ({ category }: { category: number }) => {
   const [data, setData] = useState([]);
+
+  const sportsName = getCategoryName(category);
 
   useEffect(() => {
     const getShortsData = async () => {
@@ -54,7 +57,7 @@ const ShortsBox = ({ category }) => {
   return (
     <>
       <ShortsContainer>
-        <div className={styles.title}>쇼츠</div>
+        <div className={styles.title}>쇼츠 {`> ${sportsName}`}</div>
         <Body>
           <VideoContainer data={data} />
         </Body>

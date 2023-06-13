@@ -18,6 +18,12 @@ interface Props {
   selectCategory?: number;
 }
 
+export const getCategoryName = (category: number) => {
+  const sportsName =
+    category == 0 ? "축구" : category == 1 ? "야구" : "e-스포츠";
+  return sportsName;
+};
+
 const Dropdown: React.FC<Props> = ({
   allCategory,
   purpose,

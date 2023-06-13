@@ -5,6 +5,7 @@ import axios from "axios";
 
 import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
+import { getCategoryName } from "../common/Dropdown";
 
 interface Team {
   _id: string;
@@ -74,11 +75,11 @@ const MatchContainer = ({ categoryData }) => {
   );
 };
 
-const ScheduleBox = ({ category }) => {
+const ScheduleBox = ({ category }: { category: number }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [dateData, setDateData] = useState([]);
 
-  //날짜당 데이터 받아옴
+  const sportsName = getCategoryName(category);
 
   useEffect(() => {
     const getSceduleData = async (date: any) => {
@@ -88,7 +89,7 @@ const ScheduleBox = ({ category }) => {
           `http://localhost:5500/api/v1/schedule/day/${selectdate}`
         );
         const newData = res.data.data.filter(
-          (data) => data.category === category
+          (data: { category: number }) => data.category === category
         );
         setDateData(newData);
       } catch (error) {
@@ -102,7 +103,7 @@ const ScheduleBox = ({ category }) => {
     <>
       <ScheduleContainer>
         <Header>
-          <div className={styles.title}>경기 일정</div>
+          <div className={styles.title}>경기 일정 {`> ${sportsName}`}</div>
         </Header>
         <Body>
           <DateContainer>

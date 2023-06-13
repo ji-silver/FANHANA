@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios, { all } from "axios";
 
 import styles from "../../styles/main.module.scss";
+import { getCategoryName } from "../common/Dropdown";
 
 interface Data {
   id: number;
@@ -21,12 +22,11 @@ const TableHeader = () => {
   );
 };
 
-// @ts-expect-error
-const BoardBox = ({ category }) => {
+const BoardBox = ({ category }: { category: number }) => {
   const [boardData, setBoardData] = useState([]);
 
-  const getCategoryName = (category?: any) => {
-    if (category < 3) return "최신";
+  const getCategoryName = (category?: number | undefined) => {
+    if (category && category < 3) return "최신";
     return "전체";
   };
 
@@ -79,12 +79,13 @@ const PostList = ({ data }) => {
   );
 };
 
-const CommunityBox = ({ category }) => {
-  console.log("category", category);
+const CommunityBox = ({ category }: { category: number }) => {
+  const sportsName = getCategoryName(category);
+
   return (
     <>
       <CommunityContainer>
-        <div className={styles.title}>오늘의 커뮤니티</div>
+        <div className={styles.title}>오늘의 커뮤니티 {`> ${sportsName}`} </div>
         <Body>
           <PostListContainer>
             <BoardBox category={category} />

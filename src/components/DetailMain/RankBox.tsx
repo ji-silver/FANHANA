@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios, { all } from "axios";
 
 import styles from "../../styles/main.module.scss";
+import { getCategoryName } from "../common/Dropdown";
 
 interface Rank {
   team_id: number;
@@ -14,9 +15,11 @@ interface Rank {
   winRate?: number;
 }
 
-const RankBox = ({ category }) => {
+const RankBox = ({ category }: { category: number }) => {
   const HEADER_LIST = ["순위", "팀명", "경기", "승", "패", "무", "승률"];
   const [data, setData] = useState<Rank[]>([]);
+
+  const sportsName = getCategoryName(category);
 
   //승률변환 함수
   const calculateWinRate = (rank: Rank) => {
@@ -66,7 +69,7 @@ const RankBox = ({ category }) => {
     <>
       <RankContainer>
         <Header>
-          <div className={styles.title}>{`경기 순위 >`}</div>
+          <div className={styles.title}>{`경기 순위 > ${sportsName}`}</div>
         </Header>
         <RankTable>
           <HeaderTr>
@@ -139,7 +142,6 @@ const HeaderTr = styled.tr`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #a0a0a0;
   border-bottom: 1px solid #a0a0a0;
   height: 30px;
 `;
