@@ -25,9 +25,15 @@ const RankBox = () => {
   };
 
   const getRankData = async (category: any) => {
+    const season =
+      category == 0
+        ? `2023-K-League`
+        : category === 1
+        ? `2023-KBO`
+        : `2023-LCK-Spring`;
     try {
       const res = await axios.get(
-        `http://localhost:5500/api/v1/rank/1/2023-KBO`
+        `http://localhost:5500/api/v1/rank/${category}/${season}`
       );
       const targetData = res.data.data;
       const sortData = getTeamsWithWinRate(targetData);
@@ -132,7 +138,7 @@ const RankTable = styled.table`
   flex-direction: column;
 `;
 const ThLa = styled.th`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   width: 90px;
 `;
