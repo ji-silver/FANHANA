@@ -1,54 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+import Button from "../../components/common/Button/Button";
 import TableList from "../../components/common/TableList";
+
+import UserInfoFetcher from "./UserInfoFetcher";
 import MyInfo from "./myInfo";
-import Header from "../../components/common/Header/Header";
 
-import Button from "./../../components/common/Button/Button";
+import dummyPosts from "./dummyPosts"; //더미 게시글 -> 나중에 지우기
 
-import dummyPosts from "./dummyPosts";
-
-function MyWrite() {
+const MyWrite = () => {
   const [nickname, setNickname] = useState("");
   const [favorite, setFavorite] = useState("");
+  const [profileImg, setProfileImg] = useState(""); // 프로필 이미지 상태 추가
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    // 로컬 스토리지에서 사용자 정보 가져오기
-    const storedUsers = localStorage.getItem("users");
-    if (storedUsers) {
-      const parsedUsers = JSON.parse(storedUsers);
-      // 가장 최근 회원 정보 가져오기
-      const latestUser = parsedUsers[parsedUsers.length - 1];
-      setNickname(latestUser.nickname);
-      setFavorite(latestUser.favorite);
-    }
-  }, []);
+  const handleFetchSuccess = (userInfo:any) => {
+    setNickname(userInfo.nickname);
+    setFavorite(userInfo.favoriteSport);
+    const imgId = userInfo.img; // 유저의 이미지 ID
+    setProfileImg(`/images/profile${imgId}.png`); // 프로필 이미지 경로 설정
+  };
 
-  // 선호종목 매핑
-  interface FavoriteOptions {
-    [key: string]: string;
-  }
-  const favoriteOptions: FavoriteOptions = {
-    "0": "축구",
-    "1": "야구",
-    "2": "롤",
+  const handleFetchError = (error:any) => {
+    console.log("불러오기 실패", error);
+  };
+
+  const handleLogout = () => {
+    alert("로그아웃 하시겠습니까?");
+    localStorage.removeItem("accessToken");
+    alert("안녕히가세요!");
+    navigate("/login");
   };
 
   return (
     <>
       <StyledSection>
         <MyProfile>
-          <div className="profileImg"></div>
+        <div
+            className="profileImg"
+            style={{ backgroundImage: `url(${profileImg})` }}
+          ></div>
           <p className="nickname">{nickname}</p>
           <p className="favorite">
-            선호종목 : <span>{favoriteOptions[favorite]}</span>
+            선호종목 : <span>{favorite}</span>
           </p>
-          <div style={{ width: 100, height: 40, margin:'0 auto' }}>
+          <div style={{ width: 100, height: "40px", margin: "0 auto" }}>
             <Button
               disabled={false}
               purpose="base"
               content="로그아웃"
-              // onClick={}
+              onClick={handleLogout}
             />
           </div>
         </MyProfile>
@@ -56,10 +59,13 @@ function MyWrite() {
           <TabMenu />
         </MyContent>
       </StyledSection>
+      <UserInfoFetcher
+        onSuccess={handleFetchSuccess}
+        onError={handleFetchError}
+      />
     </>
   );
 }
-
 export default MyWrite;
 
 //마이페이지 공통
@@ -78,11 +84,14 @@ const MyProfile = styled.div`
   margin-right: 50px;
 
   & > div.profileImg {
-    background-color: green;
+    border: 1px solid #eee;
     width: 150px;
     height: 150px;
     margin: 0px auto 15px auto;
     border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
   }
 
   p.nickname {
@@ -110,7 +119,6 @@ const MyContent = styled.div`
 
 //탭메뉴
 const TabMenuWrapper = styled.div``;
-
 const TabWrapper = styled.div`
   display: flex;
   border-bottom: 1px solid #e3e3e3;

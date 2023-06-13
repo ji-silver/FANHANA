@@ -1,49 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-
+import { Link, useNavigate } from "react-router-dom";
+import UserInfoFetcher, { handleWithdraw } from "./UserInfoFetcher";
+import ProfileImg from "./ProfileImg";
 
 const MyInfo = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
+    id: "",
     email: "",
     nickname: "",
     phone: "",
-    favoriteSport: "",
+    favoriteSport: 0,
+    img: 1, // 선택된 아바타의 ID
   });
 
+  //회원정보 수정
   const [editing, setEditing] = useState(false);
+  const BASE_URL = "http://localhost:5500";
 
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
-
-  const fetchUserInfo = async () => {
-    try {
-      const response = await axios.get("http://localhost:5500/api/v1/user/1");
-      const data = response.data.data; 
-      setUserInfo(data);
-    } catch (error) {
-      console.log("불러오기 실패", error);
-    }
-  };
-
-  const handleNicknameChange = (e:any) => {
+  const handleNicknameChange = (e: any) => {
     setUserInfo((prevUserInfo) => ({
       ...prevUserInfo,
       nickname: e.target.value,
     }));
   };
 
-  const handlePhoneChange = (e:any) => {
+  const handlePhoneChange = (e: any) => {
     setUserInfo((prevUserInfo) => ({
       ...prevUserInfo,
       phone: e.target.value,
     }));
   };
 
-  const handleFavoriteSportChange = (e:any) => {
+  const handleFavoriteSportChange = (e: any) => {
     setUserInfo((prevUserInfo) => ({
       ...prevUserInfo,
-      favoriteSport: e.target.value,
+      favoriteSport: parseInt(e.target.value),
     }));
   };
 
@@ -53,20 +46,62 @@ const MyInfo = () => {
 
   const handleSaveClick = async () => {
     try {
-      // 정보수정
-      await axios.put("http://localhost:5500/api/v1/user/1", userInfo);
-      console.log("수정", userInfo);
-    } catch (error) {
-      console.log("수정실패", error);
-    }
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        throw new Error("토큰이 존재하지 않습니다.");
+      }
 
-    setEditing(false);
+      const updatedUserInfo = {
+        id: userInfo.id,
+        nickname: userInfo.nickname,
+        phone: userInfo.phone,
+        interest: userInfo.favoriteSport,
+        img: userInfo.img,
+      };
+
+      const response = await axios.put(
+        `${BASE_URL}/api/v1/user`,
+        updatedUserInfo,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("수정 성공", response.data);
+      window.location.reload();
+      setEditing(false);
+    } catch (error: any) {
+      console.log("수정 실패", error.message);
+    }
   };
 
+  const handleFetchSuccess = (fetchedUserInfo: any) => {
+    setUserInfo(fetchedUserInfo);
+  };
+
+  const handleFetchError = (error: any) => {
+    console.log("불러오기 실패", error);
+  };
+
+  const handleWithdrawClick = async () => {
+    try {
+      alert("정말 탈퇴하시겠습니까?");
+      await handleWithdraw(); // UserInfoFetcher 컴포넌트에서 불러온 handleWithdraw 함수 실행
+      navigate("/login");
+    } finally {
+      console.log("회원 탈퇴 무사 종료");
+    }
+  };
   return (
     <div>
       <h2>유저정보</h2>
-      <table style={{textAlign: "left"}}>
+      <UserInfoFetcher
+        onSuccess={handleFetchSuccess}
+        onError={handleFetchError}
+      />
+      <table style={{ textAlign: "left" }}>
         <tbody>
           <tr>
             <th>이메일</th>
@@ -118,6 +153,21 @@ const MyInfo = () => {
               )}
             </td>
           </tr>
+          {editing && (
+            <tr>
+              <th>프로필 이미지</th>
+              <td>
+                <ProfileImg
+                  onAvatarChange={(selectedImage) =>
+                    setUserInfo((prevUserInfo) => ({
+                      ...prevUserInfo,
+                      img: selectedImage.id,
+                    }))
+                  }
+                />
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {editing ? (
@@ -125,6 +175,7 @@ const MyInfo = () => {
       ) : (
         <button onClick={handleEditClick}>수정</button>
       )}
+      <button onClick={handleWithdrawClick}>회원탈퇴</button>
     </div>
   );
 };
