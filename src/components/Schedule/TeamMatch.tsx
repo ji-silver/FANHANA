@@ -23,13 +23,13 @@ const TeamMatch = (props: TeamMatchProps) => {
 
   return (
     <Container>
-      <Team>
+      <Team className="left">
         <TeamName>{team1}</TeamName>
         <TeamImg src={team1_img} alt={team1} />
         <Score className={score1 > score2 ? "win" : ""}>{score1}</Score>
       </Team>
       <GameStatus>{getGameStatus()}</GameStatus>
-      <Team>
+      <Team className="right">
         <Score className={score1 < score2 ? "win" : ""}>{score2}</Score>
         <TeamImg src={team2_img} alt={team2} />
         <TeamName>{team2}</TeamName>
@@ -47,8 +47,17 @@ const Container = styled.div`
 `;
 
 const Team = styled.div`
+  width: 100px;
   display: flex;
   align-items: center;
+
+  &.left {
+    justify-content: end;
+  }
+
+  &.right {
+    justify-content: start;
+  }
 `;
 
 const GameStatus = styled.div`
@@ -68,6 +77,7 @@ const TeamImg = styled.img`
 `;
 
 const Score = styled.div`
+  width: 10px;
   font-size: 16px;
   font-weight: bold;
   margin: 5px;
