@@ -128,12 +128,13 @@ const SeasonList = styled.ul`
     text-align: center;
     cursor: pointer;
 
-    padding: 5px 0;
+    padding: 5px;
     border: 1px solid #ccc;
     border-radius: 12px;
 
     background-color: #fff;
     box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
 
     &::-webkit-scrollbar {
         display: none;
@@ -146,6 +147,7 @@ const SeasonItem = styled.li`
 
   &:hover {
     background-color: #EFEAFC;
+    border-radius: 7.5px;
   }
 `
 
