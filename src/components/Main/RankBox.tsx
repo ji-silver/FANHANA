@@ -37,7 +37,7 @@ const RankBox = () => {
       );
       const targetData = res.data.data;
       const sortData = getTeamsWithWinRate(targetData);
-      const cutData = sortData.slice(0, 6);
+      const cutData = sortData.slice(0, 5);
       setData(cutData);
     } catch (error) {
       console.error("랭크데이터 불러오는거 실패함", error);
@@ -94,7 +94,10 @@ const RankBox = () => {
           </HeaderTr>
           {data.map((item, index) => {
             return (
-              <Tr key={item.team_id}>
+              <Tr
+                key={item.team_id}
+                className={index == 0 ? `${styles.numOne}` : ``}
+              >
                 <TdSm>{index + 1}</TdSm>
                 <TdLa>{item.team_name}</TdLa>
                 <TdSm>{item.wins + item.losses + item.drawns}</TdSm>
@@ -126,7 +129,8 @@ const RankContainer = styled.div`
 
 const Header = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin: 0;
 `;
 const RankTable = styled.table`
   display: flex;
@@ -150,7 +154,6 @@ const HeaderTr = styled.tr`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #a0a0a0;
   border-bottom: 1px solid #a0a0a0;
   height: 30px;
 `;

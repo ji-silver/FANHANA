@@ -66,7 +66,7 @@ const RankBox = ({ category }) => {
     <>
       <RankContainer>
         <Header>
-          <div className={styles.title}>경기 순위</div>
+          <div className={styles.title}>{`경기 순위 >`}</div>
         </Header>
         <RankTable>
           <HeaderTr>
@@ -80,7 +80,10 @@ const RankBox = ({ category }) => {
           </HeaderTr>
           {data.map((item, index) => {
             return (
-              <Tr key={item.team_id}>
+              <Tr
+                key={item.team_id}
+                className={index == 0 ? `${styles.numOne}` : ``}
+              >
                 <TdSm>{index + 1}</TdSm>
                 <TdLa>{item.team_name}</TdLa>
                 <TdSm>{item.wins + item.losses + item.drawns}</TdSm>
@@ -102,7 +105,7 @@ export default RankBox;
 const RankContainer = styled.div`
   display: flex;
   width: 400px;
-  height: 500px;
+  height: 550px;
   background: #ffffff;
   border: 2.5px solid #d9d9d9;
   border-radius: 20px;
@@ -112,7 +115,7 @@ const RankContainer = styled.div`
 
 const Header = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
 `;
 const RankTable = styled.table`
   display: flex;

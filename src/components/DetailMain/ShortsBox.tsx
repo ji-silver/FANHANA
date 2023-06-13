@@ -3,7 +3,6 @@ import styled from "styled-components";
 import axios from "axios";
 
 import styles from "../../styles/main.module.scss";
-import shortsData from "./Dummy/shortsData.json";
 
 interface Data {
   id: number;
