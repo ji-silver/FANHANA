@@ -5,7 +5,6 @@ import axios from "axios";
 
 import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
-import Dropdown from "../common/Dropdown";
 
 interface Team {
   _id: string;
@@ -75,15 +74,9 @@ const MatchContainer = ({ categoryData }) => {
   );
 };
 
-const ScheduleBox = () => {
+const ScheduleBox = ({ category }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [selectCategory, setSelectCategory] = useState<number>(4);
   const [dateData, setDateData] = useState([]);
-  const [categoryData, setCategoryData] = useState([]);
-
-  const dropdownSelect = (category: any) => {
-    setSelectCategory(category);
-  };
 
   //날짜당 데이터 받아옴
   const getSceduleData = async (date: any) => {
@@ -100,47 +93,18 @@ const ScheduleBox = () => {
   };
 
   useEffect(() => {
-    getSceduleData(selectedDate);
-    setCategoryData(dateData);
-    // dropdownSelect(4);
-    setSelectCategory(4);
+    console.log("dateData", dateData);
+    console.log("selectCategoty", category);
+    const data = dateData.filter((data) => data.category === category);
+    const newData = [...data];
+    setDateData(newData);
   }, [selectedDate]);
-
-  useEffect(() => {
-    console.log("dateData", dateData);
-    console.log("selectCategoty", selectCategory);
-    if (selectCategory == 4) {
-      const newdata = [...dateData];
-      setCategoryData(newdata);
-    }
-  }, [dateData]);
-
-  useEffect(() => {
-    console.log("dateData", dateData);
-    console.log("selectCategoty", selectCategory);
-    if (selectCategory !== 4) {
-      // @ts-expect-error
-      const data = dateData.filter((data) => data.category === selectCategory);
-      const newData = [...data];
-      setCategoryData(newData);
-    }
-    if (selectCategory == 4) {
-      const newdata = [...dateData];
-      setCategoryData(newdata);
-    }
-  }, [selectCategory]);
 
   return (
     <>
       <ScheduleContainer>
         <Header>
           <div className={styles.title}>경기 일정</div>
-          <Dropdown
-            allCategory
-            purpose="small"
-            dropdownSelect={dropdownSelect}
-            selectCategory={selectCategory}
-          />
         </Header>
         <Body>
           <DateContainer>
@@ -150,7 +114,7 @@ const ScheduleBox = () => {
               selectedDate={selectedDate}
             />
           </DateContainer>
-          <MatchContainer categoryData={categoryData} />
+          <MatchContainer categoryData={dateData} />
         </Body>
       </ScheduleContainer>
     </>

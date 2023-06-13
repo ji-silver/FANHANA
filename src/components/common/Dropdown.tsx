@@ -15,6 +15,7 @@ interface Props {
   allCategory?: boolean;
   purpose: "small" | "middle" | "large";
   dropdownSelect: (selectedItem: Items | null) => void;
+  selectCategory?: number;
 }
 
 const Dropdown: React.FC<Props> = ({

@@ -17,9 +17,9 @@ const MainPage = () => {
       <div className={styles.body}>
         <ScheduleBox />
         {/* <ShortsBox /> */}
-        {/* <WeatherBox />
+        <WeatherBox />
         <CommunityBox />
-        <RankBox /> */}
+        {/* <RankBox /> */}
       </div>
     </>
   );
