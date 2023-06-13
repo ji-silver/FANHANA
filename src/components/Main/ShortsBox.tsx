@@ -22,7 +22,7 @@ const VideoContainer = ({ data }) => {
     <>
       {data.map((video: any) => {
         return (
-          <VideoBox>
+          <VideoBox key={video.id}>
             <Video src={video.src} />
             <VideoTitle>{video.title}</VideoTitle>
           </VideoBox>
@@ -38,9 +38,10 @@ const ShortsBox = () => {
   useEffect(() => {
     const getShortsData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5500/api/v1/shorts/2`);
+        const res = await axios.get(
+          `http://localhost:5500/api/v1/shorts/?category=2`
+        );
         setData(res.data.data);
-        console.log(res.data.data);
       } catch (error) {
         console.error("비디오데이터 불러오는거 실패함", error);
       }
@@ -51,10 +52,10 @@ const ShortsBox = () => {
   return (
     <>
       <ShortsContainer>
-        <div className={styles.title}>쇼츠</div>
+        {/* <div className={styles.title}>쇼츠</div>
         <Body>
           <VideoContainer data={data} />
-        </Body>
+        </Body> */}
       </ShortsContainer>
     </>
   );

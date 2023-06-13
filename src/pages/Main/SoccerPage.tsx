@@ -12,7 +12,7 @@ const SoccerPage = () => {
     <>
       <div className={styles.body}>
         <ScheduleBox />
-        <ShortsBox />
+        {/* <ShortsBox /> */}
         <CommunityBox />
         <RankBox />
       </div>

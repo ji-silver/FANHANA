@@ -26,7 +26,7 @@ const TableHeader = () => {
 const BoardBox = ({ category }) => {
   const [boardData, setBoardData] = useState([]);
 
-  const getCategoryName = (category) => {
+  const getCategoryName = (category: any) => {
     if (category === 0) return "축구";
     if (category === 1) return "야구";
     if (category === 2) return "e-스포츠";

@@ -8,21 +8,14 @@ import teamData from "./Dummy/teamData.json";
 import category from "./Dummy/category.json";
 import Dropdown from "../common/Dropdown";
 
-interface Team {
-  _id: string;
-  name: string;
-  category: number;
-  img: string;
-}
-
 interface Rank {
-  _id: string;
+  team_id: number;
   season: string;
   wins: number;
+  team_name: string;
   drawns: number;
   losses: number;
   winRate?: number;
-  team_id: number;
 }
 
 const RankBox = () => {
@@ -30,17 +23,17 @@ const RankBox = () => {
   const [targetCatrgory, setTargetCatrgory] = useState(0);
   const [data, setData] = useState<Rank[]>([]);
 
-  const dropdownSelect = (item) => {
+  const dropdownSelect = (item: any) => {
     setTargetCatrgory(item);
   };
 
   const getRankData = async (category: any) => {
     try {
       const res = await axios.get(
-        `http://localhost:5500/api/v1/rank/${category}/${season}`
+        `http://localhost:5500/api/v1/rank/0/2023-KBO`
       );
       //setData(res.data);
-      console.log(res.data);
+      console.log(res.data.data);
     } catch (error) {
       console.error("랭크데이터 불러오는거 실패함", error);
     }
@@ -57,7 +50,7 @@ const RankBox = () => {
 
   //rankData 받아서 승률 삽입->정렬 후 반환
   const getTeamsWithWinRate = (data: any) => {
-    const teamsWithWinRate = data.map((rank) => {
+    const teamsWithWinRate = data.map((rank: any) => {
       const winRate = calculateWinRate(rank);
       return { ...rank, winRate };
     });
@@ -68,23 +61,23 @@ const RankBox = () => {
     return sortData;
   };
 
-  //페이지 로딩시 default category(=축구) 데이터 받아옴
-  // useEffect(() => {
-  //   getRankData(targetCatrgory);
-  //   // @ts-expect-error
-  //   setData(targetData);
-  //   const targetData = getTeamsWithWinRate(data);
-  // }, []);
+  // 페이지 로딩시 default category(=축구) 데이터 받아옴
+  useEffect(() => {
+    getRankData(targetCatrgory);
+    // @ts-expect-error
+    setData(targetData);
+    const targetData = getTeamsWithWinRate(data);
+  }, []);
 
-  // //카테고리 변경시 data 변경
-  // useEffect(() => {
-  //   getRankData(targetCatrgory);
-  //   const targetData = getTeamsWithWinRate(data);
-  //   const newData = [...targetData];
-  //   setData(newData);
-  // }, [targetCatrgory]);
+  //카테고리 변경시 data 변경
+  useEffect(() => {
+    getRankData(targetCatrgory);
+    const targetData = getTeamsWithWinRate(data);
+    const newData = [...targetData];
+    setData(newData);
+  }, [targetCatrgory]);
 
-  // console.log("data", data);
+  console.log("data", data);
 
   return (
     <>
@@ -101,12 +94,9 @@ const RankBox = () => {
           </HeaderTr>
           {data.map((item, index) => {
             return (
-              <Tr key={item._id}>
+              <Tr key={item.team_id}>
                 <TdSm>{index + 1}</TdSm>
-                <TdLa>
-                  {item.team_id}
-                  {/*item.name*/}
-                </TdLa>
+                <TdLa>{item.team_name}</TdLa>
                 <TdSm>{item.wins + item.losses + item.drawns}</TdSm>
                 <TdSm>{item.wins}</TdSm>
                 <TdSm>{item.losses}</TdSm>

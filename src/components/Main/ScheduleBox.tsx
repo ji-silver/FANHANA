@@ -6,7 +6,6 @@ import axios from "axios";
 import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
 import matchData from "./Dummy/matchData.json";
-import category from "./Dummy/category.json";
 import Dropdown from "../common/Dropdown";
 
 interface Team {
@@ -79,8 +78,8 @@ const MatchContainer = ({ categoryData }) => {
 
 const ScheduleBox = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [selectCategory, setSelectCategory] = useState<number>(0);
-  const [dateData, setDateData] = useState(matchData.data);
+  const [selectCategory, setSelectCategory] = useState<number>(4);
+  const [dateData, setDateData] = useState([]);
   const [categoryData, setCategoryData] = useState(matchData.data);
 
   const dropdownSelect = (category: any) => {
@@ -88,35 +87,34 @@ const ScheduleBox = () => {
   };
 
   //날짜당 데이터 받아옴
-  // @ts-expect-error
-  const getSceduleData = async (date) => {
+  const getSceduleData = async (date: any) => {
+    const selectdate = format(date, "yyyy-MM-dd");
+
     try {
       const res = await axios.get(
-        `http://localhost:5500/api/v1/schedule/day/${date}`
+        `http://localhost:5500/api/v1/schedule/day/${selectdate}`
       );
-      setDateData(res.data);
+      setDateData(res.data.data);
     } catch (error) {
       console.error("경기순위 불러오는거 실패함", error);
     }
   };
 
-  //선택한 날짜가 바뀔 때 마다 날짜 데이터 받아와서 dateData 업데이트
   useEffect(() => {
     getSceduleData(selectedDate);
-    console.log(dateData);
+    setCategoryData(dateData);
   }, [selectedDate]);
 
   useEffect(() => {
-    //선택한 카테고리가 바뀔 때 마다 categoryData 업데이트
-    //matchData.category === 선택한 카테고리와 같은걸 필터해서 newData에 담음
-    if (selectCategory !== 0) {
-      const newData = dateData.filter(
-        (data) => data.category === selectCategory
-      );
+    console.log("dateData", dateData);
+    if (selectCategory !== 4) {
+      const data = dateData.filter((data) => data.category === selectCategory);
+      const newData = [...data];
       setCategoryData(newData);
     }
-    if (selectCategory === 4) {
-      setCategoryData(dateData);
+    if (selectCategory == 4) {
+      const newdata = [...dateData];
+      setCategoryData(newdata);
     }
   }, [selectCategory]);
 
