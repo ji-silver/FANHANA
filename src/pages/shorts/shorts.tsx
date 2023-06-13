@@ -35,7 +35,6 @@ const Shorts: React.FC = () => {
   const location = useLocation();
   const preCategory = location.state?.category;
   const preShortsId = location.state?.shortsId;
-  // const preShortsId = 123;
 
   const localSaveUserId = localStorage.getItem("userId");
   const parsedUserId = localSaveUserId ? parseInt(localSaveUserId) : null;
@@ -81,7 +80,7 @@ const Shorts: React.FC = () => {
         }
       );
       const comments = response.data.data;
-      console.log(comments);
+
       setComments(comments);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -124,7 +123,7 @@ const Shorts: React.FC = () => {
         throw new Error("No current shorts available");
       }
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
 
       const requestBody = {
         contents_category: 0,
@@ -143,6 +142,10 @@ const Shorts: React.FC = () => {
         requestBody,
         config
       );
+
+      setInput("");
+
+      getComments(curShorts.id);
     } catch (error) {
       console.error("Error submitting comment: ", error);
     }
@@ -212,17 +215,6 @@ const Shorts: React.FC = () => {
           <CommentsCount>{comments.length}</CommentsCount>
         </CommentsHeader>
         <CommentCover>
-          {/* <Comment
-            alt="user"
-            img="https://cdn.pixabay.com/photo/2023/05/28/13/15/helicopter-8023696_640.jpg"
-            nickname="user"
-            info="댓글에는 이런 내용이 들어갈 예정입니다 확ㅇ"
-            date="2023-06-09"
-            localSaveUserId={0}
-            userId={0}
-            clickHandler={handle}
-          ></Comment> */}
-
           {/* 닫는 버튼(이건 크기에 따라 달라졌을 때 추가되는 걸로) */}
           {comments.map((comment, index) => (
             <Comment
