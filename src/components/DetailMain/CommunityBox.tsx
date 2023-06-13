@@ -26,9 +26,7 @@ const BoardBox = ({ category }) => {
   const [boardData, setBoardData] = useState([]);
 
   const getCategoryName = (category?: any) => {
-    if (category === 0) return "축구";
-    if (category === 1) return "야구";
-    if (category === 2) return "e-스포츠";
+    if (category < 3) return "최신";
     return "전체";
   };
 
@@ -81,17 +79,15 @@ const PostList = ({ data }) => {
   );
 };
 
-const CommunityBox = () => {
+const CommunityBox = ({ category }) => {
+  console.log("category", category);
   return (
     <>
       <CommunityContainer>
         <div className={styles.title}>오늘의 커뮤니티</div>
         <Body>
           <PostListContainer>
-            <BoardBox category={null} />
-            <BoardBox category={0} />
-            <BoardBox category={1} />
-            <BoardBox category={2} />
+            <BoardBox category={category} />
           </PostListContainer>
         </Body>
       </CommunityContainer>

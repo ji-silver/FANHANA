@@ -79,25 +79,23 @@ const ScheduleBox = ({ category }) => {
   const [dateData, setDateData] = useState([]);
 
   //날짜당 데이터 받아옴
-  const getSceduleData = async (date: any) => {
-    const selectdate = format(date, "yyyy-MM-dd");
-
-    try {
-      const res = await axios.get(
-        `http://localhost:5500/api/v1/schedule/day/${selectdate}`
-      );
-      setDateData(res.data.data);
-    } catch (error) {
-      console.error("경기순위 불러오는거 실패함", error);
-    }
-  };
 
   useEffect(() => {
-    console.log("dateData", dateData);
-    console.log("selectCategoty", category);
-    const data = dateData.filter((data) => data.category === category);
-    const newData = [...data];
-    setDateData(newData);
+    const getSceduleData = async (date: any) => {
+      const selectdate = format(date, "yyyy-MM-dd");
+      try {
+        const res = await axios.get(
+          `http://localhost:5500/api/v1/schedule/day/${selectdate}`
+        );
+        const newData = res.data.data.filter(
+          (data) => data.category === category
+        );
+        setDateData(newData);
+      } catch (error) {
+        console.error("경기순위 불러오는거 실패함", error);
+      }
+    };
+    getSceduleData(selectedDate);
   }, [selectedDate]);
 
   return (
@@ -143,7 +141,7 @@ const DateContainer = styled.div`
 `;
 const Header = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
 `;
 
 const Body = styled.div`

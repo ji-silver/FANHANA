@@ -18,6 +18,7 @@ interface Data {
 
 // @ts-expect-error
 const VideoContainer = ({ data }) => {
+  console.log("data", data);
   return (
     <>
       {data.map((video: any) => {
@@ -38,8 +39,9 @@ const ShortsBox = () => {
   useEffect(() => {
     const getShortsData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5500/api/v1/shorts/`);
-        setData(res.data.data);
+        const res = await axios.get(`http://localhost:5500/api/v1/shorts`);
+        const cutData = res.data.data.slice(0, 4);
+        setData(cutData);
       } catch (error) {
         console.error("비디오데이터 불러오는거 실패함", error);
       }
@@ -50,10 +52,10 @@ const ShortsBox = () => {
   return (
     <>
       <ShortsContainer>
-        {/* <div className={styles.title}>쇼츠</div>
+        <div className={styles.title}>쇼츠</div>
         <Body>
           <VideoContainer data={data} />
-        </Body> */}
+        </Body>
       </ShortsContainer>
     </>
   );

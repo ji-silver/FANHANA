@@ -3,7 +3,6 @@ import styled from "styled-components";
 import axios, { all } from "axios";
 
 import styles from "../../styles/main.module.scss";
-import communityData from "./Dummy/communityData.json";
 
 interface Data {
   id: number;
@@ -38,9 +37,7 @@ const BoardBox = ({ category }) => {
     const getBoardData = async (category?: any) => {
       try {
         const res = await axios.get(
-          `http://localhost:5500/api/v1/post/main${
-            category ? `?category=${category}` : null
-          }`
+          `http://localhost:5500/api/v1/post/main?category=${category}`
         );
         setBoardData(res.data.data);
       } catch (error) {
@@ -84,14 +81,17 @@ const PostList = ({ data }) => {
   );
 };
 
-const CommunityBox = (category) => {
+const CommunityBox = () => {
   return (
     <>
       <CommunityContainer>
         <div className={styles.title}>오늘의 커뮤니티</div>
         <Body>
           <PostListContainer>
-            <BoardBox category={category} />
+            <BoardBox category={null} />
+            <BoardBox category={0} />
+            <BoardBox category={1} />
+            <BoardBox category={2} />
           </PostListContainer>
         </Body>
       </CommunityContainer>

@@ -11,9 +11,9 @@ const SoccerPage = () => {
   return (
     <>
       <div className={styles.body}>
-        <ScheduleBox />
-        {/* <ShortsBox /> */}
-        <CommunityBox />
+        <ScheduleBox category={0} />
+        <ShortsBox category={0} />
+        <CommunityBox category={0} />
         <RankBox category={0} />
       </div>
     </>

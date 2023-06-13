@@ -18,26 +18,6 @@ const RankBox = ({ category }) => {
   const HEADER_LIST = ["순위", "팀명", "경기", "승", "패", "무", "승률"];
   const [data, setData] = useState<Rank[]>([]);
 
-  const getRankData = async (category: any) => {
-    const season =
-      category == 0
-        ? `2023-K-League`
-        : category === 1
-        ? `2023-KBO`
-        : `2023-LCK-Spring`;
-    try {
-      const res = await axios.get(
-        `http://localhost:5500/api/v1/rank/${category}/${season}`
-      );
-      const targetData = res.data.data;
-      const sortData = getTeamsWithWinRate(targetData);
-      const cutData = sortData.slice(0, 6);
-      setData(cutData);
-    } catch (error) {
-      console.error("랭크데이터 불러오는거 실패함", error);
-    }
-  };
-
   //승률변환 함수
   const calculateWinRate = (rank: Rank) => {
     const { wins, losses } = rank;
@@ -61,6 +41,24 @@ const RankBox = ({ category }) => {
 
   // 페이지 로딩시 default category(=축구) 데이터 받아옴
   useEffect(() => {
+    const getRankData = async (category: any) => {
+      const season =
+        category == 0
+          ? `2023-K-League`
+          : category === 1
+          ? `2023-KBO`
+          : `2023-LCK-Spring`;
+      try {
+        const res = await axios.get(
+          `http://localhost:5500/api/v1/rank/${category}/${season}`
+        );
+        const targetData = res.data.data;
+        const sortData = getTeamsWithWinRate(targetData);
+        setData(sortData);
+      } catch (error) {
+        console.error("랭크데이터 불러오는거 실패함", error);
+      }
+    };
     getRankData(category);
   }, []);
 
@@ -104,7 +102,7 @@ export default RankBox;
 const RankContainer = styled.div`
   display: flex;
   width: 400px;
-  height: 298px;
+  height: 500px;
   background: #ffffff;
   border: 2.5px solid #d9d9d9;
   border-radius: 20px;
@@ -114,12 +112,12 @@ const RankContainer = styled.div`
 
 const Header = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
 `;
 const RankTable = styled.table`
   display: flex;
   width: 360px;
-  height: 250px;
+  height: 550px;
   margin-left: auto;
   margin-right: auto;
   flex-direction: column;

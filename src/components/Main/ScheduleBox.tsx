@@ -107,8 +107,6 @@ const ScheduleBox = () => {
   }, [selectedDate]);
 
   useEffect(() => {
-    console.log("dateData", dateData);
-    console.log("selectCategoty", selectCategory);
     if (selectCategory == 4) {
       const newdata = [...dateData];
       setCategoryData(newdata);
@@ -116,8 +114,6 @@ const ScheduleBox = () => {
   }, [dateData]);
 
   useEffect(() => {
-    console.log("dateData", dateData);
-    console.log("selectCategoty", selectCategory);
     if (selectCategory !== 4) {
       // @ts-expect-error
       const data = dateData.filter((data) => data.category === selectCategory);
@@ -179,7 +175,7 @@ const DateContainer = styled.div`
 `;
 const Header = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 const Body = styled.div`

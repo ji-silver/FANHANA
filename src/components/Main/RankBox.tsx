@@ -73,7 +73,6 @@ const RankBox = () => {
   //카테고리 변경시 data 변경
   useEffect(() => {
     getRankData(targetCatrgory);
-    console.log("카테고리 변경시 받아진 데이터", data);
   }, [targetCatrgory]);
 
   return (

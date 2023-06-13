@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
+import styles from "../../styles/main.module.scss";
+import shortsData from "./Dummy/shortsData.json";
+
 interface Data {
   id: number;
   user_id: number;
@@ -15,6 +18,7 @@ interface Data {
 
 // @ts-expect-error
 const VideoContainer = ({ data }) => {
+  console.log("data", data);
   return (
     <>
       {data.map((video: any) => {
@@ -29,30 +33,32 @@ const VideoContainer = ({ data }) => {
   );
 };
 
-const ShortsBox = (category: number) => {
+const ShortsBox = ({ category }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const getShortsData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5500/api/v1/shorts/?category=${category}`
+          `http://localhost:5500/api/v1/shorts?category=${category}`
         );
-        setData(res.data.data);
+        const cutData = res.data.data.slice(0, 4);
+        setData(cutData);
       } catch (error) {
         console.error("비디오데이터 불러오는거 실패함", error);
       }
     };
+
     getShortsData();
   }, []);
 
   return (
     <>
       <ShortsContainer>
-        {/* <div className={styles.title}>쇼츠</div>
+        <div className={styles.title}>쇼츠</div>
         <Body>
           <VideoContainer data={data} />
-        </Body> */}
+        </Body>
       </ShortsContainer>
     </>
   );
