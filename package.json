@@ -20,6 +20,7 @@
     "react": "^18.2.0",
     "react-datepicker": "^4.12.0",
     "react-dom": "^18.2.0",
+    "react-fast-marquee": "^1.6.0",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
@@ -56,6 +57,7 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.2",
     "@types/react-datepicker": "^4.11.2",
+    "@types/react-slick": "^0.23.10",
     "@types/styled-components": "^5.1.26"
   }
 }
