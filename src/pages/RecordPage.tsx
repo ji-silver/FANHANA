@@ -104,8 +104,9 @@ export default RecordPage;
 
 const Container = styled.div`
     position: relative;
-    padding: 30px 162px;
+    padding: 0 162px 30px 162px;
 
+<<<<<<< HEAD
     @media (max-width: 1024px){
         padding: 30px 0;
         margin: 0 auto;
@@ -113,6 +114,10 @@ const Container = styled.div`
 
     @media (max-width: 767px) {
         padding: 20px 0;
+=======
+    @media (max-width: 768px) {
+        padding: 0;
+>>>>>>> dev
     }
 `
 
@@ -135,12 +140,23 @@ const TodayDivMobile = styled.div`
     text-align: right;
 `
 
+<<<<<<< HEAD
 const DesktopTableWrap = styled.div`
     position: relative;
 `
 
 const MobileTableWrap = styled.div`
     position: relative;
+=======
+    @media (max-width: 768px) {
+        position: absolute;
+        display: block;
+        padding: 0;
+        top: 17px;
+        right: 10px;
+        text-align: right;
+    }
+>>>>>>> dev
 `
 
 const Table = styled.table`
