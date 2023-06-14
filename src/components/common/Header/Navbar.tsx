@@ -116,7 +116,6 @@ const NavContainer = styled.nav`
 const NavWrap = styled.div`
     padding: 0 162px;
     height: 60px;
-
     margin: 0 auto;
 
     @media (max-width: 1024px){
@@ -125,9 +124,10 @@ const NavWrap = styled.div`
     }
 
     @media (max-width: 768px) {
-        height: 50px;
+        height: 48px;
         overflow-y: hidden;
-        white-space: nowrap;
+        white-space: nowrap
+        ;
         ::-webkit-scrollbar {
             display: none;
         }  
@@ -168,22 +168,21 @@ const NavItem = styled.li<{ active: boolean }>`
     &:hover {
         opacity: 1;
     }
-`;
+`
 
 const SubNavItem = styled(NavItem) <{ active: boolean }>`
     font-weight: ${props => props.active ? "bold" : "inherit"};
 `
 
 const NavLink = styled(Link)`
-  text-decoration: none;
-  color: white;
-  padding: 0 15px;
+    text-decoration: none;
+    color: white;
+    padding: 0 15px;
 
-  &:first-child {
-    padding: 0;
-  }
-`;
-
+    &:first-child {
+        padding: 0;
+    }
+`
 
 const SubNav = styled.nav<{ show: boolean }>`
   background-color: #EFEAFC;
@@ -194,8 +193,9 @@ const SubNav = styled.nav<{ show: boolean }>`
         height: ${props => (props.show ? '40px' : '0')};
         overflow-y: hidden;
         white-space: nowrap;
+        
         ::-webkit-scrollbar {
             display: none;
         } 
     }
-`;
+`

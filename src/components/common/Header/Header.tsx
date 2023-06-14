@@ -166,9 +166,9 @@ const LogoImg = styled.img`
 `
 
 const LogoText = styled.span`
-  font-size: 20px;
-  font-weight: bold;
-  padding-left: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 5px;
 `
 
 const NavLink = styled(Link)`
