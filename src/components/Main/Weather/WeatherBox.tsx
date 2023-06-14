@@ -95,7 +95,7 @@ const WeatherBox = () => {
                     viewBox="0 0 10 12"
                   >
                     <path
-                      fill="#fff"
+                      fill="#313131"
                       d="M8.485 8.485L4.971 12 1.456 8.485a4.97 4.97 0 117.03 0zM4.971 7.18a2.21 2.21 0 100-4.418 2.21 2.21 0 000 4.418zm0-1.105a1.105 1.105 0 110-2.209 1.105 1.105 0 010 2.21z"
                     ></path>
                   </svg>
@@ -118,14 +118,16 @@ export default WeatherBox;
 
 const WeatherContainer = styled.div`
     width: 400px;
-    height: 300px;
+    height: 200px;
     text-align: center;
     border-radius: 20px;
-    color: white;
+    color: #313131;
 `;
 
 const WeatherWrap = styled.div`
-    background: linear-gradient(to left, #7474BF, #348AC7);
+    border: 2.5px solid transparent;
+    background-image: linear-gradient(#fff, #fff),
+    linear-gradient(to left, #5546b7, #348AC7);
     width: 100%;
     height: 100%;
     border-radius: 20px;
@@ -133,11 +135,12 @@ const WeatherWrap = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
 `
 
-
 const City = styled.h2`
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -145,7 +148,7 @@ const City = styled.h2`
 `
 
 const Temp = styled.p`
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: bold;
 `
 
