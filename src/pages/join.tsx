@@ -68,7 +68,8 @@ const JoinPage: React.FC = () => {
       confirmPassword === "" ||
       interest === "" ||
       nickname === "" ||
-      phone === ""
+      phone === "" ||
+      avatarId === null
     ) {
       alert("모든 필수 정보를 입력해주세요.");
       return;
@@ -147,7 +148,7 @@ const JoinPage: React.FC = () => {
                 </li>
                 <li>
                   <p className="inputField">프로필아바타</p>
-                  <ProfileImg onAvatarChange={handleAvatarChange} />
+                  <ProfileImg onAvatarChange={handleAvatarChange} base={true} />
                 </li>
               </ul>
             </StyledArticle>

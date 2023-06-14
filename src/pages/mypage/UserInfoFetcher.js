@@ -103,4 +103,3 @@ export const handleWithdraw = () => {
 };
 
 export default UserInfoFetcher;
-//회원탈퇴 후에 catch문 한번더 실행됨
