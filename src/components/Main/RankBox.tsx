@@ -3,7 +3,8 @@ import styled from "styled-components";
 import axios, { all } from "axios";
 
 import styles from "../../styles/main.module.scss";
-import Dropdown from "../common/Dropdown";
+import Dropdown, { getCategoryName } from "../common/Dropdown";
+import { Link } from "react-router-dom";
 
 interface Rank {
   team_id: number;
@@ -23,6 +24,8 @@ const RankBox = () => {
   const dropdownSelect = (item: any) => {
     setTargetCatrgory(item);
   };
+
+  const sportsName = getCategoryName(targetCatrgory);
 
   const getRankData = async (category: any) => {
     const season =
@@ -79,7 +82,9 @@ const RankBox = () => {
     <>
       <RankContainer>
         <Header>
-          <div className={styles.title}>경기 순위</div>
+          <Link to={`/${sportsName.eng}/record`}>
+            <div className={styles.title}>경기 순위 {`> ${sportsName.kr}`}</div>
+          </Link>
           <Dropdown purpose="small" dropdownSelect={dropdownSelect} />
         </Header>
         <RankTable>
@@ -136,6 +141,7 @@ const RankTable = styled.table`
   display: flex;
   width: 360px;
   height: 250px;
+  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
   flex-direction: column;

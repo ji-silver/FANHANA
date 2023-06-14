@@ -5,6 +5,7 @@ import axios, { all } from "axios";
 import styles from "../../styles/main.module.scss";
 import { getCategoryName } from "../common/Dropdown";
 import TableList from "../common/TableList";
+import { Link } from "react-router-dom";
 
 interface Data {
   id: number;
@@ -72,12 +73,15 @@ const CommunityBox = ({ category }: { category: number }) => {
   }, []);
 
   const sportsName = getCategoryName(category);
-  console.log("boardData", boardData);
 
   return (
     <>
       <CommunityContainer>
-        <div className={styles.title}>오늘의 커뮤니티 {`> ${sportsName}`} </div>
+        <Link to={`/${sportsName.eng}/notice`}>
+          <div className={styles.title}>
+            오늘의 커뮤니티 {`> ${sportsName.kr}`}{" "}
+          </div>
+        </Link>
         <Body>
           <BoardBox data={boardData} />
         </Body>

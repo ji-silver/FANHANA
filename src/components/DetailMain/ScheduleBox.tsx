@@ -6,6 +6,7 @@ import axios from "axios";
 import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
 import { getCategoryName } from "../common/Dropdown";
+import { Link } from "react-router-dom";
 
 interface Team {
   _id: string;
@@ -103,7 +104,9 @@ const ScheduleBox = ({ category }: { category: number }) => {
     <>
       <ScheduleContainer>
         <Header>
-          <div className={styles.title}>경기 일정 {`> ${sportsName}`}</div>
+          <Link to={`/${sportsName.eng}/schedule`}>
+            <div className={styles.title}>경기 일정 {`> ${sportsName.kr}`}</div>
+          </Link>
         </Header>
         <Body>
           <DateContainer>

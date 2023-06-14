@@ -3,6 +3,8 @@ import styled from "styled-components";
 import axios, { all } from "axios";
 
 import styles from "../../styles/main.module.scss";
+import { getCategoryName } from "../common/Dropdown";
+import { Link } from "react-router-dom";
 
 interface Data {
   id: number;
@@ -21,16 +23,19 @@ const TableHeader = () => {
   );
 };
 
+const LinkTitle = ({ sportsName }: any) => {
+  return (
+    <Link to={`/${sportsName.eng}/notice`}>
+      {sportsName.kr} {sportsName.kr == "전체" ? `글` : `게시판`}
+    </Link>
+  );
+};
+
 // @ts-expect-error
 const BoardBox = ({ category }) => {
   const [boardData, setBoardData] = useState([]);
 
-  const getCategoryName = (category?: any) => {
-    if (category === 0) return "축구";
-    if (category === 1) return "야구";
-    if (category === 2) return "e-스포츠";
-    return "전체";
-  };
+  const sportsName = getCategoryName(category);
 
   //카테고리별로 게시판 데이터 받아와서 communityData에 저장
   useEffect(() => {
@@ -47,11 +52,17 @@ const BoardBox = ({ category }) => {
     getBoardData(category);
   }, []);
 
-  const name = getCategoryName(category);
-
   return (
     <BoardContainer>
-      <BoardTitle>{name} 게시판</BoardTitle>
+      <BoardTitle>
+        {category == null ? (
+          <div>
+            {sportsName.kr} {sportsName.kr == "전체" ? `글` : `게시판`}
+          </div>
+        ) : (
+          <LinkTitle sportsName={sportsName} />
+        )}
+      </BoardTitle>
       <Table>
         <TableHeader />
         <PostList data={boardData} />

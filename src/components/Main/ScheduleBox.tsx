@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { format } from "date-fns";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
 import Dropdown from "../common/Dropdown";
+import { getCategoryName } from "../common/Dropdown";
 
 interface Team {
   _id: string;
@@ -39,12 +41,7 @@ const currentTime = format(new Date(), "hh:mm:ss");
 const MatchContainer = ({ categoryData }) => {
   // @ts-expect-error
   const compareTime = (time) => {
-    if (currentTime < time) {
-      return "종료";
-    }
-    if (currentTime === time) {
-      return "진행중";
-    }
+    if (currentTime < time) return "경기 종료";
     return `${time.slice(0, 5)} 예정`;
   };
 
@@ -75,6 +72,14 @@ const MatchContainer = ({ categoryData }) => {
   );
 };
 
+const LinkTitle = ({ sportsName }: any) => {
+  return (
+    <Link to={`/${sportsName.eng}/schedule`}>
+      <div className={styles.title}>{`경기 일정 > ${sportsName.kr}`}</div>
+    </Link>
+  );
+};
+
 const ScheduleBox = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectCategory, setSelectCategory] = useState<number>(4);
@@ -84,6 +89,8 @@ const ScheduleBox = () => {
   const dropdownSelect = (category: any) => {
     setSelectCategory(category);
   };
+
+  const sportsName = getCategoryName(selectCategory);
 
   //날짜당 데이터 받아옴
   const getSceduleData = async (date: any) => {
@@ -130,7 +137,11 @@ const ScheduleBox = () => {
     <>
       <ScheduleContainer>
         <Header>
-          <div className={styles.title}>경기 일정</div>
+          {selectCategory === 4 ? (
+            <div className={styles.title}>경기 일정</div>
+          ) : (
+            <LinkTitle sportsName={sportsName} />
+          )}
           <Dropdown
             allCategory
             purpose="small"
@@ -222,9 +233,9 @@ const Vs = styled.div`
 const State = styled.div<{ state: string }>`
   font-size: 14px;
   color: ${(props) =>
-    props.state == "종료"
+    props.state == "경기 종료"
       ? "red"
-      : props.state == "예정"
+      : props.state == "경기 예정"
       ? "#8F6EEB"
       : "#4EAF51"};
 `;

@@ -4,6 +4,7 @@ import axios from "axios";
 
 import styles from "../../styles/main.module.scss";
 import { getCategoryName } from "../common/Dropdown";
+import { Link } from "react-router-dom";
 
 interface Data {
   id: number;
@@ -57,7 +58,9 @@ const ShortsBox = ({ category }: { category: number }) => {
   return (
     <>
       <ShortsContainer>
-        <div className={styles.title}>쇼츠 {`> ${sportsName}`}</div>
+        <Link to={`/${sportsName.eng}/쇼츠 디테일로 이동`}>
+          <div className={styles.title}>쇼츠 {`> ${sportsName.kr}`}</div>
+        </Link>
         <Body>
           <VideoContainer data={data} />
         </Body>

@@ -10,19 +10,27 @@ import CommunityBox from "../../components/Main/CommunityBox";
 import ShortsBox from "../../components/Main/ShortsBox";
 
 const MainPage = () => {
-  //메인페이지 로딩시 게시판 데이터, 쇼츠 데이터 받아옴
-
   return (
     <>
-      <Body>
+      <div className={styles.body}>
         <ScheduleBox />
         <ShortsBox />
         <CommunityBox />
-        <RankBox />
-        <WeatherBox />
-      </Body>
+        <SmContainer>
+          <RankBox />
+          <WeatherBox />
+        </SmContainer>
+      </div>
     </>
   );
 };
 
 export default MainPage;
+
+const SmContainer = styled.div`
+  display: flex;
+  width: 404px;
+  height: 629px;
+  flex-direction: column;
+  justify-content: flex-start;
+`;

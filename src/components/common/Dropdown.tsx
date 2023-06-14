@@ -20,7 +20,13 @@ interface Props {
 
 export const getCategoryName = (category: number) => {
   const sportsName =
-    category == 0 ? "축구" : category == 1 ? "야구" : "e-스포츠";
+    category == 0
+      ? { eng: `soccer`, kr: `축구` }
+      : category == 1
+      ? { eng: `baseball`, kr: `야구` }
+      : category == 2
+      ? { eng: `esport`, kr: `e-스포츠` }
+      : { eng: `all`, kr: `전체` };
   return sportsName;
 };
 

@@ -4,6 +4,7 @@ import axios, { all } from "axios";
 
 import styles from "../../styles/main.module.scss";
 import { getCategoryName } from "../common/Dropdown";
+import { Link } from "react-router-dom";
 
 interface Rank {
   team_id: number;
@@ -69,7 +70,9 @@ const RankBox = ({ category }: { category: number }) => {
     <>
       <RankContainer>
         <Header>
-          <div className={styles.title}>{`경기 순위 > ${sportsName}`}</div>
+          <Link to={`/${sportsName.eng}/record`}>
+            <div className={styles.title}>{`경기 순위 > ${sportsName.kr}`}</div>
+          </Link>
         </Header>
         <RankTable>
           <HeaderTr>
