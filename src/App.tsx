@@ -18,6 +18,9 @@ import LoLRecord from "./components/Record/LoLRecord";
 import MyWrite from "./pages/mypage/myWrite";
 import MainPage from "./pages/Main/MainPage";
 import Shorts from "./pages/shorts/shorts";
+import List from "./pages/notice/List";
+import Detail from "./pages/notice/Detail";
+import Edit from "./pages/notice/Edit";
 
 function App() {
   return (
@@ -37,10 +40,19 @@ function App() {
           <Route path="/:sports/schedule" element={<SchedulePage />}></Route>
           <Route path="/soccer"></Route>
           <Route path="/soccer/record" element={<KlRecord />} />
+          <Route path="/soccer/notice" element={<List/>} />
+          <Route path="/soccer/notice/edit" element={<Edit/>} />
+          <Route path="/soccer/notice/detail/:id" element={<Detail/>} />
           <Route path="/baseball"></Route>
           <Route path="/baseball/record" element={<KboRecord />} />
+          <Route path="/baseball/notice" element={<List/>} />
+          <Route path="/baseball/notice/edit" element={<Edit/>} />
+          <Route path="/baseball/notice/detail/:id" element={<Detail/>} />
           <Route path="/esport"></Route>
           <Route path="/esport/record" element={<LoLRecord />} />
+          <Route path="/esport/notice" element={<List/>} />
+          <Route path="/esport/notice/edit" element={<Edit/>} />
+          <Route path="/esport/notice/detail/:id" element={<Detail/>} />
           <Route path="/shorts" element={<Shorts />}></Route>
         </Routes>
         <Footer></Footer>

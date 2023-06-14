@@ -4,7 +4,6 @@ import axios from "axios";
 import Dropdown from "./../../components/common/Dropdown";
 import TableList from "./../../components/common/TableList";
 
-
 const MyPostsPage = () => {
   const [posts, setPosts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
@@ -73,7 +72,6 @@ const MyPostsPage = () => {
       return posts.filter((post: any) => post.category === parseInt(selectedCategory));
     }
   };
- 
 
   return (
     <div className="mh500">
