@@ -17,7 +17,7 @@ interface ProfilePopperProps {
   open: boolean;
   anchorEl: HTMLElement | null;
   id: string | undefined;
-  onClose: (event: MouseEvent | TouchEvent) => void;
+  onClose: any; // 여기 계속 에러나서 any로 바꿈
 }
 
 const ProfilePopper = (props: ProfilePopperProps) => {
