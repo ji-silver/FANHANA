@@ -4,6 +4,7 @@ import axios, { all } from "axios";
 
 import styles from "../../styles/main.module.scss";
 import { getCategoryName } from "../common/Dropdown";
+import TableList from "../common/TableList";
 
 interface Data {
   id: number;
@@ -17,48 +18,23 @@ const TableHeader = () => {
     <HeaderTr>
       <th>게시글ID</th>
       <th>제목, 댓글</th>
+      <th>작성자</th>
       <th>조회수</th>
     </HeaderTr>
   );
 };
 
-const BoardBox = ({ category }: { category: number }) => {
-  const [boardData, setBoardData] = useState([]);
-
-  const getCategoryName = (category?: number | undefined) => {
-    if (category && category < 3) return "최신";
-    return "전체";
-  };
-
-  //카테고리별로 게시판 데이터 받아와서 communityData에 저장
-  useEffect(() => {
-    const getBoardData = async (category?: any) => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5500/api/v1/post/main?category=${category}`
-        );
-        setBoardData(res.data.data);
-      } catch (error) {
-        console.error("게시판 불러오는거 실패함", error);
-      }
-    };
-    getBoardData(category);
-  }, []);
-
-  const name = getCategoryName(category);
-
+const BoardBox = ({ data }: any) => {
   return (
     <BoardContainer>
-      <BoardTitle>{name} 게시판</BoardTitle>
       <Table>
         <TableHeader />
-        <PostList data={boardData} />
+        <PostList data={data} />
       </Table>
     </BoardContainer>
   );
 };
 
-// @ts-expect-error
 const PostList = ({ data }) => {
   return (
     <>
@@ -66,11 +42,8 @@ const PostList = ({ data }) => {
         return (
           <PostTr key={post.id}>
             <Td>{post.id}</Td>
-            <PostTitle>
-              {post.title.length >= 30
-                ? post.title.substr(0, 25) + `....`
-                : post.title}
-            </PostTitle>
+            <PostTitle>{post.title}</PostTitle>
+            <Nickname>{post.nickname}</Nickname>
             <Td>{post.views}</Td>
           </PostTr>
         );
@@ -80,16 +53,33 @@ const PostList = ({ data }) => {
 };
 
 const CommunityBox = ({ category }: { category: number }) => {
+  const [boardData, setBoardData] = useState([]);
+
+  //카테고리별로 게시판 데이터 받아와서 communityData에 저장
+  useEffect(() => {
+    const getBoardData = async (category?: any) => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5500/api/v1/post/category/${category}`
+        );
+        const cutData = res.data.data.slice(0, 9);
+        setBoardData(cutData);
+      } catch (error) {
+        console.error("게시판 불러오는거 실패함", error);
+      }
+    };
+    getBoardData(category);
+  }, []);
+
   const sportsName = getCategoryName(category);
+  console.log("boardData", boardData);
 
   return (
     <>
       <CommunityContainer>
         <div className={styles.title}>오늘의 커뮤니티 {`> ${sportsName}`} </div>
         <Body>
-          <PostListContainer>
-            <BoardBox category={category} />
-          </PostListContainer>
+          <BoardBox data={boardData} />
         </Body>
       </CommunityContainer>
     </>
@@ -102,7 +92,7 @@ const CommunityContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 1190px;
-  height: 625px;
+  height: 550px;
   background: #ffffff;
   border: 2.5px solid #d9d9d9;
   border-radius: 20px;
@@ -117,11 +107,13 @@ const Body = styled.div`
   width: 1190px;
   height: 550px;
   padding-top: 10px;
+  align-content: flex-start;
 `;
 
 const PostListContainer = styled.div`
   display: flex;
   flex-flow: column wrap;
+  align-content: flex-start;
   width: 1190px;
   height: 550px;
   flex-direction: row;
@@ -133,24 +125,18 @@ const PostListContainer = styled.div`
 const BoardContainer = styled.div`
   flex-wrap: wrap;
   flex-direction: row;
-  width: 550px;
+  width: 1100px;
   height: 220px;
-`;
-
-const BoardTitle = styled.div`
-  font-size: 18px;
-  width: 150px;
-  height: 35px;
-  font-weight: 400;
-  font-size: 18px;
 `;
 
 const Table = styled.table`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 550px;
-  height: 200px;
+  width: 1000px;
+  height: 500px;
+  margin: auto;
+  padding-top: 10px;
 `;
 
 const HeaderTr = styled.tr`
@@ -161,15 +147,19 @@ const PostTr = styled.tr`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 530px;
+  width: 1000px;
   height: 50px;
   border-bottom: 1px solid #cccccc;
 `;
 
 const PostTitle = styled.td`
-  width: 350px;
+  width: 700px;
 `;
 
 const Td = styled.td`
   width: 60px;
+`;
+
+const Nickname = styled.td`
+  width: 130px;
 `;
