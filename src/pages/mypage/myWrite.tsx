@@ -8,7 +8,6 @@ import TableList from "../../components/common/TableList";
 import UserInfoFetcher from "./UserInfoFetcher";
 import MyInfo from "./myInfo";
 
-import dummyPosts from "./dummyPosts"; //더미 게시글 -> 나중에 지우기
 import MyPostsPage from "./myPostsPage";
 
 const MyWrite = () => {
@@ -36,7 +35,6 @@ const MyWrite = () => {
   };
 
   useEffect(() => {
-    // 프로필 이미지가 업데이트되면 반영하기 위해 UserInfoFetcher 컴포넌트에서 가져오는 것이 아닌 useEffect를 사용하여 따로 업데이트합니다.
     const imgId = localStorage.getItem("profileImgId");
     if (imgId) {
       setProfileImg(`/images/profile${imgId}.png`);
