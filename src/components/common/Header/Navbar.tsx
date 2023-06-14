@@ -104,7 +104,7 @@ const Navbar = () => {
 export default Navbar
 
 const NavContainer = styled.nav`
-    width: 100vw;
+    width: 100%;
     min-height: 50px;
     background-color: #5546B7;
 

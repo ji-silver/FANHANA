@@ -115,7 +115,7 @@ const HeaderContainer = styled.div`
 `
 
 const HeaderTop = styled.div`
-    width: 100vw;
+    width: 100%;
     height: 60px;
 
     @media (max-width: 1024px) {
