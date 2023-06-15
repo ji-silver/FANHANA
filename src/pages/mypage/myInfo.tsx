@@ -14,7 +14,7 @@ const MyInfo = () => {
     nickname: "",
     phone: "",
     favoriteSport: 0,
-    img: 1, // 선택된 아바타의 ID
+    img: 1, // 선택된 프로필 이미지의 ID
   });
 
   //회원정보 수정
