@@ -18,6 +18,7 @@ import LoLRecord from "./components/Record/LoLRecord";
 import MyWrite from "./pages/mypage/myWrite";
 import MainPage from "./pages/Main/MainPage";
 import Shorts from "./pages/shorts/shorts";
+import StadiumPage from "./pages/StadiumPage";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path="/esport"></Route>
           <Route path="/esport/record" element={<LoLRecord />} />
           <Route path="/shorts" element={<Shorts />}></Route>
+          <Route path="/stadium" element={<StadiumPage />}></Route>
         </Routes>
         <Footer></Footer>
       </Router>
