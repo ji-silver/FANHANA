@@ -56,7 +56,17 @@ const KakaoMap = (props: Props) => {
     };
 
     props.scheduleList.forEach((schedule) => {
-      ps.keywordSearch(schedule.location, (result: any, status: any) => {
+      let location = schedule.location;
+      if (schedule.category === 0) {
+        if (location.includes("종합")) {
+          location += "운동장";
+        } else location += "축구장";
+      }
+      if (schedule.category === 1) {
+        location += "야구장";
+      }
+
+      ps.keywordSearch(location, (result: any, status: any) => {
         placesSearchCB(result, status);
         display(result[0], schedule);
       });
