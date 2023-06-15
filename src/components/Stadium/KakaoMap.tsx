@@ -92,9 +92,20 @@ const KakaoMap = (props: Props) => {
       });
 
       const content = `
-          <div class="overlayContainer">
-            <div class="overlayTitle">${place.place_name}</div>
-          </div>
+          <a href="https://map.kakao.com/link/to/${place.id}"} target="_blank">
+            <div class="overlayContainer">
+              <div class="overlayTitle">${place.place_name}</div>
+              <div class="overlayContent">
+                <div class="scheduleInfo">
+                  <div class="time">
+                    ${schedule.start_time.slice(0, 5)}
+                  </div>
+                  <div class="team">
+                    ${schedule.team1} vs ${schedule.team2}
+                  </div>
+              </div>
+            </div>
+          </a>
         `;
 
       const customOverlay = new kakao.maps.CustomOverlay({
