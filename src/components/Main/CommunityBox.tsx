@@ -184,7 +184,7 @@ const PostTr = styled.tr`
   justify-content: space-between;
   align-items: center;
   width: 530px;
-  height: 50px;
+  height: 40px;
   border-bottom: 1px solid #cccccc;
 `;
 
