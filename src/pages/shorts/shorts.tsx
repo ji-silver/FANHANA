@@ -326,7 +326,7 @@ const ImageCover = styled.div`
 
 const CommentCover = styled.div`
   flex-grow: 20;
-  width: 80%;
+  width: 100%;
   overflow: auto;
 `;
 
