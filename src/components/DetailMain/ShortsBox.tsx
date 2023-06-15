@@ -59,9 +59,7 @@ const ShortsBox = ({ category }: { category: number }) => {
   return (
     <>
       <ShortsContainer>
-        <Link to={`/${sportsName.eng}/쇼츠 디테일로 이동`}>
-          <div className={styles.title}>쇼츠 {`> ${sportsName.kr}`}</div>
-        </Link>
+        <div className={styles.title}>쇼츠 {`> ${sportsName.kr}`}</div>
         <Body>
           <VideoContainer data={data} category={category} />
         </Body>

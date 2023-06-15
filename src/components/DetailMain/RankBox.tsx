@@ -58,7 +58,8 @@ const RankBox = ({ category }: { category: number }) => {
         );
         const targetData = res.data.data;
         const sortData = getTeamsWithWinRate(targetData);
-        setData(sortData);
+        const data = sortData.slice(0, 12);
+        setData(data);
       } catch (error) {
         console.error("랭크데이터 불러오는거 실패함", error);
       }
@@ -130,16 +131,17 @@ const RankTable = styled.table`
   margin-left: auto;
   margin-right: auto;
   flex-direction: column;
+  margin-top: 12px;
 `;
 const ThLa = styled.th`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   width: 90px;
 `;
 const ThSm = styled.th`
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
-  width: 30px;
+  width: 32px;
 `;
 const HeaderTr = styled.tr`
   display: flex;
@@ -157,12 +159,12 @@ const Tr = styled.tr`
   border-bottom: 1px solid #d9d9d9;
 `;
 const TdSm = styled.td`
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
-  width: 30px;
+  width: 32px;
 `;
 const TdLa = styled.td`
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
   width: 90px;
 `;

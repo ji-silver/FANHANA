@@ -135,26 +135,25 @@ const RankContainer = styled.div`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 0;
 `;
 const RankTable = styled.table`
   display: flex;
   width: 360px;
-  height: 250px;
-  margin-top: 10px;
+  height: 550px;
   margin-left: auto;
   margin-right: auto;
   flex-direction: column;
+  margin-top: 12px;
 `;
 const ThLa = styled.th`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   width: 90px;
 `;
 const ThSm = styled.th`
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
-  width: 30px;
+  width: 32px;
 `;
 const HeaderTr = styled.tr`
   display: flex;
@@ -172,12 +171,12 @@ const Tr = styled.tr`
   border-bottom: 1px solid #d9d9d9;
 `;
 const TdSm = styled.td`
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
-  width: 30px;
+  width: 32px;
 `;
 const TdLa = styled.td`
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
   width: 90px;
 `;
