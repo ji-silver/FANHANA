@@ -25,7 +25,7 @@ const TableHeader = () => {
   );
 };
 
-const BoardBox = ({ data, sportsName }) => {
+const BoardBox = ({ data, sportsName }: any) => {
   return (
     <BoardContainer>
       <Table>
@@ -36,7 +36,7 @@ const BoardBox = ({ data, sportsName }) => {
   );
 };
 
-const PostList = ({ data, sportsName }) => {
+const PostList = ({ data, sportsName }: any) => {
   return (
     <>
       {data.map((post: any) => {
