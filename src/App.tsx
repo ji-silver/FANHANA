@@ -21,8 +21,11 @@ import Shorts from "./pages/shorts/shorts";
 import List from "./pages/notice/List";
 import Detail from "./pages/notice/Detail";
 import Edit from "./pages/notice/Edit";
+import MypageDetail from "./pages/notice/MypageDetail";
+import Modify from "./pages/notice/Modify";
 
 function App() {
+
   return (
     <div className="App">
       <Router>
@@ -37,6 +40,8 @@ function App() {
             <Route path="myPicture" element={<p>동영상 목록</p>} />
             <Route path="myInfo" element={<p>내정보</p>} />
           </Route>
+          <Route path="/myWrite/notice/detail/:id" element={<MypageDetail />} />
+          <Route path="/myWrite/notice/modify/:id" element={<Modify />} />
           <Route path="/:sports/schedule" element={<SchedulePage />}></Route>
           <Route path="/soccer"></Route>
           <Route path="/soccer/record" element={<KlRecord />} />
