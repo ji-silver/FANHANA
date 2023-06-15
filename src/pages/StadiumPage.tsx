@@ -2,13 +2,26 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { format } from "date-fns";
+import { useLocation } from "react-router-dom";
 
 import KakaoMap from "../components/Stadium/KakaoMap";
 import { Schedule } from "./SchedulePage";
 
 const StadiumPage = () => {
+  const location = useLocation();
   const [scheduleData, setScheduleData] = useState<Schedule[]>([]);
+  const [schedule, setSchedule] = useState<Schedule | null>(
+    location.state?.schedule || null
+  );
+
   useEffect(() => {
+    // 일정 페이지에서 넘어온 경우 해당 경기장만 보여줌
+    if (schedule) {
+      setScheduleData([schedule]);
+      return;
+    }
+
+    // 일정 페이지에서 넘어오지 않은 경우 오늘 진행되는 경기의 경기장 보여줌
     const getScheduleData = async () => {
       try {
         const res = await axios.get(
@@ -17,7 +30,6 @@ const StadiumPage = () => {
             "yyyy-MM-dd"
           )}`
         );
-
         setScheduleData(res.data.data);
       } catch (err) {
         console.log(err);
@@ -25,10 +37,11 @@ const StadiumPage = () => {
     };
 
     getScheduleData();
-  }, []);
+  }, [schedule]);
+
   return (
     <Container>
-      <KakaoMap schedule={scheduleData} />
+      <KakaoMap scheduleList={scheduleData} />
     </Container>
   );
 };

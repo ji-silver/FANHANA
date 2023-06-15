@@ -12,8 +12,14 @@ declare global {
 const { kakao } = window;
 
 interface Props {
-  schedule: Schedule[];
+  scheduleList: Schedule[];
 }
+
+const CATEGORY: { [key: number]: string } = {
+  0: "soccer",
+  1: "baseball",
+  2: "lol",
+};
 
 const KakaoMap = (props: Props) => {
   const [map, setMap] = useState<any>(null);
@@ -36,26 +42,37 @@ const KakaoMap = (props: Props) => {
     const ps = new kakao.maps.services.Places();
     const bounds = new kakao.maps.LatLngBounds();
 
-    const placesSearchCB = (data: any, status: any) => {
+    const placesSearchCB = (result: any, status: any) => {
       if (status === kakao.maps.services.Status.OK) {
         // data -> 정확도 순으로 정렬된 장소 목록
-        display(data[0]);
-        bounds.extend(new kakao.maps.LatLng(data[0].y, data[0].x));
+        bounds.extend(new kakao.maps.LatLng(result[0].y, result[0].x));
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정
         map.setBounds(bounds);
       }
+      if (status === kakao.maps.services.Status.ZERO_RESULT) {
+        alert("검색 결과가 없습니다.");
+      }
     };
 
-    props.schedule.forEach((schedule) => {
-      ps.keywordSearch(schedule.location, placesSearchCB);
+    props.scheduleList.forEach((schedule) => {
+      ps.keywordSearch(schedule.location, (result: any, status: any) => {
+        placesSearchCB(result, status);
+        display(result[0], schedule);
+      });
     });
 
     // 마커를 생성하고 지도 위에 마커를 표시, 커스텀 오버레이를 생성하는 함수
-    const display = (place: any) => {
+    const display = (place: any, schedule: Schedule) => {
+      const category = CATEGORY[schedule.category];
+      const markerImageSrc = `/images/marker_${category}.png`;
+      const imageSize = new kakao.maps.Size(45, 45);
+      const markerImage = new kakao.maps.MarkerImage(markerImageSrc, imageSize);
+
       const marker = new kakao.maps.Marker({
         map: map,
         position: new kakao.maps.LatLng(place.y, place.x),
+        image: markerImage,
       });
 
       kakao.maps.event.addListener(marker, "click", function () {
@@ -77,7 +94,7 @@ const KakaoMap = (props: Props) => {
 
       customOverlay.setMap(map);
     };
-  }, [map, props.schedule]);
+  }, [map, props.scheduleList]);
 
   return <Map id="map"></Map>;
 };
