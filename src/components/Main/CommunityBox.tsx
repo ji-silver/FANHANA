@@ -65,27 +65,35 @@ const BoardBox = ({ category }) => {
       </BoardTitle>
       <Table>
         <TableHeader />
-        <PostList data={boardData} />
+        <PostList data={boardData} category={category} />
       </Table>
     </BoardContainer>
   );
 };
 
 // @ts-expect-error
-const PostList = ({ data }) => {
+const PostList = ({ data, category }) => {
+  const categoryName = getCategoryName(category);
+
   return (
     <>
       {data.map((post: any) => {
+        const urlName =
+          categoryName.eng == `all`
+            ? getCategoryName(post.category).eng
+            : categoryName.eng;
         return (
-          <PostTr key={post.id}>
-            <Td>{post.id}</Td>
-            <PostTitle>
-              {post.title.length >= 30
-                ? post.title.substr(0, 25) + `....`
-                : post.title}
-            </PostTitle>
-            <Td>{post.views}</Td>
-          </PostTr>
+          <Link to={`/${urlName}/notice/detail/${post.id}`}>
+            <PostTr key={post.게시글ID}>
+              <Td>{post.id}</Td>
+              <PostTitle>
+                {post.title.length >= 30
+                  ? post.title.substr(0, 25) + `....`
+                  : post.title}
+              </PostTitle>
+              <Td>{post.views}</Td>
+            </PostTr>
+          </Link>
         );
       })}
     </>
@@ -176,7 +184,7 @@ const PostTr = styled.tr`
   justify-content: space-between;
   align-items: center;
   width: 530px;
-  height: 50px;
+  height: 40px;
   border-bottom: 1px solid #cccccc;
 `;
 

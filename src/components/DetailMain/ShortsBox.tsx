@@ -18,16 +18,17 @@ interface Data {
 }
 
 // @ts-expect-error
-const VideoContainer = ({ data }) => {
-  console.log("data", data);
+const VideoContainer = ({ data, category }) => {
   return (
     <>
       {data.map((video: any) => {
         return (
-          <VideoBox key={video.id}>
-            <Video src={video.src} />
-            <VideoTitle>{video.title}</VideoTitle>
-          </VideoBox>
+          <Link to={`/shorts?category=${category}&id=${video.id}`}>
+            <VideoBox key={video.id}>
+              <Video src={video.src} />
+              <VideoTitle>{video.title}</VideoTitle>
+            </VideoBox>
+          </Link>
         );
       })}
     </>
@@ -58,11 +59,9 @@ const ShortsBox = ({ category }: { category: number }) => {
   return (
     <>
       <ShortsContainer>
-        <Link to={`/${sportsName.eng}/쇼츠 디테일로 이동`}>
-          <div className={styles.title}>쇼츠 {`> ${sportsName.kr}`}</div>
-        </Link>
+        <div className={styles.title}>쇼츠 {`> ${sportsName.kr}`}</div>
         <Body>
-          <VideoContainer data={data} />
+          <VideoContainer data={data} category={category} />
         </Body>
       </ShortsContainer>
     </>

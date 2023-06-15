@@ -43,9 +43,6 @@ const MatchContainer = ({ categoryData }) => {
     if (currentTime < time) {
       return "종료";
     }
-    if (currentTime === time) {
-      return "진행중";
-    }
     return `${time.slice(0, 5)} 예정`;
   };
 

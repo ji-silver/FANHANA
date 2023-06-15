@@ -25,28 +25,30 @@ const TableHeader = () => {
   );
 };
 
-const BoardBox = ({ data }: any) => {
+const BoardBox = ({ data, sportsName }) => {
   return (
     <BoardContainer>
       <Table>
         <TableHeader />
-        <PostList data={data} />
+        <PostList data={data} sportsName={sportsName} />
       </Table>
     </BoardContainer>
   );
 };
 
-const PostList = ({ data }) => {
+const PostList = ({ data, sportsName }) => {
   return (
     <>
       {data.map((post: any) => {
         return (
-          <PostTr key={post.id}>
-            <Td>{post.id}</Td>
-            <PostTitle>{post.title}</PostTitle>
-            <Nickname>{post.nickname}</Nickname>
-            <Td>{post.views}</Td>
-          </PostTr>
+          <Link to={`/${sportsName.eng}/notice/detail/${post.id}`}>
+            <PostTr key={post.id}>
+              <Td>{post.id}</Td>
+              <PostTitle>{post.title}</PostTitle>
+              <Nickname>{post.nickname}</Nickname>
+              <Td>{post.views}</Td>
+            </PostTr>
+          </Link>
         );
       })}
     </>
@@ -83,7 +85,7 @@ const CommunityBox = ({ category }: { category: number }) => {
           </div>
         </Link>
         <Body>
-          <BoardBox data={boardData} />
+          <BoardBox data={boardData} sportsName={sportsName} />
         </Body>
       </CommunityContainer>
     </>

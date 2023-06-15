@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 
 import styles from "../../styles/main.module.scss";
-import shortsData from "./Dummy/shortsData.json";
+import { Link } from "react-router-dom";
 
 interface Data {
   id: number;
@@ -18,15 +18,16 @@ interface Data {
 
 // @ts-expect-error
 const VideoContainer = ({ data }) => {
-  console.log("data", data);
   return (
     <>
       {data.map((video: any) => {
         return (
-          <VideoBox key={video.id}>
-            <Video src={video.src} />
-            <VideoTitle>{video.title}</VideoTitle>
-          </VideoBox>
+          <Link to={`/shorts?id=${video.id}`}>
+            <VideoBox key={video.id}>
+              <Video src={video.src} />
+              <VideoTitle>{video.title}</VideoTitle>
+            </VideoBox>
+          </Link>
         );
       })}
     </>

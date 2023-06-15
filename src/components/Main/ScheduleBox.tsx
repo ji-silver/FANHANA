@@ -39,9 +39,10 @@ const currentTime = format(new Date(), "hh:mm:ss");
 
 // @ts-expect-error
 const MatchContainer = ({ categoryData }) => {
+  console.log("categorydata", categoryData);
   // @ts-expect-error
   const compareTime = (time) => {
-    if (currentTime < time) return "경기 종료";
+    if (currentTime > time) return "경기 종료";
     return `${time.slice(0, 5)} 예정`;
   };
 
@@ -58,7 +59,11 @@ const MatchContainer = ({ categoryData }) => {
               <div>{e.season}</div>
               <Vs>vs</Vs>
               <State state={e.state}>
-                {today > e.start_day ? "종료" : compareTime(e.start_time)}
+                {e.state == "경기 종료"
+                  ? "경기 종료"
+                  : e.state == "경기 취소"
+                  ? "경기 취소"
+                  : compareTime(e.start_time)}
               </State>
             </MatchData>
             <ImgBox>
@@ -95,7 +100,6 @@ const ScheduleBox = () => {
   //날짜당 데이터 받아옴
   const getSceduleData = async (date: any) => {
     const selectdate = format(date, "yyyy-MM-dd");
-
     try {
       const res = await axios.get(
         `http://localhost:5500/api/v1/schedule/day/${selectdate}`
@@ -109,7 +113,6 @@ const ScheduleBox = () => {
   useEffect(() => {
     getSceduleData(selectedDate);
     setCategoryData(dateData);
-    // dropdownSelect(4);
     setSelectCategory(4);
   }, [selectedDate]);
 
