@@ -26,7 +26,9 @@ const TableHeader = () => {
 const LinkTitle = ({ sportsName }: any) => {
   return (
     <Link to={`/${sportsName.eng}/notice`}>
-      {sportsName.kr} {sportsName.kr == "전체" ? `글` : `게시판`}
+      <div className={styles.linkTitle}>
+        {sportsName.kr} {sportsName.kr == "전체" ? `글` : `게시판`}
+      </div>
     </Link>
   );
 };
@@ -164,6 +166,7 @@ const BoardTitle = styled.div`
   height: 35px;
   font-weight: 400;
   font-size: 18px;
+  color: #5546b7;
 `;
 
 const Table = styled.table`
