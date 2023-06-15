@@ -10,6 +10,8 @@ import Comment from "../../components/common/Comment";
 import BreadCrumb from "../../components/common/board/BreadCrumb";
 import Popup from "../../components/common/Popup";
 
+import MDEditor from "@uiw/react-md-editor";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -81,7 +83,7 @@ const params = {contents_category: `${notice.category}`}
   
   const postComment = async() => {
     try{
-      await axios.post('http://localhost:5500/api/v1/comment/',{
+        await axios.post('http://localhost:5500/api/v1/comment/',{
         contents_category: 1,
         id: Number(getPostId[6]),
         content: `${comment}`
@@ -172,15 +174,10 @@ return(
             />
           </tbody>
           </TableTag>
-          <SectionTag padding="20px" height="568px">
-            <article style={{ overflow: 'auto', height: '100%'}}>
-              <div style={{margin: '0 0 28px'}}>
-                <img src={`${notice.img}`} alt="게시판 사진" />
-              </div>
-              <div>
-                {notice.content}
-              </div>
-            </article>    
+          <SectionTag padding="20px" height="auto">
+            <div data-color-mode="light">
+              <MDEditor.Markdown source={notice.content} />
+            </div>
           </SectionTag>
       </BoardBg>
       <SectionTag margin="37px 0 47px" display="flex">
@@ -220,7 +217,8 @@ return(
         count={1}
         disabled={false}
         content='확인'
-        purpose='base'
+        firstBtn='base'
+        secondBtn="reportComment"
         clickHandler={() => setShowLengthPopup(false)}
         open={showLengthPopup}
       />
@@ -229,7 +227,8 @@ return(
         count={1}
         disabled={false}
         content='확인'
-        purpose='base'
+        firstBtn='base'
+        secondBtn="reportComment"
         clickHandler={() => setShowEmptyPopup(false)}
         open={showEmptyPopup}
       />
@@ -238,7 +237,8 @@ return(
         count={2}
         disabled={false}
         content='로그인,취소하기'
-        purpose='base'
+        firstBtn="base"
+        secondBtn="reportComment"
         clickHandler={goLogin}
         cancelEvent={() => setShowLoginPopup(false)}
         open={showLoginPopup}
@@ -248,7 +248,8 @@ return(
         count={2}
         disabled={false}
         content='신고하기,취소하기'
-        purpose='base'
+        firstBtn="base"
+        secondBtn="reportComment"
         clickHandler={postReportHandler}
         cancelEvent={() => setShowPostReportPopup(false)}
         open={showPostReportPopup}
