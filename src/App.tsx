@@ -19,6 +19,11 @@ import MyWrite from "./pages/mypage/myWrite";
 import MainPage from "./pages/Main/MainPage";
 import DetailShorts from "./pages/shorts/DetailShorts";
 import NavShorts from "./pages/shorts/NavShorts";
+import List from "./pages/notice/List";
+import Detail from "./pages/notice/Detail";
+import Edit from "./pages/notice/Edit";
+import MypageDetail from "./pages/notice/MypageDetail";
+import Modify from "./pages/notice/Modify";
 
 function App() {
   return (
@@ -35,17 +40,28 @@ function App() {
             <Route path="myPicture" element={<p>동영상 목록</p>} />
             <Route path="myInfo" element={<p>내정보</p>} />
           </Route>
+          <Route path="/myWrite/notice/detail/:id" element={<MypageDetail />} />
+          <Route path="/myWrite/notice/modify/:id" element={<Modify />} />
           <Route path="/:sports/schedule" element={<SchedulePage />}></Route>
           <Route path="/soccer"></Route>
           <Route path="/soccer/record" element={<KlRecord />} />
           <Route path="/soccer/shorts" element={<NavShorts />}></Route>
-          <Route path="/baseball"></Route>
-          <Route path="/baseball/record" element={<KboRecord />} />
           <Route path="/baseball/shorts" element={<NavShorts />}></Route>
-          <Route path="/esport"></Route>
-          <Route path="/esport/record" element={<LoLRecord />} />
           <Route path="/esport/shorts" element={<NavShorts />}></Route>
           <Route path="/shorts" element={<DetailShorts />}></Route>
+          <Route path="/soccer/notice" element={<List />} />
+          <Route path="/soccer/notice/edit" element={<Edit />} />
+          <Route path="/soccer/notice/detail/:id" element={<Detail />} />
+          <Route path="/baseball"></Route>
+          <Route path="/baseball/record" element={<KboRecord />} />
+          <Route path="/baseball/notice" element={<List />} />
+          <Route path="/baseball/notice/edit" element={<Edit />} />
+          <Route path="/baseball/notice/detail/:id" element={<Detail />} />
+          <Route path="/esport"></Route>
+          <Route path="/esport/record" element={<LoLRecord />} />
+          <Route path="/esport/notice" element={<List />} />
+          <Route path="/esport/notice/edit" element={<Edit />} />
+          <Route path="/esport/notice/detail/:id" element={<Detail />} />
         </Routes>
         <Footer></Footer>
       </Router>

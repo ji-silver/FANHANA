@@ -1,35 +1,49 @@
-import React from "react";
+import React,{Dispatch, SetStateAction} from "react";
 import styled from "styled-components";
 
-import category from '../../../../category.json';
 import Dropdown from "../../Dropdown";
-import Input,{InputStyledProps} from "../../Input";
-
-
-//API연결 때 지울거예정
-import testData from '../../../../boardTest.json';
-
+import Input from "../../Input";
 
 type Type = 'edit' | 'colSpanType' | 'default';
+
 
 interface TrTypeProps{
   rowType? : Type;
   thTitle : string; 
   trType? : string;//'edit' | 'select'
   colSpan? : number;
-  inputProps? : InputStyledProps;
-
+  inputType?: string;
+  inputValue?: string | any;
+  text?: string;
   tdContent? : object;//detail페이지에 들어갈 데이터
+
+  setInput?: Dispatch<SetStateAction<string>> | any;
+  setDropDown? : Dispatch<SetStateAction<string>> | any;
 }
 
-const TrTag:React.FC<TrTypeProps> = ({ rowType, thTitle, trType, colSpan, inputProps, tdContent }) => {
+const TrTag:React.FC<TrTypeProps> = ({ rowType, thTitle, trType, colSpan,  inputType, inputValue, tdContent, setInput, setDropDown,text }) => {
 
   const thContent = thTitle.split(',');
 
-  //const data = tdContent ?? {}.data;
-  const data = testData.data;//api 붙일때 위에 코드로 변경
-  const colSpanData = Object.values(data).slice(0,2);
-  const defaultData = Object.values(data).slice(3);
+  const data = tdContent ?? {};
+  // const data = testData.data;//api 붙일때 위에 코드로 변경
+  const colSpanData = Object.values(data).slice(0,3);
+  const defaultArr = Object.values(data).slice(3);
+  const newArr = defaultArr.reverse().slice(0,4);
+  const defaultData = [...newArr].reverse();
+
+  {(() => {
+    switch(defaultData[0]){
+      case 0 :
+        return defaultData[0] = '축구';
+      case 1 :
+        return defaultData[0] = '야구';
+      case 2 :
+        return defaultData[0] = 'e-sport';
+      default:
+        return '';
+    }
+  })()}
 
   return(
     <tr>
@@ -45,9 +59,11 @@ const TrTag:React.FC<TrTypeProps> = ({ rowType, thTitle, trType, colSpan, inputP
                       {(() => {
                             switch (trType) {
                               case "select":
-                                return <Dropdown items={category} purpose="middle" dropdownSelect={() => console.log('확인')}/>;
+                                return <Dropdown allCategory={true} purpose="middle" dropdownSelect={(category) => setDropDown(category)}/>;
                               case "input":
-                                return <Input type={inputProps?.type} value={(inputProps?.value) as string} onChange={ e => e } />
+                                return <Input type={inputType} value={inputValue} onChange={(e) => setInput(e)} />
+                              case "text":
+                                  return <p>{text}</p>
                               default:
                                 return <p>'error::: select 와 input 중 골라주세요'</p>;
                             }
@@ -63,10 +79,10 @@ const TrTag:React.FC<TrTypeProps> = ({ rowType, thTitle, trType, colSpan, inputP
                     <>
                       <ThTag key={idx}>{item}</ThTag>
                       {
-                        item === '제목' ? <TdTag colSpan={colSpan}>{colSpanData[1]}</TdTag> 
+                        item === '제목' ? <TdTag colSpan={colSpan}>{colSpanData[2]}</TdTag> 
                           :
-                        <TdTag key={idx}>{
-                          colSpanData[idx]
+                        <TdTag key={idx + 1}>{
+                          colSpanData[0]
                         }</TdTag>
                       }
                     </>
@@ -76,10 +92,11 @@ const TrTag:React.FC<TrTypeProps> = ({ rowType, thTitle, trType, colSpan, inputP
               case "default" :
                 return(
                   thContent.map((item, idx) => {
+                    console.log('default::::')
                     return(
                       <>
                         <ThTag key={idx}>{item}</ThTag>
-                        <TdTag key={idx}>{defaultData[idx]}</TdTag>
+                        <TdTag key={idx + 1}>{defaultData[idx]}</TdTag>
                       </>
                     )
                   })
@@ -102,6 +119,7 @@ const ThTag = styled.th`
   text-align: center;
   line-height: 47px;
   color: #8F90A6;
+  vertical-align: middle;
 
   background: #EFEAFC;
 `;
