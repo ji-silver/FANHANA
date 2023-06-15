@@ -72,6 +72,12 @@ const Navbar = () => {
           >
             <NavLink to="/esport">e-스포츠</NavLink>
           </NavItem>
+          <NavItem
+            active={checkActive("/stadium")}
+            onClick={() => handleNavClick("stadium")}
+          >
+            <NavLink to="/stadium">경기장</NavLink>
+          </NavItem>
         </Navul>
       </NavWrap>
 
