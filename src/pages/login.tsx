@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
           //토큰값 없으면
           console.log("토큰 값이 없습니다.");
         }
-        console.log("로그인 되었습니다.");
+        console.log("로그인 성공");
         alert('로그인 성공! 환영합니다!');
         navigate("/");
         window.location.reload();

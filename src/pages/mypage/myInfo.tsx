@@ -72,7 +72,7 @@ const MyInfo = () => {
       );
 
       console.log("수정 성공", response.data);
-      //window.location.reload();
+      window.location.reload();
       setEditing(false);
     } catch (error: any) {
       console.log("수정 실패", error.message);
