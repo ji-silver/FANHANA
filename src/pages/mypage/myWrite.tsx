@@ -34,6 +34,7 @@ const MyWrite = () => {
       localStorage.removeItem("accessToken");
       alert("안녕히가세요!");
       navigate("/login");
+      window.location.reload();
     } else {
       console.log("로그아웃 취소");
     }
@@ -184,7 +185,6 @@ const TabMenu: React.FC = () => {
       <TabContentWrapper>
         {activeTab === 0 && (
           <Tab label="Tab 1">
-            <p>작성글 보기</p>
             <MyPostsPage />
           </Tab>
         )}

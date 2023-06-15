@@ -18,14 +18,17 @@ import LoLRecord from "./components/Record/LoLRecord";
 import MyWrite from "./pages/mypage/myWrite";
 import MainPage from "./pages/Main/MainPage";
 import Shorts from "./pages/shorts/shorts";
+import SoccerPage from "./pages/Main/SoccerPage";
+import BaseballPage from "./pages/Main/BaseballPage";
+import EsportPage from "./pages/Main/EsportPage";
 import List from "./pages/notice/List";
 import Detail from "./pages/notice/Detail";
 import Edit from "./pages/notice/Edit";
 import MypageDetail from "./pages/notice/MypageDetail";
 import Modify from "./pages/notice/Modify";
+import StadiumPage from "./pages/StadiumPage";
 
 function App() {
-
   return (
     <div className="App">
       <Router>
@@ -43,22 +46,26 @@ function App() {
           <Route path="/myWrite/notice/detail/:id" element={<MypageDetail />} />
           <Route path="/myWrite/notice/modify/:id" element={<Modify />} />
           <Route path="/:sports/schedule" element={<SchedulePage />}></Route>
-          <Route path="/soccer"></Route>
+
+          <Route path="/soccer" element={<SoccerPage />}></Route>
           <Route path="/soccer/record" element={<KlRecord />} />
-          <Route path="/soccer/notice" element={<List/>} />
-          <Route path="/soccer/notice/edit" element={<Edit/>} />
-          <Route path="/soccer/notice/detail/:id" element={<Detail/>} />
-          <Route path="/baseball"></Route>
+          <Route path="/soccer/notice" element={<List />} />
+          <Route path="/soccer/notice/edit" element={<Edit />} />
+          <Route path="/soccer/notice/detail/:id" element={<Detail />} />
+
+          <Route path="/baseball" element={<BaseballPage />}></Route>
           <Route path="/baseball/record" element={<KboRecord />} />
-          <Route path="/baseball/notice" element={<List/>} />
-          <Route path="/baseball/notice/edit" element={<Edit/>} />
-          <Route path="/baseball/notice/detail/:id" element={<Detail/>} />
-          <Route path="/esport"></Route>
+          <Route path="/baseball/notice" element={<List />} />
+          <Route path="/baseball/notice/edit" element={<Edit />} />
+          <Route path="/baseball/notice/detail/:id" element={<Detail />} />
+
+          <Route path="/esport" element={<EsportPage />}></Route>
           <Route path="/esport/record" element={<LoLRecord />} />
-          <Route path="/esport/notice" element={<List/>} />
-          <Route path="/esport/notice/edit" element={<Edit/>} />
-          <Route path="/esport/notice/detail/:id" element={<Detail/>} />
+          <Route path="/esport/notice" element={<List />} />
+          <Route path="/esport/notice/edit" element={<Edit />} />
+          <Route path="/esport/notice/detail/:id" element={<Detail />} />
           <Route path="/shorts" element={<Shorts />}></Route>
+          <Route path="/stadium" element={<StadiumPage />}></Route>
         </Routes>
         <Footer></Footer>
       </Router>
