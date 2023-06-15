@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 
 import styles from "../../styles/main.module.scss";
+import { Link } from "react-router-dom";
 
 interface Data {
   id: number;
@@ -21,10 +22,12 @@ const VideoContainer = ({ data }) => {
     <>
       {data.map((video: any) => {
         return (
-          <VideoBox key={video.id}>
-            <Video src={video.src} />
-            <VideoTitle>{video.title}</VideoTitle>
-          </VideoBox>
+          <Link to={`/shorts?id=${video.id}`}>
+            <VideoBox key={video.id}>
+              <Video src={video.src} />
+              <VideoTitle>{video.title}</VideoTitle>
+            </VideoBox>
+          </Link>
         );
       })}
     </>
