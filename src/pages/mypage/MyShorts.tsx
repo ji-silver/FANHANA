@@ -130,7 +130,7 @@ const MyShorts = () => {
                 isSelected={selectedImageId === data.id}
               >
                 <Image src={data.src} alt={data.title}></Image>
-                <p>{data.title}</p>
+                <ImageTitle>{data.title}</ImageTitle>
               </ImageContainer>
             );
           })}
@@ -225,7 +225,7 @@ const ImageContainer = styled.div<{ isSelected: boolean }>`
 `;
 
 const ButtonsContainer = styled.div`
-  margin: 10px;
+  margin-top: 100px;
   display: flex;
   justify-content: end;
 `;
@@ -260,3 +260,8 @@ const ModalOverlay = styled.div`
 `;
 
 const InputContainer = styled.div``;
+
+const ImageTitle = styled.p`
+  display: block;
+  margin: 10px;
+`;
