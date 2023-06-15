@@ -1,0 +1,41 @@
+.tableHeader {
+    text-align: center;
+    color: inherit;
+    padding: 0 5px;
+}
+
+.tableHeaderTeam {
+  text-align: left;
+  padding-left: 15px;
+}
+
+.tableHeaderPoints {
+  color: #5546b7;
+}
+
+.rank {
+  font-weight: bold;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  text-align: left;
+
+  span {
+    padding-left: 10px;
+  }
+}
+
+.teamImg {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.selected {
+  height: 44px;
+  font-weight: bold;
+  background-color: rgba(239, 234, 252, 0.4);
+  content: "";
+}
