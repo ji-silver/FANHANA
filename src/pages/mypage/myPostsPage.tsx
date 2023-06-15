@@ -93,7 +93,7 @@ const MyPostsPage = () => {
         setPage={setPage}
       />
       ) : (
-        <p>게시글이 없습니다.</p>
+        <p>게시글이 없습니다. 글을 작성하고, 소식을 나누세요!</p>
       )}
     </div>
   );
