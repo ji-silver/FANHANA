@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Routes, Route, Outlet, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import userData from "./userData";
 import Input from "./../components/common/Input";
 import Button from "./../components/common/Button/Button";
 
