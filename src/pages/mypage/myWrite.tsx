@@ -28,11 +28,17 @@ const MyWrite = () => {
   };
 
   const handleLogout = () => {
-    alert("로그아웃 하시겠습니까?");
-    localStorage.removeItem("accessToken");
-    alert("안녕히가세요!");
-    navigate("/login");
+    const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
+  
+    if (confirmLogout) {
+      localStorage.removeItem("accessToken");
+      alert("안녕히가세요!");
+      navigate("/login");
+    } else {
+      console.log("로그아웃 취소");
+    }
   };
+  
 
   useEffect(() => {
     const imgId = localStorage.getItem("profileImgId");
@@ -179,8 +185,7 @@ const TabMenu: React.FC = () => {
         {activeTab === 0 && (
           <Tab label="Tab 1">
             <p>작성글 보기</p>
-            {/* <TableList show="all" data={dummyPosts} />
-            <TableList show="my" data={dummyPosts} /> */}
+            <MyPostsPage />
           </Tab>
         )}
         {activeTab === 1 && (
