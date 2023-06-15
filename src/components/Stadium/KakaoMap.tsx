@@ -23,6 +23,8 @@ const CATEGORY: { [key: number]: string } = {
 
 const KakaoMap = (props: Props) => {
   const [map, setMap] = useState<any>(null);
+  const [markers, setMarkers] = useState<any>([]);
+  const [overlays, setOverlays] = useState<any>([]);
 
   useEffect(() => {
     const container = document.getElementById("map");
@@ -42,6 +44,7 @@ const KakaoMap = (props: Props) => {
     const ps = new kakao.maps.services.Places();
     const bounds = new kakao.maps.LatLngBounds();
 
+    // 키워드 검색 완료 시 호출되는 콜백함수
     const placesSearchCB = (result: any, status: any) => {
       if (status === kakao.maps.services.Status.OK) {
         // data -> 정확도 순으로 정렬된 장소 목록
@@ -55,6 +58,55 @@ const KakaoMap = (props: Props) => {
       }
     };
 
+    // 마커와 커스텀 오버레이를 삭제하는 함수
+    const removeMarkers = () => {
+      markers.forEach((marker: any) => {
+        marker.setMap(null);
+      });
+      overlays.forEach((overlay: any) => {
+        overlay.setMap(null);
+      });
+      setMarkers([]);
+      setOverlays([]);
+    };
+
+    // 마커를 생성하고 지도 위에 마커를 표시, 커스텀 오버레이를 생성하는 함수
+    const display = (place: any, schedule: Schedule) => {
+      const category = CATEGORY[schedule.category];
+      const markerImageSrc = `/images/marker_${category}.png`;
+      const imageSize = new kakao.maps.Size(45, 45);
+      const markerImage = new kakao.maps.MarkerImage(markerImageSrc, imageSize);
+
+      const marker = new kakao.maps.Marker({
+        map: map,
+        position: new kakao.maps.LatLng(place.y, place.x),
+        image: markerImage,
+      });
+
+      setMarkers((prevMarkers: any) => [...prevMarkers, marker]);
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        // 마커 클릭 시 해당 장소로 지도 중심 이동
+        const pos = marker.getPosition();
+        map.setLevel(3, { animation: true, anchor: pos });
+      });
+
+      const content = `
+          <div class="overlayContainer">
+            <div class="overlayTitle">${place.place_name}</div>
+          </div>
+        `;
+
+      const customOverlay = new kakao.maps.CustomOverlay({
+        position: marker.getPosition(),
+        content: content,
+      });
+
+      customOverlay.setMap(map);
+      setOverlays((prevOverlays: any) => [...prevOverlays, customOverlay]);
+    };
+
+    removeMarkers();
     props.scheduleList.forEach((schedule) => {
       let location = schedule.location;
       if (schedule.category === 0) {
@@ -71,40 +123,7 @@ const KakaoMap = (props: Props) => {
         display(result[0], schedule);
       });
     });
-
-    // 마커를 생성하고 지도 위에 마커를 표시, 커스텀 오버레이를 생성하는 함수
-    const display = (place: any, schedule: Schedule) => {
-      const category = CATEGORY[schedule.category];
-      const markerImageSrc = `/images/marker_${category}.png`;
-      const imageSize = new kakao.maps.Size(45, 45);
-      const markerImage = new kakao.maps.MarkerImage(markerImageSrc, imageSize);
-
-      const marker = new kakao.maps.Marker({
-        map: map,
-        position: new kakao.maps.LatLng(place.y, place.x),
-        image: markerImage,
-      });
-
-      kakao.maps.event.addListener(marker, "click", function () {
-        // 마커 클릭 시 해당 장소로 지도 중심 이동
-        const pos = marker.getPosition();
-        map.setLevel(3, { animation: true, anchor: pos });
-      });
-
-      const content = `
-        <div class="overlayContainer">
-          <div class="overlayTitle">${place.place_name}</div>
-        </div>
-      `;
-
-      const customOverlay = new kakao.maps.CustomOverlay({
-        position: marker.getPosition(),
-        content: content,
-      });
-
-      customOverlay.setMap(map);
-    };
-  }, [map, props.scheduleList]);
+  }, [props.scheduleList]);
 
   return <Map id="map"></Map>;
 };

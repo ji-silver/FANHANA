@@ -7,17 +7,23 @@ import { useLocation } from "react-router-dom";
 import KakaoMap from "../components/Stadium/KakaoMap";
 import { Schedule } from "./SchedulePage";
 
+const CATEGORY = ["전체", "축구", "야구", "LOL"];
+
 const StadiumPage = () => {
   const location = useLocation();
   const [scheduleData, setScheduleData] = useState<Schedule[]>([]);
   const [schedule, setSchedule] = useState<Schedule | null>(
     location.state?.schedule || null
   );
+  const [category, setCategory] = useState<number>(0);
+  const [filteredScheduleData, setFilteredScheduleData] = useState<Schedule[]>(
+    []
+  );
 
   useEffect(() => {
     // 일정 페이지에서 넘어온 경우 해당 경기장만 보여줌
     if (schedule) {
-      setScheduleData([schedule]);
+      setFilteredScheduleData([schedule]);
       return;
     }
 
@@ -31,6 +37,7 @@ const StadiumPage = () => {
           )}`
         );
         setScheduleData(res.data.data);
+        setFilteredScheduleData(res.data.data);
       } catch (err) {
         console.log(err);
       }
@@ -39,9 +46,41 @@ const StadiumPage = () => {
     getScheduleData();
   }, [schedule]);
 
+  useEffect(() => {
+    // 일정 페이지에서 넘어온 경우 필터링 없이 해당 경기장만 보여줌
+    if (!schedule) {
+      // 카테고리 선택에 따라 경기장 필터링
+      if (category === 0) {
+        setFilteredScheduleData(scheduleData);
+        return;
+      }
+
+      const filteredData = scheduleData.filter(
+        (schedule) => schedule.category === category - 1
+      );
+      setFilteredScheduleData(filteredData);
+    }
+  }, [category]);
+
   return (
     <Container>
-      <KakaoMap scheduleList={scheduleData} />
+      {!schedule && (
+        <FilterContainer>
+          {CATEGORY.map((item, idx) => (
+            <FilterItem
+              key={item}
+              onClick={() => {
+                setCategory(idx);
+              }}
+              isSelected={category === idx}
+            >
+              {item}
+            </FilterItem>
+          ))}
+        </FilterContainer>
+      )}
+
+      <KakaoMap scheduleList={filteredScheduleData} />
     </Container>
   );
 };
@@ -51,8 +90,20 @@ export default StadiumPage;
 const Container = styled.div`
   width: 80%;
   height: 50vh;
-  margin: 0 auto;
+  margin: 50px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const FilterContainer = styled.div`
+  width: 100%;
+  display: flex;
+  margin-bottom: 20px;
+`;
+
+const FilterItem = styled.div<{ isSelected: boolean }>`
+  margin-right: 20px;
+  cursor: pointer;
+  ${(props) => props.isSelected && "font-weight: bold;"}
 `;
