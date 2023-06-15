@@ -42,7 +42,7 @@ const MatchContainer = ({ categoryData }) => {
         return (
           <MatchBox>
             <ImgBox>
-              <LogoImg src={e.tema1_img} />
+              <LogoImg src={e.team1_img} />
               <div>{e.team1}</div>
             </ImgBox>
             <MatchData>
@@ -53,7 +53,7 @@ const MatchContainer = ({ categoryData }) => {
               </State>
             </MatchData>
             <ImgBox>
-              <LogoImg src={e.tema2_img} />
+              <LogoImg src={e.team2_img} />
               <div>{e.team2}</div>
             </ImgBox>
           </MatchBox>

@@ -7,13 +7,6 @@ import { getCategoryName } from "../common/Dropdown";
 import TableList from "../common/TableList";
 import { Link } from "react-router-dom";
 
-interface Data {
-  id: number;
-  title: string;
-  views: number;
-  category: number;
-}
-
 const TableHeader = () => {
   return (
     <HeaderTr>
@@ -58,7 +51,6 @@ const PostList = ({ data, sportsName }: any) => {
 const CommunityBox = ({ category }: { category: number }) => {
   const [boardData, setBoardData] = useState([]);
 
-  //카테고리별로 게시판 데이터 받아와서 communityData에 저장
   useEffect(() => {
     const getBoardData = async (category?: any) => {
       try {
@@ -119,7 +111,7 @@ const Body = styled.div`
 const PostListContainer = styled.div`
   display: flex;
   flex-flow: column wrap;
-  align-content: flex-start;
+  align-content: flex-start;s
   width: 1190px;
   height: 550px;
   flex-direction: row;

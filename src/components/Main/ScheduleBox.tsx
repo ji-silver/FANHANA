@@ -43,15 +43,13 @@ export const getCompareTime = (date: string, time: string): string => {
 
 // @ts-expect-error
 const MatchContainer = ({ categoryData }) => {
-  console.log("categorydata", categoryData);
-
   return (
     <>
       {categoryData.map((e: any) => {
         return (
           <MatchBox>
             <ImgBox>
-              <LogoImg src={e.tema1_img} />
+              <LogoImg src={e.team1_img} />
               <div>{e.team1}</div>
             </ImgBox>
             <MatchData>
@@ -62,7 +60,7 @@ const MatchContainer = ({ categoryData }) => {
               </State>
             </MatchData>
             <ImgBox>
-              <LogoImg src={e.tema2_img} />
+              <LogoImg src={e.team2_img} />
               <div>{e.team2}</div>
             </ImgBox>
           </MatchBox>
@@ -92,7 +90,6 @@ const ScheduleBox = () => {
 
   const sportsName = getCategoryName(selectCategory);
 
-  //날짜당 데이터 받아옴
   const getSceduleData = async (date: any) => {
     const selectdate = format(date, "yyyy-MM-dd");
     try {

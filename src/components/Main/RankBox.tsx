@@ -47,7 +47,6 @@ const RankBox = () => {
     }
   };
 
-  //승률변환 함수
   const calculateWinRate = (rank: Rank) => {
     const { wins, losses } = rank;
     const totalGames = wins + losses;
@@ -56,7 +55,6 @@ const RankBox = () => {
     return winRate.toFixed(2);
   };
 
-  //rankData 받아서 승률 삽입->정렬 후 반환
   const getTeamsWithWinRate = (data: any) => {
     const teamsWithWinRate = data.map((rank: any) => {
       const winRate = calculateWinRate(rank);
@@ -68,7 +66,6 @@ const RankBox = () => {
     return sortData;
   };
 
-  // 페이지 로딩시 default category(=축구) 데이터 받아옴
   useEffect(() => {
     getRankData(targetCatrgory);
   }, []);

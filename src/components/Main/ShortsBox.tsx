@@ -5,17 +5,6 @@ import axios from "axios";
 import styles from "../../styles/main.module.scss";
 import { Link } from "react-router-dom";
 
-interface Data {
-  id: number;
-  user_id: number;
-  title: string;
-  category: number;
-  likes: number;
-  views: number;
-  src: string;
-  created_at: string;
-}
-
 // @ts-expect-error
 const VideoContainer = ({ data }) => {
   return (
