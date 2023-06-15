@@ -78,8 +78,12 @@ const PostList = ({ data, category }) => {
   return (
     <>
       {data.map((post: any) => {
+        const urlName =
+          categoryName.eng == `all`
+            ? getCategoryName(post.category).eng
+            : categoryName.eng;
         return (
-          <Link to={`/${categoryName.eng}/notice/detail/${post.id}`}>
+          <Link to={`/${urlName}/notice/detail/${post.id}`}>
             <PostTr key={post.게시글ID}>
               <Td>{post.id}</Td>
               <PostTitle>
