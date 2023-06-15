@@ -34,17 +34,16 @@ interface Match {
   season: string;
 }
 
-const today = format(new Date(), "yyyy-MM-dd");
-const currentTime = format(new Date(), "hh:mm:ss");
+export const getCompareTime = (date: string, time: string): string => {
+  const todayDate = format(new Date(), "yyyy-MM-dd,HH:mm:ss");
+
+  if (todayDate < `${date},${time}`) return `${time.slice(0, 5)} 예정`;
+  return `경기 종료`;
+};
 
 // @ts-expect-error
 const MatchContainer = ({ categoryData }) => {
   console.log("categorydata", categoryData);
-  // @ts-expect-error
-  const compareTime = (time) => {
-    if (currentTime > time) return "경기 종료";
-    return `${time.slice(0, 5)} 예정`;
-  };
 
   return (
     <>
@@ -58,12 +57,8 @@ const MatchContainer = ({ categoryData }) => {
             <MatchData>
               <div>{e.season}</div>
               <Vs>vs</Vs>
-              <State state={e.state}>
-                {e.state == "경기 종료"
-                  ? "경기 종료"
-                  : e.state == "경기 취소"
-                  ? "경기 취소"
-                  : compareTime(e.start_time)}
+              <State state={getCompareTime(e.start_date, e.start_time)}>
+                {getCompareTime(e.start_date, e.start_time)}
               </State>
             </MatchData>
             <ImgBox>
@@ -118,8 +113,9 @@ const ScheduleBox = () => {
 
   useEffect(() => {
     if (selectCategory == 4) {
-      const newdata = [...dateData];
-      setCategoryData(newdata);
+      const newData = [...dateData];
+      const cutData = newData.slice(0, 4);
+      setCategoryData(cutData);
     }
   }, [dateData]);
 
@@ -128,11 +124,13 @@ const ScheduleBox = () => {
       // @ts-expect-error
       const data = dateData.filter((data) => data.category === selectCategory);
       const newData = [...data];
-      setCategoryData(newData);
+      const cutData = newData.slice(0, 4);
+      setCategoryData(cutData);
     }
     if (selectCategory == 4) {
-      const newdata = [...dateData];
-      setCategoryData(newdata);
+      const newData = [...dateData];
+      const cutData = newData.slice(0, 4);
+      setCategoryData(cutData);
     }
   }, [selectCategory]);
 
@@ -235,12 +233,7 @@ const Vs = styled.div`
 
 const State = styled.div<{ state: string }>`
   font-size: 14px;
-  color: ${(props) =>
-    props.state == "경기 종료"
-      ? "red"
-      : props.state == "경기 예정"
-      ? "#8F6EEB"
-      : "#4EAF51"};
+  color: ${(props) => (props.state == "경기 종료" ? "red" : "#8F6EEB")};
 `;
 
 const ImgBox = styled.div`

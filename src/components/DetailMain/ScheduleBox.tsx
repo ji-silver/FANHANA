@@ -7,6 +7,7 @@ import styles from "../../styles/main.module.scss";
 import DatePickerBox from "../common/DatePickerBox/DatePickerBox";
 import { getCategoryName } from "../common/Dropdown";
 import { Link } from "react-router-dom";
+import { getCompareTime } from "../Main/ScheduleBox";
 
 interface Team {
   _id: string;
@@ -33,19 +34,8 @@ interface Match {
   season: string;
 }
 
-const today = format(new Date(), "yyyy-MM-dd");
-const currentTime = format(new Date(), "hh:mm:ss");
-
 // @ts-expect-error
 const MatchContainer = ({ categoryData }) => {
-  // @ts-expect-error
-  const compareTime = (time) => {
-    if (currentTime < time) {
-      return "종료";
-    }
-    return `${time.slice(0, 5)} 예정`;
-  };
-
   return (
     <>
       {categoryData.map((e: any) => {
@@ -58,8 +48,8 @@ const MatchContainer = ({ categoryData }) => {
             <MatchData>
               <div>{e.season}</div>
               <Vs>vs</Vs>
-              <State state={e.state}>
-                {today > e.start_day ? "종료" : compareTime(e.start_time)}
+              <State state={getCompareTime(e.start_date, e.start_time)}>
+                {getCompareTime(e.start_date, e.start_time)}
               </State>
             </MatchData>
             <ImgBox>
@@ -89,7 +79,8 @@ const ScheduleBox = ({ category }: { category: number }) => {
         const newData = res.data.data.filter(
           (data: { category: number }) => data.category === category
         );
-        setDateData(newData);
+        const cutData = newData.slice(0, 4);
+        setDateData(cutData);
       } catch (error) {
         console.error("경기순위 불러오는거 실패함", error);
       }
@@ -188,12 +179,7 @@ const Vs = styled.div`
 
 const State = styled.div<{ state: string }>`
   font-size: 14px;
-  color: ${(props) =>
-    props.state == "종료"
-      ? "red"
-      : props.state == "예정"
-      ? "#8F6EEB"
-      : "#4EAF51"};
+  color: ${(props) => (props.state == "경기 종료" ? "red" : "#8F6EEB")};
 `;
 
 const ImgBox = styled.div`
