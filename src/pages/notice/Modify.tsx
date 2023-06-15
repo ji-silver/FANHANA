@@ -14,38 +14,68 @@ import Button from "../../components/common/Button/Button";
 import Popup from "../../components/common/Popup";
 import styled from "styled-components";
 
-const Edit = () => {
+const Modify = () => {
   
   const size = ['15%','85%'];
-  const type = ['select','input'];
+  const type = ['text','input'];
   const boardTitle = ["카테고리", "제목"];
   const token = localStorage.getItem('accessToken');
   const location = window.location.href.split('/');
   const navigation = useNavigate();
 
-
-  const [ dropDownNum, setDropDownNum ] = useState(0);
-  const [ inputContent, setInputContent ] = useState('');
+  
+    
   const [ md, setMd ] = useState<string | undefined>('');
+  const [ inputContent, setInputContent ] = useState('');
+  const [ text, setText ] = useState(0);
+  const [ noSavePopup, setNoSavePopup ] = useState(false);
+  const [ nullTitle, setNullTitle ] = useState(false);
+  const [ nullContent, setNullContent ] = useState(false);
 
-  const [ showCancelPopup, setShowCancelPopup ] = useState(false);
-  const [ allCategoryPopup, setAllCategoryPop ] = useState(false);
-  const [ emptyTitle, setEmptyTitle ] = useState(false);
-  const [ emptyContent, setEmptyContent ] = useState(false);
 
-  const postAdd = async () => {
+  const categoryLabel = text === 0 ?
+                          "축구" : text === 1 ?
+                          "야구" : text === 2 ?
+                          "e-스포츠" : ''
+
+
+  const getPostConetnt = async () => {
     try{
-      await axios.post('http://localhost:5500/api/v1/post/',{
-        category: dropDownNum,
+        await axios.get(`http://localhost:5500/api/v1/post/${location[6]}`)
+          .then((res)=> {
+            setText(res.data.data.category);
+            setInputContent(res.data.data.title);
+            setMd(res.data.data.content);
+          }).catch((err) => {
+            console.error('정보를 불러오지 못했습니다!', err)
+          })
+    }catch{
+      console.error('errr')
+    }
+  }
+
+  useEffect(() => {
+    getPostConetnt()
+  },[])
+
+  
+  console.log('input, dropDown, md:::', inputContent,text, md); 
+
+ 
+
+  const postPut = async () => {
+    try{
+      axios.put(`http://localhost:5500/api/v1/post/${location[6]}`,{
         title: inputContent,
-        content: md
+        content: md,
+        img: ''
       },{
         headers:{
           Authorization: `Bearer ${token}`
         }
       }).then((res) => {
         console.log('전송상태:::', res.status);
-        navigation(`/${location[3]}/notice`);
+        navigation('/mypage/MyWrite');
 
       }).catch((err) => {
         console.log('err:::', err);
@@ -55,25 +85,18 @@ const Edit = () => {
     }
   }
 
-  useEffect(() => {
-    postAdd()
-  },[])
-
-  const postAddHandler = () => {
-    if(dropDownNum === 4){
-      return setAllCategoryPop(true)
-    }
+  const postPutHandler = () => {
     if(inputContent === ''){
-      return setEmptyTitle(true)
+      return setNullTitle(true)
     }
     if(md === ''){
-      return setEmptyContent(true)
+      return setNullContent(true)
     }
-    postAdd()
+    postPut()
   }
 
-  const postAddCancelHandler = () => {
-    setShowCancelPopup(true)
+  const postPutCancelHandler = () => {
+    setNoSavePopup(true)
   }
   
 
@@ -93,8 +116,9 @@ const Edit = () => {
                   trType={type[idx]}
                   thTitle={boardTitle[idx]}
                   rowType="edit"
+                  inputValue={inputContent}
                   setInput={setInputContent}
-                  setDropDown={setDropDownNum}
+                  text={categoryLabel}
                 />
               )
             }
@@ -107,29 +131,19 @@ const Edit = () => {
         <BtnGroup>
           <Button 
             purpose="base"
-            content="등록"
+            content="수정"
             disabled={false}
-            onClick={postAddHandler}
+            onClick={postPutHandler}
           />
           <Button 
             purpose="reportPost"
             content="취소"
             disabled={false}
-            onClick={postAddCancelHandler}
+            onClick={postPutCancelHandler}
           />
         </BtnGroup>
         </SectionTag>
       </BoardBg>
-      <Popup
-        title="전체는 카테고리로 지정 할 수 없습니다."
-        count={1}
-        disabled={false}
-        content='확인'
-        firstBtn='base'
-        secondBtn="reportComment"
-        clickHandler={() => setAllCategoryPop(false)}
-        open={allCategoryPopup}
-      />
       <Popup
         title="제목은 필수 입니다."
         count={1}
@@ -137,8 +151,8 @@ const Edit = () => {
         content='확인'
         firstBtn='base'
         secondBtn="reportComment"
-        clickHandler={() => setEmptyTitle(false)}
-        open={emptyTitle}
+        clickHandler={() => setNullTitle(false)}
+        open={nullTitle}
       />
       <Popup
         title="내용은 필수 입니다."
@@ -147,8 +161,8 @@ const Edit = () => {
         content='확인'
         firstBtn='base'
         secondBtn="reportComment"
-        clickHandler={() => setEmptyContent(false)}
-        open={emptyContent}
+        clickHandler={() => setNullContent(false)}
+        open={nullContent}
       />
       <Popup
         title={`작성 하신 글 취소하면\n 저장되지 않습니다. \n그래도 취소 하시겠습니까?`}
@@ -157,15 +171,15 @@ const Edit = () => {
         content='확인'
         firstBtn='base'
         secondBtn="reportComment"
-        clickHandler={() => setShowCancelPopup(false)}
-        open={showCancelPopup}
+        clickHandler={() => setNoSavePopup(false)}
+        open={noSavePopup}
       />
     </div>
 
   )
 }
 
-export default Edit;
+export default Modify;
 
 
 const BtnGroup = styled.div`

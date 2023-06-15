@@ -6,7 +6,7 @@ import {ReactComponent as DoubleNext} from "../../../assets/icons/DoubleNext.svg
 import {ReactComponent as Previous} from "../../../assets/icons/Previous.svg"
 import {ReactComponent as DoublePrevious} from "../../../assets/icons/DoublePrevious.svg"
 
-interface PaginationProps {
+export interface PaginationProps {
     total: number;
     limit: number;
     page: number;
@@ -25,6 +25,10 @@ const Pagination: React.FC<PaginationProps> = ({total, limit, page, setPage}) =>
     
     const showList = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
     console.log('showList:::', showList);
+    
+    if (total <= limit) {
+      return null; // 게시글이 10개 이하인 경우 페이지네이션 숨김
+    }
     
 
     return (
@@ -76,7 +80,7 @@ const Nav = styled.nav`
   justify-content: center;
   align-items: center;
   gap: 14px;
-  margin: 24px auto;
+  margin: 24px auto 0;
 `
 
 const PageButton = styled.button`
