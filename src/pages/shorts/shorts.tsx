@@ -28,8 +28,8 @@ interface ShortsType {
 }
 
 interface ShortsPropsType {
-  id?: number;
-  category?: number;
+  id?: number | null | undefined;
+  category?: number | null;
 }
 
 // 서버에 데이터를 받아올 때 이미 존재하는 id이면 다시 받아오도록
@@ -45,18 +45,21 @@ const Shorts: React.FC<ShortsPropsType> = ({ id, category }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
-  const getFirstShorts = async (id?: number, category?: number) => {
+  const getFirstShorts = async (
+    id?: number | undefined | null,
+    category?: number | undefined | null
+  ) => {
     try {
       let url = `http://localhost:5500/api/v1/shorts/${
-        id ? "detail" : "category/detail"
+        id !== undefined ? "detail" : "category/detail"
       }`;
 
       console.log(url);
       console.log("category", category);
       const response = await axios.get(url, {
         params: {
-          shorts_id: id,
-          category,
+          shorts_id: id !== undefined ? id : null,
+          category: category !== undefined ? category : null,
         },
       });
       const shorts = response.data.detail;
