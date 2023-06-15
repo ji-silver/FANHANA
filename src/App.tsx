@@ -43,11 +43,9 @@ function App() {
           <Route path="/myWrite/notice/detail/:id" element={<MypageDetail />} />
           <Route path="/myWrite/notice/modify/:id" element={<Modify />} />
           <Route path="/:sports/schedule" element={<SchedulePage />}></Route>
+          <Route path="/:sports/shorts" element={<NavShorts />}></Route>
           <Route path="/soccer"></Route>
           <Route path="/soccer/record" element={<KlRecord />} />
-          <Route path="/soccer/shorts" element={<NavShorts />}></Route>
-          <Route path="/baseball/shorts" element={<NavShorts />}></Route>
-          <Route path="/esport/shorts" element={<NavShorts />}></Route>
           <Route path="/shorts" element={<DetailShorts />}></Route>
           <Route path="/soccer/notice" element={<List />} />
           <Route path="/soccer/notice/edit" element={<Edit />} />

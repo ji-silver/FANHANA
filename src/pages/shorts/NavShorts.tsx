@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import Shorts from "./shorts";
 
@@ -7,13 +7,17 @@ interface NavShortsProps {
   category: number;
 }
 
-const NavShorts = () => {
-  const location = useLocation();
+const CATEGORY: { [key: string]: number } = {
+  soccer: 0,
+  baseball: 1,
+  esport: 2,
+};
 
-  const preCategory = location.state;
+const NavShorts = () => {
+  const { sports } = useParams() as { sports: string };
 
   const navShortsProps: NavShortsProps = {
-    category: preCategory,
+    category: CATEGORY[sports],
   };
 
   return <Shorts {...navShortsProps} />;

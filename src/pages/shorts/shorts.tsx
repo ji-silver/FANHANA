@@ -11,11 +11,12 @@ import Button from "../../components/common/Button/Button";
 import Comment from "../../components/common/Comment";
 
 interface CommentType {
+  comment_id: number;
+  user_id: number;
   img: string;
   nickname: string;
   content: string;
   created_at: string;
-  user_id: number;
 }
 
 interface ShortsType {
@@ -34,11 +35,11 @@ interface ShortsPropsType {
 // 서버에 데이터를 받아올 때 이미 존재하는 id이면 다시 받아오도록
 const Shorts: React.FC<ShortsPropsType> = ({ id, category }) => {
   const localSaveUserId = localStorage.getItem("userId");
-  const parsedUserId = localSaveUserId ? parseInt(localSaveUserId) : null;
+  const parsedUserId = localSaveUserId ? parseInt(localSaveUserId) : 0;
 
   const [curShorts, setCurShorts] = useState<ShortsType>();
   const [loading, setLoading] = useState(true);
-  const [shortsList, setShortsList] = useState<ShortsType[]>([]);
+  const [shortsList, setShortsList] = useState<number[]>([]);
   const [comments, setComments] = useState<CommentType[]>([]);
   const [input, setInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -46,18 +47,21 @@ const Shorts: React.FC<ShortsPropsType> = ({ id, category }) => {
 
   const getFirstShorts = async (id?: number, category?: number) => {
     try {
-      const response = await axios.get(
-        `http://localhost:5500/api/v1/shorts/detail`,
-        {
-          params: {
-            shorts_id: id,
-            category,
-          },
-        }
-      );
+      let url = `http://localhost:5500/api/v1/shorts/${
+        id ? "detail" : "category/detail"
+      }`;
 
-      const shorts = response.data.data.shorts;
-      const shortsList = response.data.data.list;
+      console.log(url);
+      console.log("category", category);
+      const response = await axios.get(url, {
+        params: {
+          shorts_id: id,
+          category,
+        },
+      });
+      const shorts = response.data.detail;
+      const shortsList = response.data.lists;
+      console.log(shortsList);
 
       setCurShorts(shorts);
       setShortsList(shortsList);
@@ -69,10 +73,12 @@ const Shorts: React.FC<ShortsPropsType> = ({ id, category }) => {
   // 쇼츠를 불러오는 함수
   const getShorts = async (shorts_id?: number) => {
     try {
+      console.log("shorts_id", shorts_id);
       const response = await axios.get(
         `http://localhost:5500/api/v1/shorts/detail/${shorts_id}`
       );
-      const shorts = response.data.data;
+      const shorts = response.data.detail;
+      console.log(shorts);
 
       setCurShorts(shorts);
     } catch (error) {
@@ -100,32 +106,36 @@ const Shorts: React.FC<ShortsPropsType> = ({ id, category }) => {
 
   // 이전 쇼츠를 가져오는 함수
   const preShorts = () => {
-    setIndex((prev) => prev - 1);
-    if (index >= shortsList.length) {
-      setIndex(() => shortsList.length - 1);
+    let newIndex = 0;
+    if (index <= 0) {
+      newIndex = shortsList.length - 1;
+    } else {
+      newIndex = index - 1;
     }
-    const shortsId = shortsList[index].id;
+    setIndex(newIndex);
+
+    const shortsId = shortsList[newIndex];
+
     getShorts(shortsId);
   };
 
   // 다음 쇼츠를 가져오는 함수
   const nextShorts = () => {
-    setIndex((prev) => prev + 1);
-    if (index >= shortsList.length) {
-      setIndex(() => 0);
+    let newIndex = 0;
+    if (index >= shortsList.length - 1) {
+      newIndex = 0;
+    } else {
+      newIndex = index + 1;
     }
-    const shortsId = shortsList[index].id;
+    setIndex(newIndex);
+
+    const shortsId = shortsList[newIndex];
     getShorts(shortsId);
   };
 
   // input 핸들러
   const handleInputChange = (value: string) => {
     setInput(value);
-  };
-
-  // 신고냐 삭제냐 로직
-  const handle = () => {
-    // 현재 이벤트가 속한 댓글의 value가 "신고하기"냐 "삭제하기" 냐에 따라 다른 로직 수행
   };
 
   // 버튼을 클릭하면 input 값을 가지고 댓글 등록하는 로직 작성
@@ -167,9 +177,13 @@ const Shorts: React.FC<ShortsPropsType> = ({ id, category }) => {
   useEffect(() => {
     setLoading(true);
 
-    getFirstShorts(id, category);
+    const fetchShorts = async () => {
+      await getFirstShorts(id, category);
 
-    setLoading(false);
+      setLoading(false);
+    };
+
+    fetchShorts();
   }, []);
 
   useEffect(() => {
@@ -204,20 +218,7 @@ const Shorts: React.FC<ShortsPropsType> = ({ id, category }) => {
       {modalOpen && ( // 모달 창이 열려있을 때에만 Modal 컴포넌트를 렌더링합니다.
         <Modal>
           <CommentCover onClick={() => setModalOpen(false)}>
-            {comments &&
-              comments.map((comment, index) => (
-                <Comment
-                  key={index}
-                  alt={comment.nickname}
-                  img={comment.img}
-                  nickname={comment.nickname}
-                  info={comment.content}
-                  date={comment.created_at}
-                  userId={comment.user_id}
-                  localSaveUserId={parsedUserId}
-                  clickHandler={handle}
-                />
-              ))}
+            <Comment data={comments} localSaveUserId={parsedUserId}></Comment>
           </CommentCover>
           <InputCover>
             <InputContainer>
@@ -241,20 +242,7 @@ const Shorts: React.FC<ShortsPropsType> = ({ id, category }) => {
           <CommentsCount>{comments.length}</CommentsCount>
         </CommentsHeader>
         <CommentCover>
-          {/* 닫는 버튼(이건 크기에 따라 달라졌을 때 추가되는 걸로) */}
-          {comments.map((comment, index) => (
-            <Comment
-              key={index}
-              alt={comment.nickname}
-              img={comment.img}
-              nickname={comment.nickname}
-              info={comment.content}
-              date={comment.created_at}
-              userId={comment.user_id}
-              localSaveUserId={parsedUserId}
-              clickHandler={handle}
-            />
-          ))}
+          <Comment data={comments} localSaveUserId={parsedUserId}></Comment>
         </CommentCover>
         <InputCover>
           <InputContainer>
