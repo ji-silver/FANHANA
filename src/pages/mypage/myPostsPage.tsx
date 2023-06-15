@@ -87,7 +87,7 @@ const MyPostsPage = () => {
         <TableList
         show="my"
         data={filterPosts()}
-        total={total}
+        total={filterPosts().length}
         limit={limit}
         page={page}
         setPage={setPage}
