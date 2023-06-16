@@ -20,6 +20,8 @@ const CATEGORY: { [key: string]: number } = {
   롤: 2,
 };
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const MyShorts = () => {
   const [shortsList, setShortsList] = useState<any>();
   const [shortsId, setShortsId] = useState<any>();
@@ -33,14 +35,11 @@ const MyShorts = () => {
   const getMyShorts = async () => {
     try {
       const token = localStorage.getItem(`accessToken`);
-      const response = await axios.get(
-        `http://localhost:5500/api/v1/user/shorts`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}user/shorts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const datas = response.data.data;
       console.log(datas);
@@ -62,14 +61,11 @@ const MyShorts = () => {
 
   const handleRemove = async () => {
     const token = localStorage.getItem(`accessToken`);
-    const response = await axios.delete(
-      `http://localhost:5500/api/v1/shorts/${shortsId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.delete(`${apiUrl}shorts/${shortsId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   };
 
   const handleOpenModal = () => {
@@ -86,7 +82,7 @@ const MyShorts = () => {
     const token = localStorage.getItem(`accessToken`);
     const categoryNum = CATEGORY[categoryInput];
     const response = await axios.post(
-      `http://localhost:5500/api/v1/shorts`,
+      `${apiUrl}shorts`,
       {
         category: categoryNum,
         title: titleInput,
