@@ -19,7 +19,7 @@ const MyWrite = () => {
   const handleFetchSuccess = (userInfo: any) => {
     setNickname(userInfo.nickname);
     setFavorite(userInfo.favoriteSport);
-    const imgId = userInfo.img; // 유저의 이미지 ID
+    const imgId = userInfo.img; // 유저의 프로필이미지 ID
     setProfileImg(`/images/profile${imgId}.png`); // 프로필 이미지 경로 설정
   };
 
