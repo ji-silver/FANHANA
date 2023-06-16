@@ -3,8 +3,10 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import UserInfoFetcher, { handleWithdraw } from "./UserInfoFetcher";
 import Button from "./../../components/common/Button/Button";
+import Input from "./../../components/common/Input";
 import ProfileImg from "./ProfileImg";
 import "./../../styles/mypage.css";
+
 
 const MyInfo = () => {
   const navigate = useNavigate();
@@ -123,11 +125,7 @@ const MyInfo = () => {
               <th>닉네임</th>
               <td>
                 {editing ? (
-                  <input
-                    type="text"
-                    value={userInfo.nickname}
-                    onChange={handleNicknameChange}
-                  />
+                  <input type="text" value={userInfo.nickname} onChange={handleNicknameChange} />
                 ) : (
                   userInfo.nickname
                 )}
@@ -137,11 +135,7 @@ const MyInfo = () => {
               <th>핸드폰</th>
               <td>
                 {editing ? (
-                  <input
-                    type="text"
-                    value={userInfo.phone}
-                    onChange={handlePhoneChange}
-                  />
+                  <input type="text" value={userInfo.phone} onChange={handlePhoneChange} />
                 ) : (
                   userInfo.phone
                 )}
@@ -151,7 +145,7 @@ const MyInfo = () => {
               <th>선호종목</th>
               <td>
                 {editing ? (
-                  <select
+                  <select className="myproileselect"
                     value={userInfo.favoriteSport}
                     onChange={handleFavoriteSportChange}
                   >

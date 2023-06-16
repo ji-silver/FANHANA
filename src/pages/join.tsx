@@ -83,7 +83,7 @@ const JoinPage: React.FC = () => {
 
   return (
     <>
-      <section style={{ padding: "20px 0" }}>
+      <section style={{ padding: "20px 0", height: "calc(100vh - 200px)" }}>
         <AccountBox login="join">
           <AccountIntro />
           <div className="accountForm">

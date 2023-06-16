@@ -66,7 +66,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-      <section style={{ padding: "20px 0" }}>
+      <section style={{ padding: "20px 0", height: "calc(100vh - 200px)" }}>
         <AccountBox login="login">
           <AccountIntro />
           <div className="accountForm">
