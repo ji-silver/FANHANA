@@ -202,6 +202,10 @@ const Shorts: React.FC<ShortsPropsType> = ({ id, category }) => {
           curShorts && (
             <ImageCover>
               <Image src={curShorts.src} alt={"쇼츠입니다."}></Image>
+              <ImageContent>
+                <Title>{curShorts.title}</Title>
+                <Views>{curShorts.views} views</Views>
+              </ImageContent>
 
               <ShortsButton onClick={() => setModalOpen(true)}>
                 <CommentsButton />
@@ -321,6 +325,7 @@ const CommentCover = styled.div`
   flex-grow: 20;
   width: 100%;
   overflow: auto;
+  box-sizing: border-box;
 `;
 
 const CommentsHeader = styled.div`
@@ -393,3 +398,26 @@ const Modal = styled.div`
 `;
 
 const CommentsButton = styled(BsFillChatLeftDotsFill)``;
+
+const ImageContent = styled.div`
+  position: absolute;
+  bottom: 30px;
+  left: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+`;
+
+const Title = styled.p`
+  color: white;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 20px;
+`;
+
+const Views = styled.p`
+  color: white;
+  font-weight: bold;
+`;
