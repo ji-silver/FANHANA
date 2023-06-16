@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const MypageDetail = () => {
   const size = Array(8).fill("11%");
   const getPostId = window.location.href.split("/");
@@ -23,7 +25,7 @@ const MypageDetail = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5500/api/v1/post/${getPostId[6]}`)
+      .get(`${apiUrl}post/${getPostId[6]}`)
       .then((res) => {
         setNotice(res.data.data);
         console.log("res:::", res);
