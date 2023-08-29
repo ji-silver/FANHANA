@@ -2,7 +2,7 @@
 엘리스 2차 팀 프로젝트
 ![fanhana3](https://github.com/ji-silver/Fanhana/assets/59919953/cb869c61-42d4-48f8-891d-5d4f679a46fc)
 
-## 프로젝트 소개
+## 🗒️ 프로젝트 기획
 국내 스포츠(K리그, KBO, LoL)팬을 위한 세상에 단 하나뿐인 스포츠 커뮤니티 팬하나(FANHANA) <br />
 다양한 스포츠 종목과 관련된 경기 정보를 보여줄 수 있는 웹사이트로 공통의 관심사를 가진<br />
 스포츠 팬들이 자유롭게 소통할 수 있도록 커뮤니티 기능을 제공합니다.<br />
@@ -19,9 +19,9 @@ FE 6명, BE 2명 (FE 기여도 20%)
 
 ## 📌 주요 기능
 ### 1. 순위 페이지
-
-<img src="https://github.com/ji-silver/Player/assets/59919953/8f4ab412-02b3-4012-b080-5800460665ce" width="auto" height="400"/>
-<img src="https://github.com/ji-silver/Player/assets/59919953/ca70325e-916e-4a40-88ef-1da782fcc273" width="700" height="auto"/>
+|모바일|웹|
+|------|---|
+|<img src="https://github.com/ji-silver/Player/assets/59919953/8f4ab412-02b3-4012-b080-5800460665ce" width="auto" height="400"/>|<img src="https://github.com/ji-silver/Player/assets/59919953/ca70325e-916e-4a40-88ef-1da782fcc273" width="700" height="auto"/>|
 
 - custom hook을 정의하여 axios를 이용한 백엔드에서 API 통신하여 응답 데이터를 각 스포츠 특성에 맞게 데이터 가공 (승률, 득점차, 게임차 계산 후 순위 정렬) 했습니다.
 - 시즌을 선택하면 그 시즌에 해당하는 순위 데이터 다시 가져오는 reFetch 함수를 구현하여 랭킹 데이터를 업데이트할 수 있습니다.
@@ -37,9 +37,9 @@ FE 6명, BE 2명 (FE 기여도 20%)
 
   
 ### 3. Open API 활용
-
-<img src="https://github.com/ji-silver/Player/assets/59919953/558a5bcf-6f95-4d42-ae52-edf93dcf703a" width="450" height="auto" />
-<img src="https://github.com/ji-silver/Player/assets/59919953/6540f29f-835d-4e76-8163-e9a838e29627" width="auto" height="250" />
+|경기장 위치|날씨|
+|------|---|
+|<img src="https://github.com/ji-silver/Player/assets/59919953/558a5bcf-6f95-4d42-ae52-edf93dcf703a" width="450" height="auto" />|<img src="https://github.com/ji-silver/Player/assets/59919953/6540f29f-835d-4e76-8163-e9a838e29627" width="auto" height="250" />|
 
 - kakaoMap API, openweathermap API를 이용하여 경기장 위치 및 날씨 정보를 구현하는 기능을 구현하였습니다.
 - 날씨는 사용자의 위치 정보(경도, 위도)를 기반으로 API 호출하여 실시간 날씨 정보를 표시합니다.
