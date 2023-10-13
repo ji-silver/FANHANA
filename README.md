@@ -65,7 +65,7 @@ FE 6명, BE 2명 (FE 기여도 20%)
 ### 3. Open API 활용
 |경기장 위치|날씨|
 |------|---|
-|<img src="https://github.com/ji-silver/Player/assets/59919953/558a5bcf-6f95-4d42-ae52-edf93dcf703a" width="500" height="auto" />|<img src="https://github.com/ji-silver/Player/assets/59919953/6540f29f-835d-4e76-8163-e9a838e29627" width="auto" height="250" />|
+|<img src="https://github.com/ji-silver/Player/assets/59919953/558a5bcf-6f95-4d42-ae52-edf93dcf703a" width="500" height="auto" />|<img src="https://github.com/ji-silver/Player/assets/59919953/6540f29f-835d-4e76-8163-e9a838e29627" width="400" height="auto" />|
 
 - kakaoMap API, openweathermap API를 이용하여 경기장 위치 및 날씨 정보를 구현하는 기능을 구현하였습니다.
 - 날씨는 사용자의 위치 정보(경도, 위도)를 기반으로 API 호출하여 실시간 날씨 정보를 표시합니다.
